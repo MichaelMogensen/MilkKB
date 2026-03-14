@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MilkKB/MilkKB.csproj" />
+  <Project Path="MilkKBTests/MilkKBTests.csproj" Id="75044f28-9a79-4b3d-86a7-22adf1d9444c" />
+</Solution>
