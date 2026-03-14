@@ -4,7 +4,7 @@ namespace MilkKB.types
 {
     public class LocalFilename
     {
-        public string Result { get; private set; }
+        public string Result { get; private set; } = string.Empty;
 
         public LocalFilename(string basePath, string ext, BroadcastMetadata bmd)
         {

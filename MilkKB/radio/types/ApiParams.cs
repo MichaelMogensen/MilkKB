@@ -10,9 +10,9 @@ namespace MilkKB.radio.types
         public string FileOnLocal { get; private set; }
         public string FileOnHost { get; private set; }
         public string EntryId { get; private set; } // 10 chars from <video>...</video> on website.
-        public string FlavorIds { get; private set; } = "0_xxxxxxxx"; // 10 chars. General one seems to be ok.
+        public string FlavorIds { get; private set; } = "0_banana_0"; // 10 chars. General one seems to be ok.
 
-        public DoubleGuid PlaySessionId => new DoubleGuid();
+        public string PlaySessionId => $"{Guid.NewGuid().ToString()}:{Guid.NewGuid().ToString()}";
 
         public string Referrer { get; private set; } // Page url to base64.
 

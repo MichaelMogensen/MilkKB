@@ -7,8 +7,6 @@
         public TimeSpan Duration { get; set; }
         public string Channel { get; set; }
 
-        public string Extra { get; set; }
-
         public BroadcastMetadata(string title, DateTime sendDate, TimeSpan duration, string channel)
         {
             Title = title;

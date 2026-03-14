@@ -15,12 +15,12 @@
         {
             Result =
                 BaseUrl +
-                $"entryId/{apiParams.EntryId.ToString()}/" +
+                $"entryId/{apiParams.EntryId}/" +
                 $"protocol/https/" +
                 $"format/url/" +
                 $"flavorIds/{apiParams.FlavorIds}/" +
                 $"{apiParams.FileOnHost}" +
-                $"?playSessionId={apiParams.PlaySessionId.Id1.ToString()}:{apiParams.PlaySessionId.Id2.ToString()}" +
+                $"?playSessionId={apiParams.PlaySessionId}" +
                 $"&referrer={apiParams.Referrer}" +
                 $"&clientTag=html5:v7.194";
         }
