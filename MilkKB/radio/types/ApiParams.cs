@@ -8,7 +8,7 @@ namespace MilkKB.radio.types
         private readonly static string BaseReferrerUrl = "https://www.kb.dk/find-materiale/dr-arkivet/post/ds.radio:oai:io:";
 
         public string FileOnLocal { get; private set; }
-        public string FileOnHost { get; private set; }
+        public string FileOnHost { get; private set; } = "a.mp3";
         public string EntryId { get; private set; } // 10 chars from <video>...</video> on website.
         public string FlavorIds { get; private set; } = "0_banana_0"; // 10 chars. General one seems to be ok.
 
@@ -18,10 +18,9 @@ namespace MilkKB.radio.types
 
         public string Url => new ApiURL(this).Result;
 
-        public ApiParams(LocalFilename fileOnLocal, string fileOnHost, string entryId)
+        public ApiParams(LocalFilename fileOnLocal, string entryId)
         {
             FileOnLocal = fileOnLocal.Result;
-            FileOnHost = fileOnHost;
             EntryId = entryId;
 
             var pageUrl = $"{BaseReferrerUrl}{Guid.NewGuid().ToString()}";

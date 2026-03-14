@@ -7,12 +7,15 @@
         public TimeSpan Duration { get; set; }
         public string Channel { get; set; }
 
-        public BroadcastMetadata(string title, DateTime sendDate, TimeSpan duration, string channel)
+        public string ExtraInfo { get; set; }
+
+        public BroadcastMetadata(string title, DateTime sendDate, TimeSpan duration, string channel, string extraInfo = null)
         {
             Title = title;
             SendDate = sendDate;
             Duration = duration;
             Channel = channel;
+            ExtraInfo = extraInfo;
         }
     }
 }
