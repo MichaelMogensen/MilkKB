@@ -1,4 +1,8 @@
 <Solution>
-  <Project Path="MilkKB/MilkKB.csproj" />
-  <Project Path="MilkKBTests/MilkKBTests.csproj" Id="75044f28-9a79-4b3d-86a7-22adf1d9444c" />
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="DRDownload/DRDownload.csproj" Id="790baf6e-16e6-4d87-bfd5-92837c7c0a85" />
+  <Project Path="DRDownloadTests/DRDownloadTests.csproj" Id="1a136743-f177-444b-8437-a65ded86ef6e" />
 </Solution>

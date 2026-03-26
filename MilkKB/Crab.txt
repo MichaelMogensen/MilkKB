@@ -1,0 +1,54 @@
+
+// Src: 192.168.8.124:50454
+// Mig
+
+// Dest: 109.105.100.181:443
+// kaltura
+
+// Page id: e24fdc0c-fd66-45dc-8051-ce2e9e9053f9
+
+await Connect("109.105.100.181", 443, "e24fdc0c-fd66-45dc-8051-ce2e9e9053f9");
+
+static async Task Connect(string server, int port, string message)
+{
+    try
+    {
+        // Prefer a using declaration to ensure the instance is Disposed later.
+        using TcpClient client = new TcpClient(server, port);
+
+        // Translate the passed message into ASCII and store it as a Byte array.
+        var data = System.Text.Encoding.ASCII.GetBytes(message);
+
+        // Get a client stream for reading and writing.
+        var stream = client.GetStream();
+
+        // Send the message to the connected TcpServer.
+        await stream.WriteAsync(data, 0, data.Length);
+
+        Console.WriteLine("Sent: {0}", message);
+
+        // Receive the server response.
+
+        // Buffer to store the response bytes.
+        data = new byte[256];
+
+        // String to store the response ASCII representation.
+        var responseData = string.Empty;
+
+        // Read the first batch of the TcpServer response bytes.
+        int bytes = await stream.ReadAsync(data, 0, data.Length);
+        responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+        Console.WriteLine("Received: {0}", responseData);
+    }
+    catch (ArgumentNullException e)
+    {
+        Console.WriteLine("ArgumentNullException: {0}", e);
+    }
+    catch (SocketException e)
+    {
+        Console.WriteLine("SocketException: {0}", e);
+    }
+}
+
+
+//00 34 94 c6 40 00 80 06 00 00 c0 a8 08 7c 6d 69 = 16 bytes.

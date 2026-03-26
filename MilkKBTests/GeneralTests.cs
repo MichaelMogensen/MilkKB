@@ -22,7 +22,7 @@ namespace MilkKBTests
         {
             var localFilename = new LocalFilename(@"c:\temp", "mp3", new BroadcastMetadata("P4 part one", new DateTime(1989, 1, 1, 19, 0, 0), TimeSpan.FromMinutes(45), "P4"));
         
-            Console.WriteLine(localFilename.Result);
+            Console.WriteLine(localFilename.File);
         }
     }
 }

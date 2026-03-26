@@ -20,7 +20,7 @@ namespace MilkKB.radio.types
 
         public ApiParams(LocalFilename fileOnLocal, string entryId)
         {
-            FileOnLocal = fileOnLocal.Result;
+            FileOnLocal = fileOnLocal.File;
             EntryId = entryId;
 
             var pageUrl = $"{BaseReferrerUrl}{Guid.NewGuid().ToString()}";

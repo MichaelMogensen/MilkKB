@@ -1,4 +1,4 @@
-﻿namespace MilkKB.types
+﻿namespace DRDownload.Common.Types
 {
     public struct BroadcastMetadata
     {

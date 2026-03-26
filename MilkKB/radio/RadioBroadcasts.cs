@@ -3,13 +3,16 @@ using MilkKB.types;
 
 namespace MilkKB.radio
 {
-    public class MilkRadioBroadcasts
+    public class RadioBroadcasts
     {
-        public async Task MilkRadioBroadcastsAsync()
+        public async Task DownloadRadioBroadcastsAsync()
         {
             var Men_kærligheden_1989_10_02 =
                 new ApiParams(
-                    new LocalFilename(@"c:\temp", "mp3", new BroadcastMetadata("Men Kærligheden", new DateTime(1989, 10, 2, 14, 0, 0), TimeSpan.FromHours(1), "P1", "Montage om Alma og Gustav Mahler")),
+                    new LocalFilename(
+                        @"c:\temp", 
+                        "mp3", 
+                        new BroadcastMetadata("Men Kærligheden", new DateTime(1989, 10, 2, 14, 0, 0), TimeSpan.FromHours(1), "P1", "Montage om Alma og Gustav Mahler")),
                     "0_xnpa9rhu");
 
             await CallHost.DownloadStream(Men_kærligheden_1989_10_02);

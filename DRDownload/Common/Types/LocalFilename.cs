@@ -1,8 +1,6 @@
-﻿using MilkKB.util;
-
-namespace MilkKB.types
+﻿namespace DRDownload.Common.Types
 {
-    public class LocalFilename
+    public abstract class LocalFilename
     {
         public string File { get; private set; } = string.Empty;
 
