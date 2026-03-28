@@ -1,0 +1,31 @@
+        class CopyOnlyArgument : IArgument
+        {
+            public string Text => "-c copy";
+        }
+        
+        
+        
+        //FFMpegArguments
+            //    .FromFileInput(inputPath)
+            //    .OutputToFile(outputPath, false, options => options
+            //        .WithVideoCodec(VideoCodec.LibX264)
+            //        .WithConstantRateFactor(21)
+            //        .WithAudioCodec(AudioCodec.Aac)
+            //        .WithVariableBitrate(4)
+            //        .WithVideoFilters(filterOptions => filterOptions
+            //            .Scale(VideoSize.Hd))
+            //        .WithFastStart())
+            //    .ProcessSynchronously();
+
+
+            //var conversion = await FFMpeg.Convert("other.mp4", "my.mp4", new ContainerFormat()); //  Conversions.FromSnippet.ToMp4(Resources.MkvWithAudio, output);
+            //await conversion.Start();
+
+            //FFMpegCore.
+
+            //FFMpeg.In
+
+
+            //var cf = new ContainerFormat();
+            //var x = FFMpeg.Convert("from", "to", );
+
