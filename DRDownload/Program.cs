@@ -1,13 +1,19 @@
 ﻿using DRDownload.Radio;
 using DRDownload.Video;
 
-Console.WriteLine("Downloading radio/video broadcasts...");
+var cts = new CancellationTokenSource();
+await new DRVideo().DownloadVideoBroadcastsAsync(cts.Token);
+
+
+
+
+
+
+
+
+
+
+
+
 
 //await new DRRadio().DownloadRadioBroadcastsAsync();
-//await new DRVideo().DownloadVideoBroadcastsAsync();
-
-
-await new DRVideo().DownloadAsync();
-
-Console.WriteLine("Done...");
-

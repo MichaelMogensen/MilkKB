@@ -1,4 +1,4 @@
-﻿namespace DRDownload.Common.Types
+﻿namespace DRDownload.Common.Types.Broadcast
 {
     public struct BroadcastMetadata
     {

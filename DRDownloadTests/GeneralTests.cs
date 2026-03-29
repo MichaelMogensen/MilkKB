@@ -25,7 +25,7 @@ namespace DRDownloadTests
         {
             var entryId = Util.GenerateRadomId("0_", 8, true, true);
 
-            var url = new DRUrlRadio(entryId).Url;
+            var url = new RestAPIUrlRadio(entryId).Url;
             Console.WriteLine(url);
         }
 
@@ -34,7 +34,7 @@ namespace DRDownloadTests
         {
             var entryId = Util.GenerateRadomId("0_", 8, true, true);
 
-            var url = new DRUrlVideo(entryId).Url;
+            var url = new RestAPIUrlVideo(entryId).Url;
             Console.WriteLine(url);
         }
 

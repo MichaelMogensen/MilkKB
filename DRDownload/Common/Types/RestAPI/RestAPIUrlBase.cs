@@ -1,6 +1,6 @@
-﻿namespace DRDownload.Common.Types
+﻿namespace DRDownload.Common.Types.RestAPI
 {
-    public abstract class DRUrlBase
+    public abstract class RestAPIUrlBase
     {
         // Base info. parts. set by base class as fixed.
         private static readonly DRIds DR = new DRIds();
@@ -21,13 +21,13 @@
         public string? Format { get; protected set; }
         public string? ClientTag { get; protected set; }
 
-        // Result. Calling API url.
+        // Result. Calling API url for fetching m3u-file.
         public string Url { get; protected set; } = string.Empty;
 
         /// <summary>
         /// Ctor.
         /// </summary>
-        protected DRUrlBase()
+        protected RestAPIUrlBase()
         {
         }
 

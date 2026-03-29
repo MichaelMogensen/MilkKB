@@ -1,15 +1,15 @@
-﻿namespace DRDownload.Common.Types
+﻿namespace DRDownload.Common.Types.RestAPI
 {
     /// <summary>
     /// API radio url for downloading mp3-file.
     /// </summary>
-    public class DRUrlRadio : DRUrlBase
+    public class RestAPIUrlRadio : RestAPIUrlBase
     {
         /// <summary>
         /// Ctor. radio.
         /// </summary>
         /// <param name="entryId"></param>
-        public DRUrlRadio(string entryId)
+        public RestAPIUrlRadio(string entryId)
         {
             EntryId = entryId;
             Format = "url";

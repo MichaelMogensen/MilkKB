@@ -1,3 +1,34 @@
+            //var url = new DRUrlVideo("0_ela5z5u2").Url;
+            //var file = new LocalVideoFilename(
+            //    @"c:\temp",
+            //    new BroadcastMetadata(
+            //        "Lørdagshjørnet - Otto Leisner",
+            //        new DateTime(2014, 4, 19, 17, 58, 0),
+            //        new TimeSpan(0, 49, 7),
+            //        "DR-K",
+            //        "Aftenens gæst i Lørdagshjørnet er Otto Leisner")).File;
+            //await DownloadStreamAsync(url, file);
+
+            //var url = new M3U8UrlVideo("0_tsmswb48").Url;
+            //var file = new LocalVideoFilename(
+            //    @"c:\temp",
+            //    new BroadcastMetadata(
+            //        "Dansk Naturgas kavalkade",
+            //        new DateTime(1987, 12, 31, 23, 10, 0),
+            //        TimeSpan.FromMinutes(45),
+            //        "DR1",
+            //        "What did ju have in jur tæjsk today")).File;
+            //await DownloadStreamAsync(url, file);
+            
+            
+            
+            
+            
+            public string BasePath => Path.GetDirectoryName(File);
+
+
+
+
         class CopyOnlyArgument : IArgument
         {
             public string Text => "-c copy";

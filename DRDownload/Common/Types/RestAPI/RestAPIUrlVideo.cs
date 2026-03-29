@@ -1,15 +1,15 @@
-﻿namespace DRDownload.Common.Types
+﻿namespace DRDownload.Common.Types.RestAPI
 {
     /// <summary>
     /// API vidio url for downloading m3u-file. VLC can download mp4-file based on that.
     /// </summary>
-    public class DRUrlVideo : DRUrlBase
+    public class RestAPIUrlVideo : RestAPIUrlBase
     {
         /// <summary>
         /// Ctor video.
         /// </summary>
         /// <param name="entryId"></param>
-        public DRUrlVideo(string entryId)
+        public RestAPIUrlVideo(string entryId)
         {
             EntryId = entryId;
             Format = "applehttp";

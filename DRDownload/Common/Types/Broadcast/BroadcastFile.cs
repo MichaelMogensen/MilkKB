@@ -1,10 +1,10 @@
-﻿namespace DRDownload.Common.Types
+﻿namespace DRDownload.Common.Types.Broadcast
 {
-    public abstract class LocalFilename
+    public abstract class BroadcastFile
     {
         public string File { get; private set; } = string.Empty;
 
-        public LocalFilename(string basePath, string ext, BroadcastMetadata bmd)
+        public BroadcastFile(string basePath, string ext, BroadcastMetadata bmd)
         {
             CreateFilename(basePath, ext, bmd);
         }

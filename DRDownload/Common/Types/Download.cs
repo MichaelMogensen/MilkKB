@@ -1,29 +1,24 @@
-﻿namespace DRDownload.Common
+﻿namespace DRDownload.Common.Types
 {
-    public abstract class DRRadioAndVideoBase
+    public static class Download
     {
         /// <summary>
-        /// Call API and save to file on local system.
+        /// Call REST API and save to file on local system.
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="fileOnLocal"></param>
+        /// <param name="file"></param>
         /// <returns></returns>
-        public async Task DownloadStreamAsync(string url, string fileOnLocal)
+        public static async Task DownloadStreamAsync(string url, string file)
         {
             try
             {
-                if (File.Exists(fileOnLocal))
-                {
-                    File.Delete(fileOnLocal);
-                }
-
                 using (var client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.ConnectionClose = true;
                     client.Timeout = TimeSpan.FromMinutes(5);
 
                     var result = await client.GetAsync(new Uri(url));
-                    using (var fs = new FileStream(fileOnLocal, FileMode.CreateNew))
+                    using (var fs = new FileStream(file, FileMode.CreateNew))
                     {
                         await result.Content.CopyToAsync(fs);
                     }
