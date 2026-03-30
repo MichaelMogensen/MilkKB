@@ -14,18 +14,18 @@ namespace DRDownload.Radio
         }
 
         /// <summary>
-        /// N downloads.
+        /// N downloads. Look for entryId on KB site.
         /// </summary>
         public async Task DownloadRadioBroadcastsAsync()
         {
             await DownloadRadioBroadcastAsync(
-                "0_xnpa9rhu",
+                "0_fhu1v7fr",
                 @"c:\temp\Radio",
-                "Men Kærligheden",
-                    new DateTime(1989, 10, 2, 14, 0, 0),
-                    TimeSpan.FromHours(1),
+                "Radioklassikeren Herning",
+                    new DateTime(2007, 10, 6, 7, 3, 0),
+                    TimeSpan.FromMinutes(57),
                     "P1",
-                    "Montage om Alma og Gustav Mahler");
+                    "Byen hvor trådene knyttes. Det var sloganet for tekstil- og beklædningsbyen Herning, der har været præget af flid, nøjsomhed, stræbsomhed og Gudsfrygt");
 
         }
 

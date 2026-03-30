@@ -15,7 +15,7 @@ namespace DRDownload.Video
         }
 
         /// <summary>
-        /// N downloads.
+        /// N downloads. Look for entry_id on KB site.
         /// </summary>
         /// <param name="cts"></param>
         /// <returns></returns>
@@ -23,13 +23,22 @@ namespace DRDownload.Video
         {
             await DownloadVideoBroadcastAsync(
                 cts,
-                "0_tsmswb48",
-                @"C:\Temp\Video\Dansk Naturgas",
-                "Dansk Naturgas kavalkade",
-                new DateTime(1987, 12, 31, 23, 10, 0),
-                TimeSpan.FromMinutes(45),
+                "0_5e05zrg4",
+                @"C:\Temp\Video",
+                "Historien om Blue Note (1)",
+                new DateTime(2006, 12, 26, 1, 35, 0),
+                TimeSpan.FromMinutes(55),
                 "DR1",
-                "What did ju have in jur tæjsk today");
+                "Den tyskfødte Alfred Lion stiftede sammen med Francis Wolff plademærket Blue Note i New York i 1939. Det markerede begyndelsen på et vigtigt kapitel i jazzens historie.");
+            await DownloadVideoBroadcastAsync(
+                cts,
+                "0_m03rrh5w",
+                @"C:\Temp\Video",
+                "Historien om Blue Note (2)",
+                new DateTime(2006, 12, 26, 1, 35, 0),
+                TimeSpan.FromMinutes(55),
+                "DR1",
+                "Plademærket Blue Note har været hjemsted for jazzlegender som Sydney Bechet, Art Blakey, Dexter Gordon og Jimmy Smith for bare at nævne nogle.");
         }
         public async Task DownloadVideoBroadcastsAsync()
         {
@@ -92,8 +101,13 @@ namespace DRDownload.Video
             await mp4Downloader.StartAsync(cts);
 
             Console.WriteLine($"DONE");
+            Console.WriteLine();
         }
 
     }
 }
+
+// static int i = 0;
+// static spin = "-\|/";
+// spin[i]
 
