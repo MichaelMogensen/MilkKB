@@ -1,6 +1,5 @@
-﻿using DRDownload.Common;
-using DRDownload.Common.FFMPEG;
-using DRDownload.Common.Types;
+﻿using DRDownload.Common.DownloadFile;
+using DRDownload.Common.DownloadVideo;
 using DRDownload.Common.Types.Broadcast;
 using DRDownload.Common.Types.RestAPI;
 
@@ -8,6 +7,9 @@ namespace DRDownload.Video
 {
     public class DRVideo
     {
+        /// <summary>
+        /// Ctor.
+        /// </summary>
         public DRVideo()
         {
         }
@@ -29,18 +31,23 @@ namespace DRDownload.Video
                 "DR1",
                 "What did ju have in jur tæjsk today");
         }
+        public async Task DownloadVideoBroadcastsAsync()
+        {
+            var cts = new CancellationTokenSource();
+            await DownloadVideoBroadcastsAsync(cts.Token);
+        }
 
         /// <summary>
         /// 1 download.
         /// </summary>
         /// <param name="cts">Cancel</param>
-        /// <param name="entityId">From DR site</param>
+        /// <param name="entityId">From behind DR site</param>
         /// <param name="basePath">On local</param>
         /// <param name="title"></param>
-        /// <param name="sendDate">Metadata from DK site</param>
-        /// <param name="duration">Metadata from DK site</param>
-        /// <param name="channel">Metadata from DK site</param>
-        /// <param name="extraInfo">Metadata from DK site</param>
+        /// <param name="sendDate">Metadata from DR site</param>
+        /// <param name="duration">Metadata from DR site</param>
+        /// <param name="channel">Metadata from DR site</param>
+        /// <param name="extraInfo">Metadata from DR site</param>
         /// <returns></returns>
         private async Task DownloadVideoBroadcastAsync(
             CancellationToken cts,
@@ -52,7 +59,7 @@ namespace DRDownload.Video
             string channel,
             string? extraInfo = null)
         {
-            // Download m3u8 file.
+            // Prepare m3u8 file download.
             var url = new RestAPIUrlVideo(entityId).Url;
             var bmd = new BroadcastMetadata(
                     title,
@@ -68,16 +75,22 @@ namespace DRDownload.Video
                 File.Delete(m3u8File);
             }
 
-            var ffmpegVideoDownloader = new FFMPEGVideoDownloader(m3u8File);
+            // Download m3u8 playlist and video.
+            var m3uDownloader = new DownloadFileStream(url, m3u8File);
+            var mp4Downloader = new DownloadVideoStream(m3u8File);
 
+            Console.WriteLine($"Downloading ...");
+            Console.WriteLine();
+            Console.WriteLine($"Playlist: {mp4Downloader.InputFile}");
+            Console.WriteLine($"Video: {mp4Downloader.OutputFile}");
+            Console.WriteLine($"Log: {mp4Downloader.LogFile}");
+            Console.WriteLine();
+            Console.WriteLine($"Please wait ...");
+            Console.WriteLine();
 
-            // Download m3u8 and video.
+            await m3uDownloader.StartAsync();
+            await mp4Downloader.StartAsync(cts);
 
-            Console.WriteLine($"Downloading m3u8 playlist: {ffmpegVideoDownloader.InputFile}...");
-            await Download.DownloadStreamAsync(url, ffmpegVideoDownloader.InputFile);
-            Console.WriteLine($"Downloading video: {ffmpegVideoDownloader.OutputFile}...");
-            await new FFMPEGVideoDownloader(m3u8File).DownloadVideoAsync(cts);
-            Console.WriteLine($"See log: {ffmpegVideoDownloader.LogFile}");
             Console.WriteLine($"DONE");
         }
 

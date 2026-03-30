@@ -1,6 +1,6 @@
 ﻿using FFMpegCore.Arguments;
 
-namespace DRDownload.Common.FFMPEG.Arguments
+namespace DRDownload.Common.DownloadVideo.Arguments
 {
     public class OverwriteOutputfileArgument : IArgument
     {

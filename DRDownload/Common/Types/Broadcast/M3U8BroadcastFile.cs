@@ -1,7 +1,7 @@
 ﻿namespace DRDownload.Common.Types.Broadcast
 {
     /// <summary>
-    /// m2u8 playlist is used for video.
+    /// m3u8 playlist is used for video.
     /// </summary>
     public class M3U8BroadcastFile : BroadcastFile
     {

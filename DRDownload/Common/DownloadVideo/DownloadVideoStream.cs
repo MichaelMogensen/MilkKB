@@ -1,14 +1,19 @@
-﻿using DRDownload.Common.FFMPEG.Arguments;
+﻿using DRDownload.Common.DownloadVideo.Arguments;
 using FFMpegCore;
 using FFMpegCore.Enums;
+using System.Diagnostics;
 
-namespace DRDownload.Common.FFMPEG
+namespace DRDownload.Common.DownloadVideo
 {
     /// <summary>
+    /// Based on FFMpeg.
+    /// 
+    /// Download mp4 file from m3u playlist.
+    /// 
     /// ffmpeg flags: https://gist.github.com/tayvano/6e2d456a9897f55025e25035478a3a50
     /// Sample videos for download: https://file-examples.com/storage/fe05737d1f69c8fe396b0e5/2017/04/file_example_MP4_1920_18MG.mp4
     /// </summary>
-    public class FFMPEGVideoDownloader
+    public class DownloadVideoStream
     {
         public string InputFile { get; private set; }
         public string OutputFile { get; private set; }
@@ -17,33 +22,19 @@ namespace DRDownload.Common.FFMPEG
         /// <summary>
         /// Ctor.
         /// </summary>
-        /// <param name="m3u8File"></param>
-        public FFMPEGVideoDownloader(string m3u8File)
+        /// <param name="inputFile">Could be m3u8 file or mp4 file etc.</param>
+        public DownloadVideoStream(string inputFile)
         {
-            InputFile = m3u8File;
-            OutputFile = Path.ChangeExtension(m3u8File, "mp4");
-            LogFile = Path.ChangeExtension(m3u8File, "log");
-        }
-
-        public async Task DownloadVideoAsync(CancellationToken cts)
-        {
-            if (File.Exists(OutputFile))
-            {
-                File.Delete(OutputFile);
-            }
-            if (File.Exists(LogFile))
-            {
-                File.Delete(LogFile);
-            }
-
-            await DownloadVideoAsyncInner(cts);
+            InputFile = inputFile;
+            OutputFile = Path.ChangeExtension(inputFile, "mp4");
+            LogFile = Path.ChangeExtension(inputFile, "log");
         }
 
         /// <summary>
-        /// For awiting download.
+        /// Download async.
         /// </summary>
         /// <returns></returns>
-        public async Task DownloadVideoAsyncInner(CancellationToken cts)
+        public async Task StartAsync(CancellationToken cts)
         {
             var lockId = Util.GenerateRandomGuid();
             Action<string> LogLine =
@@ -59,7 +50,18 @@ namespace DRDownload.Common.FFMPEG
 
             try
             {
-                var ts = new TimeSpan(); // TODO: How?
+                if (File.Exists(OutputFile))
+                {
+                    File.Delete(OutputFile);
+                }
+                if (File.Exists(LogFile))
+                {
+                    File.Delete(LogFile);
+                }
+
+                var watch = new Stopwatch();
+                watch.Start();
+
                 var ff = await FFMpegArguments
                     .FromFileInput(InputFile, true, op => op
                         .WithArgument(new ProtocolWhitelistArgument())
@@ -71,21 +73,16 @@ namespace DRDownload.Common.FFMPEG
                         {
                             LogLine($"DUR: {timeSpend:c}");
                         })
-                        .NotifyOnProgress(percentageCreated =>
-                        {
-                            LogLine($"PRO: {percentageCreated:F}%, {ts.TotalSeconds}");
-                        }, ts)
-                        .NotifyOnOutput(output =>
-                        {
-                            LogLine($"MSG: {output}");
-                        })
                         .NotifyOnError(error =>
                         {
-                            LogLine($"ERR: {error}");
+                            LogLine($"MSG: {error}");
                         })
                         .ProcessAsynchronously(
                             true,
                             new FFOptions { LogLevel = FFMpegLogLevel.Info });
+
+                watch.Stop();
+                LogLine($"TOTAL DURATION: {watch.Elapsed:c}");
             }
             catch (OperationCanceledException ex)
             {
