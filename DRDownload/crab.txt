@@ -1,3 +1,23 @@
+{
+  "Broadcast": [
+    {
+      "EntityId": "x",
+      "Title": "x",
+      "SendDate": "1980-12-31T10:00:00",
+      "DurationMin": 45,
+      "Channel": "DR1",
+      "ExtraInfo": ""
+    }
+
+  ]
+}
+
+
+
+
+
+
+
             //var url = new DRUrlVideo("0_ela5z5u2").Url;
             //var file = new LocalVideoFilename(
             //    @"c:\temp",
