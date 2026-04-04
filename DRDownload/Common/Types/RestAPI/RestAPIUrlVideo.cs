@@ -9,7 +9,7 @@
         /// Ctor video.
         /// </summary>
         /// <param name="entryId"></param>
-        public RestAPIUrlVideo(string entryId)
+        public RestAPIUrlVideo(string? entryId)
         {
             EntryId = entryId;
             Format = "applehttp";

@@ -9,7 +9,7 @@
         /// Ctor. radio.
         /// </summary>
         /// <param name="entryId"></param>
-        public RestAPIUrlRadio(string entryId)
+        public RestAPIUrlRadio(string? entryId)
         {
             EntryId = entryId;
             Format = "url";

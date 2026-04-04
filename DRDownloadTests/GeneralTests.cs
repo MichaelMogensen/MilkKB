@@ -1,11 +1,17 @@
 ﻿using DRDownload.Common;
-using DRDownload.Common.Types;
+using DRDownload.Common.Types.BroadcastTypes;
 
 namespace DRDownloadTests
 {
     [TestClass]
     public sealed class GeneralTests
     {
+        [TestMethod]
+        public void DownloadFolderTest()
+        {
+            Console.WriteLine(Util.DownloadFolder());
+        }
+
         [TestMethod]
         public void GenerateRadomFlavorIdsTest()
         {
@@ -21,22 +27,13 @@ namespace DRDownloadTests
         }
 
         [TestMethod]
-        public void GenerateAPIUrlForRadioTest()
+        public void GenerateSomeBroadcastsFromJSONArrayToDownloadTest()
         {
-            var entryId = Util.GenerateRadomId("0_", 8, true, true);
+            var file = @"C:\Users\micha\source\repos\MilkKB\DRDownload\Media\Media.json";
 
-            var url = new RestAPIUrlRadio(entryId).Url;
-            Console.WriteLine(url);
+            var result = Util.DeserializeFile<Broadcasts>(file);
         }
 
-        [TestMethod]
-        public void GenerateAPIUrlForVidioTest()
-        {
-            var entryId = Util.GenerateRadomId("0_", 8, true, true);
-
-            var url = new RestAPIUrlVideo(entryId).Url;
-            Console.WriteLine(url);
-        }
 
     }
 }

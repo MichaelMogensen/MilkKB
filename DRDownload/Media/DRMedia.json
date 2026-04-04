@@ -1,0 +1,14 @@
+{
+  "All": [
+    {
+      "MediaType": "tv",
+      "EntityId": "123",
+      "Title": "MyTitle",
+      "SendDate": "1980-12-31T10:00:00",
+      "DurationMin": 45,
+      "Channel": "DR1",
+      "ExtraInfo": "My exiting broadcast"
+    }
+  ]
+}
+

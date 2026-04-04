@@ -1,5 +1,8 @@
-﻿using System.Globalization;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Globalization;
 using System.Text;
+
 
 namespace DRDownload.Common
 {
@@ -9,6 +12,13 @@ namespace DRDownload.Common
         {
             var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
             return Convert.ToBase64String(plainTextBytes);
+        }
+
+        public static string DownloadFolder()
+        {
+            var folder = Environment.ExpandEnvironmentVariables("%userprofile%\\downloads");
+            
+            return folder;
         }
 
         public static string GenerateRadomId(string prefix, int length, bool includeDigits, bool includeLetters)
@@ -43,6 +53,27 @@ namespace DRDownload.Common
 
         public static string GenerateRandomGuid() =>
             Guid.NewGuid().ToString();
+
+        /// <summary>
+        /// Read JSON file and return instance of object it should be able to deserialize to.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static T? DeserializeFile<T>(string file)
+        {
+            try
+            {
+                var contents = File.ReadAllText(file);
+                JObject.Parse(contents);
+                var desObject = JsonConvert.DeserializeObject<T>(contents);
+
+                return desObject;
+            }
+            catch { }
+
+            return default;
+        }
 
         public static string ToDanishDate(DateTime date) =>
             date.ToString("d. MMMM yyyy", new CultureInfo("da-DK"));
