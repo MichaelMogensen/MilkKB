@@ -4,10 +4,19 @@ using DRDownload.Common.DownloadVideo;
 using DRDownload.Common.Types.BroadcastFiles;
 using DRDownload.Common.Types.BroadcastTypes;
 using DRDownload.Common.Types.RestAPI;
+using System.Diagnostics;
 using File = System.IO.File;
 
 namespace DRDownload.Media
 {
+    /// <summary>
+    /// Top class to download broadcasts from https://www.kb.dk/find-materiale/dr-arkivet/ by EntryId
+    /// found on search side using inspect element.
+    /// 
+    /// 
+    /// 
+    /// 
+    /// </summary>
     public class DRMedia
     {
         private string DownloadFolder = Util.DownloadFolder();
@@ -24,6 +33,8 @@ namespace DRDownload.Media
 
             Console.WriteLine(
                 $"Download radio/tv from www.kb.dk to {DownloadFolder} based on {Broadcasts?.All?.Count() ?? 0} broadcasts as defined in {broadcastsAsJson}");
+            Console.WriteLine();
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -34,14 +45,23 @@ namespace DRDownload.Media
         {
             var cts = new CancellationTokenSource();
 
-            Broadcasts?.All?.Where(broadcast => broadcast != null)?.ToList().ForEach(async broadcast =>
+            var broadcasts = Broadcasts?.All?.Where(broadcast => broadcast != null)?.ToList();
+            if (broadcasts == null || broadcasts.Count == 0)
             {
-                if (broadcast.MediaType == EMediaType.tv)
-                    await StartTvDownloadAsync(cts.Token, broadcast);
-                else
-                    if (broadcast.MediaType == EMediaType.radio)
-                        await StartRadioDownloadAsync(cts.Token, broadcast);
-            });
+                Console.WriteLine("No broadcasts found.");
+            }
+            else
+            {
+                foreach (var broadcast in broadcasts)
+                {
+                    if (broadcast.MediaType == EMediaType.tv)
+                        await StartTvDownloadAsync(cts.Token, broadcast);
+                    else
+                        if (broadcast.MediaType == EMediaType.radio)
+                            await StartRadioDownloadAsync(cts.Token, broadcast);
+                }
+            }
+
         }
 
         /// <summary>
@@ -59,8 +79,14 @@ namespace DRDownload.Media
             Console.WriteLine($"Downloading radio {mp3Downloader.File} to {DownloadFolder}. Please wait ...");
             Console.WriteLine();
 
+            var watch = new Stopwatch();
+            watch.Start();
+
             await mp3Downloader.StartAsync();
 
+            watch.Stop();
+
+            Console.WriteLine($"Duration: {watch.Elapsed:c}");
             Console.WriteLine($"DONE");
             Console.WriteLine();
         }
@@ -88,9 +114,15 @@ namespace DRDownload.Media
             Console.WriteLine($"Downloading tv {mp4Downloader.OutputFile} to {DownloadFolder}. Playlist and log placed in same folder. Please wait ...");
             Console.WriteLine();
 
+            var watch = new Stopwatch();
+            watch.Start();
+
             await m3uDownloader.StartAsync();
             await mp4Downloader.StartAsync(cts);
 
+            watch.Stop();
+
+            Console.WriteLine($"Duration: {watch.Elapsed:c}");
             Console.WriteLine($"DONE");
             Console.WriteLine();
         }

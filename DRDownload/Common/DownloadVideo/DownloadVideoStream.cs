@@ -82,7 +82,7 @@ namespace DRDownload.Common.DownloadVideo
                             new FFOptions { LogLevel = FFMpegLogLevel.Info });
 
                 watch.Stop();
-                LogLine($"TOTAL DURATION: {watch.Elapsed:c}");
+                LogLine($"Duration: {watch.Elapsed:c}");
             }
             catch (OperationCanceledException ex)
             {

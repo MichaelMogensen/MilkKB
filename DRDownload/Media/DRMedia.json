@@ -1,13 +1,49 @@
 {
   "All": [
     {
+      "MediaType": "radio",
+      "EntityId": "0_9tcfb2ez",
+      "Title": "Kristian Leth og outsideren 1 af 4",
+      "SendDate": "2017-01-08T18:03:00",
+      "DurationMin": 77,
+      "Channel": "P2",
+      "ExtraInfo": "4 programmer om om Glenn Gould's to indspilninger af Goldberg Variationerne"
+    },
+    {
+      "MediaType": "radio",
+      "EntityId": "0_4emsxe0w",
+      "Title": "Kristian Leth og outsideren 2 af 4",
+      "SendDate": "2017-01-15T18:03:00",
+      "DurationMin": 77,
+      "Channel": "P2",
+      "ExtraInfo": "4 programmer om om Glenn Gould's to indspilninger af Goldberg Variationerne"
+    },
+    {
+      "MediaType": "radio",
+      "EntityId": "0_0zjleny8",
+      "Title": "Kristian Leth og outsideren 3 af 4",
+      "SendDate": "2017-01-22T18:03:00",
+      "DurationMin": 77,
+      "Channel": "P2",
+      "ExtraInfo": "4 programmer om om Glenn Gould's to indspilninger af Goldberg Variationerne"
+    },
+    {
+      "MediaType": "radio",
+      "EntityId": "0_4pvngtpy",
+      "Title": "Kristian Leth og outsideren 4 af 4",
+      "SendDate": "2017-01-29T18:03:00",
+      "DurationMin": 77,
+      "Channel": "P2",
+      "ExtraInfo": "4 programmer om om Glenn Gould's to indspilninger af Goldberg Variationerne"
+    },
+    {
       "MediaType": "tv",
-      "EntityId": "123",
-      "Title": "MyTitle",
-      "SendDate": "1980-12-31T10:00:00",
-      "DurationMin": 45,
-      "Channel": "DR1",
-      "ExtraInfo": "My exiting broadcast"
+      "EntityId": "0_ela5z5u2",
+      "Title": "Lørdagshjørnet - Otto Leisner",
+      "SendDate": "2014-04-19T17:58:00",
+      "DurationMin": 50,
+      "Channel": "DR-K",
+      "ExtraInfo": "Aftenens gæst i Lørdagshjørnet er Otto Leisner"
     }
   ]
 }

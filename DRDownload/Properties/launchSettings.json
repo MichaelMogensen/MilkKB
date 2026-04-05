@@ -2,7 +2,7 @@
   "profiles": {
     "DRDownload": {
       "commandName": "Project",
-      "commandLineArgs": "c:\\Users\\micha\\source\\repos\\MilkKB\\DRDownload\\Media\\Media.json"
+      "commandLineArgs": "c:\\Users\\micha\\source\\repos\\MilkKB\\DRDownload\\Media\\DRMedia.json"
     }
   }
 }
