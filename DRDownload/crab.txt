@@ -1,3 +1,13 @@
+ffmpeg -i input_video.mp4 -vn output.wav
+
+WORKING:
+ffmpeg -i https://drod24e.akamaized.net/all/clear/none/ac/6890a98f12c6891898690dac/6890a98fae0e540e5489c471/stream_ts/master_manifest.m3u8 -vn test.mp4
+
+
+
+
+
+
 using DRDownload.Radio;
 using DRDownload.Video;
 

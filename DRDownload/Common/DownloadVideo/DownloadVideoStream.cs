@@ -19,15 +19,20 @@ namespace DRDownload.Common.DownloadVideo
         public string OutputFile { get; private set; }
         public string LogFile { get; private set; }
 
+        public TimeSpan DurationVideo { get; private set; }
+
         /// <summary>
         /// Ctor.
         /// </summary>
         /// <param name="inputFile">Could be m3u8 file or mp4 file etc.</param>
-        public DownloadVideoStream(string inputFile)
+        /// <param name="durationVideo">From metadata the total duration of the video</param>
+        public DownloadVideoStream(string inputFile, TimeSpan durationVideo)
         {
             InputFile = inputFile;
             OutputFile = Path.ChangeExtension(inputFile, "mp4");
             LogFile = Path.ChangeExtension(inputFile, "log");
+
+            DurationVideo = durationVideo;
         }
 
         /// <summary>
@@ -37,6 +42,7 @@ namespace DRDownload.Common.DownloadVideo
         public async Task StartAsync(CancellationToken cts)
         {
             var lockId = Util.GenerateRandomGuid();
+
             Action<string> LogLine =
                 line =>
                 {
@@ -45,6 +51,29 @@ namespace DRDownload.Common.DownloadVideo
                         File.AppendAllLines(LogFile, new string[] { $"{DateTime.Now:yyyy.MM.dd HH:mm:ss} {line}" }.AsEnumerable());
                     }
                 };
+
+            Func<TimeSpan, string> PctProgress = timeInVideo =>
+            {
+                var totalSeconds = DurationVideo.TotalMilliseconds;
+                var currentSeconds = timeInVideo.TotalMilliseconds;
+
+                var f = currentSeconds / totalSeconds;
+
+                var pct = 100.0 * f;
+                return $"{pct:0}% downloaded";
+            };
+
+            Action<TimeSpan, bool> WritePctProgressInConsole = (timeInVideo, gotoNextLine) =>
+            {
+                var top = Console.GetCursorPosition().Top;
+                Console.Write(PctProgress(timeInVideo));
+                Console.SetCursorPosition(0, top);
+
+                if (gotoNextLine)
+                {
+                    Console.WriteLine();
+                }
+            };
 
             cts.ThrowIfCancellationRequested();
 
@@ -69,19 +98,22 @@ namespace DRDownload.Common.DownloadVideo
                     .OutputToFile(OutputFile, true, op => op
                         .WithFastStart())
                         .CancellableThrough(cts)
-                        .NotifyOnProgress(timeSpend =>
+                        .NotifyOnProgress(timeInVideo =>
                         {
-                            LogLine($"DUR: {timeSpend:c}");
+                            WritePctProgressInConsole(timeInVideo, false);
+                            LogLine($"DUR: {timeInVideo:c}");
                         })
-                        .NotifyOnError(error =>
+                        .NotifyOnError(msg =>
                         {
-                            LogLine($"MSG: {error}");
+                            LogLine($"MSG: {msg}");
                         })
                         .ProcessAsynchronously(
                             true,
                             new FFOptions { LogLevel = FFMpegLogLevel.Info });
 
                 watch.Stop();
+
+                WritePctProgressInConsole(DurationVideo, true); // Ensure we reach 100%.
                 LogLine($"Duration: {watch.Elapsed:c}");
             }
             catch (OperationCanceledException ex)

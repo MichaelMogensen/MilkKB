@@ -6,6 +6,7 @@ using DRDownload.Common.Types.BroadcastFiles;
 using DRDownload.Common.Types.BroadcastTypes;
 using DRDownload.Common.Types.RestAPI;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using File = System.IO.File;
 
 namespace DRDownload.Media
@@ -87,16 +88,7 @@ namespace DRDownload.Media
                 return;
             }
 
-            Console.WriteLine(prompt.BeginDownloadMessage(mp3Downloader.OutputFile, DownloadFolder));
-
-            var watch = new Stopwatch();
-            watch.Start();
-
-            await mp3Downloader.StartAsync();
-
-            watch.Stop();
-
-            Console.WriteLine(prompt.EndDownloadMessage(mp3Downloader.OutputFile, DownloadFolder, watch.Elapsed));
+            await DownloadAsync(prompt, mp3Downloader.OutputFile, mp3Downloader.StartAsync);
         }
 
         /// <summary>
@@ -116,7 +108,7 @@ namespace DRDownload.Media
 
             // Download m3u8 playlist and video.
             var m3uDownloader = new DownloadFileStream(url, m3u8File);
-            var mp4Downloader = new DownloadVideoStream(m3u8File);
+            var mp4Downloader = new DownloadVideoStream(m3u8File, broadcast.Duration);
 
             // If output file already exists we abord.
             if (File.Exists(mp4Downloader.OutputFile))
@@ -125,22 +117,36 @@ namespace DRDownload.Media
                 return;
             }
 
-            Console.WriteLine(prompt.BeginDownloadMessage(mp4Downloader.OutputFile, DownloadFolder));
+            await DownloadAsync(prompt, mp4Downloader.OutputFile, async () =>
+            {
+                if (!File.Exists(m3u8File))
+                {
+                    await m3uDownloader.StartAsync();
+                }
+                await mp4Downloader.StartAsync(cts);
+            });
+        }
+
+        /// <summary>
+        /// General timed download.
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <param name="file"></param>
+        /// <param name="DownloadAsync"></param>
+        /// <returns></returns>
+        private async Task DownloadAsync(BroadcastPrompt prompt, string file, Func<Task> DownloadAsync)
+        {
+            Console.WriteLine(prompt.BeginDownloadMessage(file, DownloadFolder));
 
             var watch = new Stopwatch();
             watch.Start();
 
-            if (!File.Exists(m3u8File))
-            {
-                await m3uDownloader.StartAsync();
-            }
-            await mp4Downloader.StartAsync(cts);
+            await DownloadAsync();
 
             watch.Stop();
 
-            Console.WriteLine(prompt.EndDownloadMessage(mp4Downloader.OutputFile, DownloadFolder, watch.Elapsed));
+            Console.WriteLine(prompt.EndDownloadMessage(file, DownloadFolder, watch.Elapsed));
         }
-
     }
 }
 
