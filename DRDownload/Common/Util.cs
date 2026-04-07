@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using System.Security.Cryptography;
 using System.Text;
 
 
@@ -49,6 +50,19 @@ namespace DRDownload.Common
 
             result = $"{prefix}{result}";
             return result;
+        }
+
+        public static string Capitalized(string value)
+        {
+            if (string.IsNullOrEmpty(value) && value.Count() > 1)
+            { return value; }
+
+            var first = value.ToUpper().First().ToString();
+            var rest = new string(value.ToLower().Skip(1).ToArray());
+
+            var capitalized = first + rest;
+
+            return capitalized;
         }
 
         public static string GenerateRandomGuid() =>

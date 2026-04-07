@@ -22,6 +22,7 @@ namespace DRDownload.Common.Types.BroadcastFiles
             var filetitle = $"{title}, {sendDate}, {duration} på {ch}{extraInfo}.{ext}";
 
             File = Path.Combine(basePath, filetitle);
+            File = File.ToLower();
         }
     }
 }

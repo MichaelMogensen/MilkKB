@@ -34,6 +34,14 @@ namespace DRDownloadTests
             var result = Util.DeserializeFile<Broadcasts>(file);
         }
 
+        [TestMethod]
+        public void CapitalizeTest()
+        {
+            var text = "raDio";
+            Console.WriteLine(text);
+            Console.WriteLine(Util.Capitalized(text));
+        }
+
 
     }
 }
