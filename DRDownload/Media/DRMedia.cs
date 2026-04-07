@@ -78,15 +78,16 @@ namespace DRDownload.Media
 
             var mp3Downloader = new DownloadFileStream(
                 new RestAPIUrlRadio(broadcast.EntityId).Url,
-                new MP3BroadcastFile(DownloadFolder, broadcast).File);
+                new MP3BroadcastFile(DownloadFolder, broadcast).OutputFile);
 
-            if (File.Exists(mp3Downloader.File))
+            // If output file already exists we abord.
+            if (File.Exists(mp3Downloader.OutputFile))
             {
-                Console.WriteLine(prompt.AlreadyDownloadedMessage(mp3Downloader.File, DownloadFolder));
+                Console.WriteLine(prompt.AlreadyDownloadedMessage(mp3Downloader.OutputFile, DownloadFolder));
                 return;
             }
 
-            Console.WriteLine(prompt.BeginDownloadMessage(mp3Downloader.File, DownloadFolder));
+            Console.WriteLine(prompt.BeginDownloadMessage(mp3Downloader.OutputFile, DownloadFolder));
 
             var watch = new Stopwatch();
             watch.Start();
@@ -95,8 +96,7 @@ namespace DRDownload.Media
 
             watch.Stop();
 
-            Console.WriteLine(prompt.EndDownloadMessage(mp3Downloader.File, DownloadFolder, watch.Elapsed));
-            Console.WriteLine();
+            Console.WriteLine(prompt.EndDownloadMessage(mp3Downloader.OutputFile, DownloadFolder, watch.Elapsed));
         }
 
         /// <summary>
@@ -112,21 +112,20 @@ namespace DRDownload.Media
 
             // Prepare m3u8 file download.
             var url = new RestAPIUrlVideo(broadcast.EntityId).Url;
-            var m3u8File = new M3U8BroadcastFile(DownloadFolder, broadcast).File;
+            var m3u8File = new M3U8BroadcastFile(DownloadFolder, broadcast).OutputFile;
 
             // Download m3u8 playlist and video.
             var m3uDownloader = new DownloadFileStream(url, m3u8File);
             var mp4Downloader = new DownloadVideoStream(m3u8File);
 
+            // If output file already exists we abord.
             if (File.Exists(mp4Downloader.OutputFile))
             {
-                // XXX
-                Console.WriteLine();
+                Console.WriteLine(prompt.AlreadyDownloadedMessage(mp4Downloader.OutputFile, DownloadFolder));
                 return;
             }
 
-            // XXX
-            Console.WriteLine();
+            Console.WriteLine(prompt.BeginDownloadMessage(mp4Downloader.OutputFile, DownloadFolder));
 
             var watch = new Stopwatch();
             watch.Start();
@@ -139,8 +138,7 @@ namespace DRDownload.Media
 
             watch.Stop();
 
-            // XXX
-            Console.WriteLine();
+            Console.WriteLine(prompt.EndDownloadMessage(mp4Downloader.OutputFile, DownloadFolder, watch.Elapsed));
         }
 
     }

@@ -4,7 +4,7 @@ namespace DRDownload.Common.Types.BroadcastFiles
 {
     public abstract class BroadcastFile
     {
-        public string File { get; private set; } = string.Empty;
+        public string OutputFile { get; private set; } = string.Empty;
 
         public BroadcastFile(string basePath, string ext, Broadcast broadcast)
         {
@@ -21,8 +21,8 @@ namespace DRDownload.Common.Types.BroadcastFiles
 
             var filetitle = $"{title}, {sendDate}, {duration} på {ch}{extraInfo}.{ext}";
 
-            File = Path.Combine(basePath, filetitle);
-            File = File.ToLower();
+            OutputFile = Path.Combine(basePath, filetitle);
+            OutputFile = OutputFile.ToLower();
         }
     }
 }

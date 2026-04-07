@@ -5,8 +5,8 @@
     /// </summary>
     public class DownloadFileStream
     {
-        public string Url { get; set; }
-        public string File { get; set; }
+        public string Url { get; private set; }
+        public string OutputFile { get; private set; }
 
         /// <summary>
         /// Ctor.
@@ -17,7 +17,7 @@
         public DownloadFileStream(string url, string file)
         {
             Url = url;
-            File = file;
+            OutputFile = file;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@
                     client.Timeout = TimeSpan.FromMinutes(5);
 
                     var result = await client.GetAsync(new Uri(Url));
-                    using (var fs = new FileStream(File, FileMode.CreateNew))
+                    using (var fs = new FileStream(OutputFile, FileMode.CreateNew))
                     {
                         await result.Content.CopyToAsync(fs);
                     }
