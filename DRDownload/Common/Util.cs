@@ -1,27 +1,88 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
-using System.Security.Cryptography;
 using System.Text;
-
 
 namespace DRDownload.Common
 {
     public static class Util
     {
+        /// <summary>
+        /// Base64.
+        /// </summary>
+        /// <param name="plainText"></param>
+        /// <returns></returns>
         public static string Base64Encode(string plainText)
         {
             var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
             return Convert.ToBase64String(plainTextBytes);
         }
 
+        /// <summary>
+        /// Establish download folder.
+        /// </summary>
+        /// <returns></returns>
         public static string DownloadFolder()
         {
             var folder = Environment.ExpandEnvironmentVariables("%userprofile%\\downloads");
-            
+
             return folder;
         }
 
+        /// <summary>
+        /// First upper and rest lower.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string Capitalized(string value)
+        {
+            if (string.IsNullOrEmpty(value) && value.Count() > 1)
+            { return value; }
+
+            var first = value.ToUpper().First().ToString();
+            var rest = new string(value.ToLower().Skip(1).ToArray());
+
+            var capitalized = first + rest;
+
+            return capitalized;
+        }
+
+        /// <summary>
+        /// Read JSON file and return instance of object it should be able to deserialize to.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static T? DeserializeFile<T>(string file)
+        {
+            try
+            {
+                var contents = File.ReadAllText(file);
+                JObject.Parse(contents);
+                var desObject = JsonConvert.DeserializeObject<T>(contents);
+
+                return desObject;
+            }
+            catch { }
+
+            return default;
+        }
+
+        /// <summary>
+        /// Random guid as text.
+        /// </summary>
+        /// <returns></returns>
+        public static string GenerateRandomGuid() =>
+            Guid.NewGuid().ToString();
+
+        /// <summary>
+        /// Random id at specific length.
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <param name="length"></param>
+        /// <param name="includeDigits"></param>
+        /// <param name="includeLetters"></param>
+        /// <returns></returns>
         public static string GenerateRadomId(string prefix, int length, bool includeDigits, bool includeLetters)
         {
             var result = string.Empty;
@@ -52,46 +113,20 @@ namespace DRDownload.Common
             return result;
         }
 
-        public static string Capitalized(string value)
-        {
-            if (string.IsNullOrEmpty(value) && value.Count() > 1)
-            { return value; }
-
-            var first = value.ToUpper().First().ToString();
-            var rest = new string(value.ToLower().Skip(1).ToArray());
-
-            var capitalized = first + rest;
-
-            return capitalized;
-        }
-
-        public static string GenerateRandomGuid() =>
-            Guid.NewGuid().ToString();
-
         /// <summary>
-        /// Read JSON file and return instance of object it should be able to deserialize to.
+        /// DK date.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="file"></param>
+        /// <param name="date"></param>
         /// <returns></returns>
-        public static T? DeserializeFile<T>(string file)
-        {
-            try
-            {
-                var contents = File.ReadAllText(file);
-                JObject.Parse(contents);
-                var desObject = JsonConvert.DeserializeObject<T>(contents);
-
-                return desObject;
-            }
-            catch { }
-
-            return default;
-        }
-
         public static string ToDanishDate(DateTime date) =>
             date.ToString("d. MMMM yyyy", new CultureInfo("da-DK"));
 
+        /// <summary>
+        /// DK duration.
+        /// </summary>
+        /// <param name="sendDate"></param>
+        /// <param name="duration"></param>
+        /// <returns></returns>
         public static string ToDanishDuration(DateTime sendDate, TimeSpan duration)
         {
             var from = sendDate;
@@ -103,6 +138,17 @@ namespace DRDownload.Common
             var period_ = $"{from_} - {to_}";
 
             return period_;
+        }
+
+        /// <summary>
+        /// Write in fixed pos. in console.
+        /// </summary>
+        /// <param name="text"></param>
+        public static void WriteInFixedConsolePosition(string text)
+        {
+            var top = Console.GetCursorPosition().Top;
+            Console.Write(text);
+            Console.SetCursorPosition(0, top);
         }
     }
 }

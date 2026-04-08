@@ -31,6 +31,10 @@
         {
         }
 
+        /// <summary>
+        /// Format url for API call.
+        /// </summary>
+        /// <param name="arguments"></param>
         protected void FormatUrl(string arguments)
         {
             Url =

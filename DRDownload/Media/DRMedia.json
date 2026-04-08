@@ -44,7 +44,26 @@
       "DurationMin": 50,
       "Channel": "DR-K",
       "ExtraInfo": "Aftenens gæst i Lørdagshjørnet er Otto Leisner"
+    },
+    {
+      "MediaType": "tv",
+      "EntityId": "0_bcwvl3ah",
+      "Title": "Dansk naturgas",
+      "SendDate": "1989-07-28T20:39:00",
+      "DurationMin": 38,
+      "Channel": "DR1",
+      "ExtraInfo": "Kirsten Peüliche, Per Pallesen og Tommy Kenter i selskab med Poul Godske, som også bestyrer flyglet og har skrevet det meste af musikken"
+    },
+    {
+      "MediaType": "tv",
+      "EntityId": "0_lkdbg8ii",
+      "Title": "Dansk naturgas",
+      "SendDate": "2010-08-09T19:35:00",
+      "DurationMin": 25,
+      "Channel": "DR1",
+      "ExtraInfo": "Endnu et udslip fra Kirsten Peüliche, Tommy Kenter, Per Pallesen og Poul Godske."
     }
   ]
 }
 
+// Episode 1 -> 11 findes.

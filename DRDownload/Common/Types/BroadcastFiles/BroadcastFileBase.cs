@@ -2,11 +2,11 @@
 
 namespace DRDownload.Common.Types.BroadcastFiles
 {
-    public abstract class BroadcastFile
+    public abstract class BroadcastFileBase
     {
         public string OutputFile { get; private set; } = string.Empty;
 
-        public BroadcastFile(string basePath, string ext, Broadcast broadcast)
+        public BroadcastFileBase(string basePath, string ext, Broadcast broadcast)
         {
             CreateFilename(basePath, ext, broadcast);
         }

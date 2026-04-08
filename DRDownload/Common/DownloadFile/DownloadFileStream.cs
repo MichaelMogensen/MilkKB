@@ -1,4 +1,6 @@
-﻿namespace DRDownload.Common.DownloadFile
+﻿using DRDownload.Media;
+
+namespace DRDownload.Common.DownloadFile
 {
     /// <summary>
     /// Call REST API and save downloaded file to local system.
@@ -42,7 +44,7 @@
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                DRMedia.PipeOutput?.PipeMessageTo(ex.Message);
             }
         }
     }

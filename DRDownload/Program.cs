@@ -1,4 +1,5 @@
 ﻿using DRDownload.Media;
+using DRDownload.Pipe;
 
 if (args.Length != 1)
 {
@@ -6,5 +7,5 @@ if (args.Length != 1)
     return;
 }
 
-await new DRMedia(broadcastsAsJson: args[0]).StartMediaDownloadsAsync();
+await new DRMedia(broadcastsAsJson: args[0], new PipeOutputConsole()).StartMediaDownloadsAsync();
 

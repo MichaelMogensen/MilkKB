@@ -1,4 +1,6 @@
 ﻿using DRDownload.Common.DownloadVideo.Arguments;
+using DRDownload.Common.Types;
+using DRDownload.Media;
 using FFMpegCore;
 using FFMpegCore.Enums;
 using System.Diagnostics;
@@ -41,39 +43,8 @@ namespace DRDownload.Common.DownloadVideo
         /// <returns></returns>
         public async Task StartAsync(CancellationToken cts)
         {
-            var lockId = Util.GenerateRandomGuid();
-
-            Action<string> LogLine =
-                line =>
-                {
-                    lock (lockId)
-                    {
-                        File.AppendAllLines(LogFile, new string[] { $"{DateTime.Now:yyyy.MM.dd HH:mm:ss} {line}" }.AsEnumerable());
-                    }
-                };
-
-            Func<TimeSpan, string> PctProgress = timeInVideo =>
-            {
-                var totalSeconds = DurationVideo.TotalMilliseconds;
-                var currentSeconds = timeInVideo.TotalMilliseconds;
-
-                var f = currentSeconds / totalSeconds;
-
-                var pct = 100.0 * f;
-                return $"{pct:0}% downloaded";
-            };
-
-            Action<TimeSpan, bool> WritePctProgressInConsole = (timeInVideo, gotoNextLine) =>
-            {
-                var top = Console.GetCursorPosition().Top;
-                Console.Write(PctProgress(timeInVideo));
-                Console.SetCursorPosition(0, top);
-
-                if (gotoNextLine)
-                {
-                    Console.WriteLine();
-                }
-            };
+            var logNotifier = new OngoingDownloadLogNotifier(LogFile);
+            var progressNotifier = new OngoingDownloadProgressNotifier(DurationVideo);
 
             cts.ThrowIfCancellationRequested();
 
@@ -98,14 +69,14 @@ namespace DRDownload.Common.DownloadVideo
                     .OutputToFile(OutputFile, true, op => op
                         .WithFastStart())
                         .CancellableThrough(cts)
-                        .NotifyOnProgress(timeInVideo =>
+                        .NotifyOnProgress(duration =>
                         {
-                            WritePctProgressInConsole(timeInVideo, false);
-                            LogLine($"DUR: {timeInVideo:c}");
+                            progressNotifier.NotifyConsoleBelow100Pct(duration);
+                            logNotifier.LogLine($"DUR: {duration:c}");
                         })
                         .NotifyOnError(msg =>
                         {
-                            LogLine($"MSG: {msg}");
+                            logNotifier.LogLine($"MSG: {msg}");
                         })
                         .ProcessAsynchronously(
                             true,
@@ -113,18 +84,18 @@ namespace DRDownload.Common.DownloadVideo
 
                 watch.Stop();
 
-                WritePctProgressInConsole(DurationVideo, true); // Ensure we reach 100%.
-                LogLine($"Duration: {watch.Elapsed:c}");
+                progressNotifier.NotifyConsoleAt100Pct();
+                logNotifier.LogLine($"Duration: {watch.Elapsed:c}");
             }
             catch (OperationCanceledException ex)
             {
-                Console.WriteLine(ex.Message);
-                LogLine(ex.Message);
+                DRMedia.PipeOutput?.PipeMessageTo(ex.Message);
+                logNotifier.LogLine(ex.Message);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                LogLine(ex.Message);
+                DRMedia.PipeOutput?.PipeMessageTo(ex.Message);
+                logNotifier.LogLine(ex.Message);
             }
 
         }

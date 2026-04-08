@@ -5,14 +5,14 @@ using DRDownload.Common.Types;
 using DRDownload.Common.Types.BroadcastFiles;
 using DRDownload.Common.Types.BroadcastTypes;
 using DRDownload.Common.Types.RestAPI;
+using DRDownload.Pipe;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using File = System.IO.File;
 
 namespace DRDownload.Media
 {
     /// <summary>
-    /// Top class to download broadcasts from https://www.kb.dk/find-materiale/dr-arkivet/ by EntryId
+    /// Top class to download broadcasts from https://www.kb.dk/find-materiale/dr-arkivet/ by entry_id
     /// found on search side using inspect element.
     /// 
     /// 
@@ -22,21 +22,26 @@ namespace DRDownload.Media
     public class DRMedia
     {
         private string DownloadFolder = Util.DownloadFolder();
+
         public Broadcasts? Broadcasts { get; set; }
+
+        public static PipeOutputBase? PipeOutput { get; set; }
 
         /// <summary>
         /// Ctor.
         /// </summary>
         /// <param name="downloadFolder"></param>
         /// <param name="broadcastsAsJson"></param>
-        public DRMedia(string broadcastsAsJson)
+        /// <param name="PipeOutputBase">Tell where output should go depending on how is using this class</param>
+        public DRMedia(string broadcastsAsJson, PipeOutputBase pipeOutput)
         {
             Broadcasts = Util.DeserializeFile<Broadcasts>(broadcastsAsJson);
+            PipeOutput = pipeOutput;
 
-            Console.WriteLine(
+            PipeOutput?.PipeMessageTo(
                 $"Download radio/tv from www.kb.dk to {DownloadFolder} based on {Broadcasts?.All?.Count() ?? 0} broadcasts as defined in {broadcastsAsJson}");
-            Console.WriteLine();
-            Console.WriteLine();
+            PipeOutput?.PipeMessageTo();
+            PipeOutput?.PipeMessageTo();
         }
 
         /// <summary>
@@ -50,17 +55,21 @@ namespace DRDownload.Media
             var broadcasts = Broadcasts?.All?.Where(broadcast => broadcast != null)?.ToList();
             if (broadcasts == null || broadcasts.Count == 0)
             {
-                Console.WriteLine("No broadcasts found.");
+                PipeOutput?.PipeMessageTo("No broadcasts found.");
             }
             else
             {
                 foreach (var broadcast in broadcasts)
                 {
+                    // Ensure no disturbing characters anywhere.
+                    var broadcastClean = TrimBroadcast(broadcast);
+
+                    // Split tv/radio download.
                     if (broadcast.MediaType == EMediaType.tv)
-                        await StartTvDownloadAsync(cts.Token, broadcast);
+                        await StartTvDownloadAsync(cts.Token, broadcastClean);
                     else
                         if (broadcast.MediaType == EMediaType.radio)
-                            await StartRadioDownloadAsync(cts.Token, broadcast);
+                            await StartRadioDownloadAsync(cts.Token, broadcastClean);
                 }
             }
 
@@ -75,7 +84,7 @@ namespace DRDownload.Media
         public async Task StartRadioDownloadAsync(CancellationToken cts, Broadcast broadcast)
         {
             // Talk to user.
-            var prompt = new BroadcastPrompt(broadcast.MediaType);
+            var messageNotifier = new OngoingDownloadMessageNotifier(broadcast.MediaType);
 
             var mp3Downloader = new DownloadFileStream(
                 new RestAPIUrlRadio(broadcast.EntityId).Url,
@@ -84,11 +93,11 @@ namespace DRDownload.Media
             // If output file already exists we abord.
             if (File.Exists(mp3Downloader.OutputFile))
             {
-                Console.WriteLine(prompt.AlreadyDownloadedMessage(mp3Downloader.OutputFile, DownloadFolder));
+                PipeOutput?.PipeMessageTo(messageNotifier.AlreadyDownloadedMessage(mp3Downloader.OutputFile, DownloadFolder));
                 return;
             }
 
-            await DownloadAsync(prompt, mp3Downloader.OutputFile, mp3Downloader.StartAsync);
+            await DownloadAsync(messageNotifier, mp3Downloader.OutputFile, mp3Downloader.StartAsync);
         }
 
         /// <summary>
@@ -100,7 +109,7 @@ namespace DRDownload.Media
         public async Task StartTvDownloadAsync(CancellationToken cts, Broadcast broadcast)
         {
             // Talk to user.
-            var prompt = new BroadcastPrompt(broadcast.MediaType);
+            var messageNotifier = new OngoingDownloadMessageNotifier(broadcast.MediaType);
 
             // Prepare m3u8 file download.
             var url = new RestAPIUrlVideo(broadcast.EntityId).Url;
@@ -113,11 +122,11 @@ namespace DRDownload.Media
             // If output file already exists we abord.
             if (File.Exists(mp4Downloader.OutputFile))
             {
-                Console.WriteLine(prompt.AlreadyDownloadedMessage(mp4Downloader.OutputFile, DownloadFolder));
+                PipeOutput?.PipeMessageTo(messageNotifier.AlreadyDownloadedMessage(mp4Downloader.OutputFile, DownloadFolder));
                 return;
             }
 
-            await DownloadAsync(prompt, mp4Downloader.OutputFile, async () =>
+            await DownloadAsync(messageNotifier, mp4Downloader.OutputFile, async () =>
             {
                 if (!File.Exists(m3u8File))
                 {
@@ -128,15 +137,15 @@ namespace DRDownload.Media
         }
 
         /// <summary>
-        /// General timed download.
+        /// General timed download for both radio and tv.
         /// </summary>
-        /// <param name="prompt"></param>
+        /// <param name="messageNotifier"></param>
         /// <param name="file"></param>
         /// <param name="DownloadAsync"></param>
         /// <returns></returns>
-        private async Task DownloadAsync(BroadcastPrompt prompt, string file, Func<Task> DownloadAsync)
+        private async Task DownloadAsync(OngoingDownloadMessageNotifier messageNotifier, string file, Func<Task> DownloadAsync)
         {
-            Console.WriteLine(prompt.BeginDownloadMessage(file, DownloadFolder));
+            PipeOutput?.PipeMessageTo(messageNotifier.BeginDownloadMessage(file, DownloadFolder));
 
             var watch = new Stopwatch();
             watch.Start();
@@ -145,7 +154,31 @@ namespace DRDownload.Media
 
             watch.Stop();
 
-            Console.WriteLine(prompt.EndDownloadMessage(file, DownloadFolder, watch.Elapsed));
+            PipeOutput?.PipeMessageTo(messageNotifier.EndDownloadMessage(file, DownloadFolder, watch.Elapsed));
+        }
+
+        /// <summary>
+        /// Avoid special characters.
+        /// </summary>
+        /// <param name="broadcast"></param>
+        /// <returns></returns>
+        private static Broadcast TrimBroadcast(Broadcast broadcast)
+        {
+            var broadcastClean = new Broadcast
+            {
+                MediaType = broadcast.MediaType,
+                EntityId = broadcast.EntityId,
+                Title = broadcast.Title?.Trim(":\\".ToCharArray()), // : and \ is not allowed in filenames.
+                SendDate = broadcast.SendDate,
+                DurationMin = broadcast.DurationMin,
+                Channel = broadcast.Channel,
+                ExtraInfo = broadcast.ExtraInfo?.TrimEnd(".".ToCharArray()) // . looks silly just before extension.
+            };
+
+            // Replace things like "2/6" with "2 af 6".
+            broadcastClean.Title = broadcastClean.Title?.Replace("/", " af "); // / is not allowed in filenames.
+
+            return broadcastClean;
         }
     }
 }

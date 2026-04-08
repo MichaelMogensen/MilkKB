@@ -1,3 +1,43 @@
+            //var lockId = Util.GenerateRandomGuid();
+
+
+
+            //Action<string> LogLine =
+            //    line =>
+            //    {
+            //        lock (lockId)
+            //        {
+            //            File.AppendAllLines(LogFile, new string[] { $"{DateTime.Now:yyyy.MM.dd HH:mm:ss} {line}" }.AsEnumerable());
+            //        }
+            //    };
+
+            //Func<TimeSpan, string> PctProgress = timeInVideo =>
+            //{
+            //    var totalSeconds = DurationVideo.TotalMilliseconds;
+            //    var currentSeconds = timeInVideo.TotalMilliseconds;
+
+            //    var f = currentSeconds / totalSeconds;
+
+            //    var pct = 100.0 * f;
+            //    return $"{pct:0}% downloaded";
+            //};
+
+            //Action<TimeSpan, bool> WritePctProgressInConsole = (timeInVideo, gotoNextLine) =>
+            //{
+            //    var top = Console.GetCursorPosition().Top;
+            //    Console.Write(PctProgress(timeInVideo));
+            //    Console.SetCursorPosition(0, top);
+
+            //    if (gotoNextLine)
+            //    {
+            //        Console.WriteLine();
+            //    }
+            //};
+            
+            
+            
+            
+            
 ffmpeg -i input_video.mp4 -vn output.wav
 
 WORKING:
