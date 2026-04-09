@@ -4,6 +4,9 @@ namespace DRDownload.Common.DownloadFile
 {
     /// <summary>
     /// Call REST API and save downloaded file to local system.
+    /// 
+    /// Sample rest calls to get some json: https://jsonplaceholder.typicode.com
+    /// 
     /// </summary>
     public class DownloadFileStream
     {

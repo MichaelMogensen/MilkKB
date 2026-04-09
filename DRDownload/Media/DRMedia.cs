@@ -56,23 +56,22 @@ namespace DRDownload.Media
             if (broadcasts == null || broadcasts.Count == 0)
             {
                 PipeOutput?.PipeMessageTo("No broadcasts found.");
+                return;
             }
-            else
+
+            // Iterate broadcasts in json file.
+            foreach (var broadcast in broadcasts)
             {
-                foreach (var broadcast in broadcasts)
-                {
-                    // Ensure no disturbing characters anywhere.
-                    var broadcastClean = TrimBroadcast(broadcast);
+                // Ensure no disturbing characters anywhere.
+                var broadcastClean = TrimBroadcast(broadcast);
 
-                    // Split tv/radio download.
-                    if (broadcast.MediaType == EMediaType.tv)
-                        await StartTvDownloadAsync(cts.Token, broadcastClean);
-                    else
-                        if (broadcast.MediaType == EMediaType.radio)
-                            await StartRadioDownloadAsync(cts.Token, broadcastClean);
-                }
+                // Split tv/radio download.
+                if (broadcast.MediaType == EMediaType.tv)
+                    await StartTvDownloadAsync(cts.Token, broadcastClean);
+                else
+                    if (broadcast.MediaType == EMediaType.radio)
+                        await StartRadioDownloadAsync(cts.Token, broadcastClean);
             }
-
         }
 
         /// <summary>

@@ -5,8 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DRDownloadWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="DR Downloader" Height="600" Width="1000">
+    <Window.CommandBindings>
+        <CommandBinding Command="NavigationCommands.GoToPage" CanExecute="OnGoToPageCanExecute" Executed="OnGoToPageExecuted" />
+    </Window.CommandBindings>
     <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" LastChildFill="True">
+
+            <Separator DockPanel.Dock="Left" />
+
+            <Button DockPanel.Dock="Right" Command="NavigationCommands.GoToPage">
+                <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow\Ressources\Png\go.png" Width="50" Height="50"/>
+            </Button>
+
+            <TextBox Name="urlTextBox" VerticalContentAlignment="Center" KeyUp="OnUrlEnter" FontSize="30" Background="LightSalmon"/>
+
+        </DockPanel>
+
+        <DockPanel Grid.Row="1" LastChildFill="True">
+
+            <TextBox DockPanel.Dock="Top" Name="htmlTextBox" FontSize="10" Background="AntiqueWhite" MinHeight="200" Text="Raw html"/>
+            <TextBox Name="broadcastRecordTextBox" FontSize="10" Background="Beige" Text="First broadcast record"/>
+
+        </DockPanel>
+
+
+
 
     </Grid>
 </Window>

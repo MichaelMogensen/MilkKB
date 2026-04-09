@@ -14,6 +14,7 @@ namespace DRDownload.Common.DownloadVideo
     /// 
     /// ffmpeg flags: https://gist.github.com/tayvano/6e2d456a9897f55025e25035478a3a50
     /// Sample videos for download: https://file-examples.com/storage/fe05737d1f69c8fe396b0e5/2017/04/file_example_MP4_1920_18MG.mp4
+    /// 
     /// </summary>
     public class DownloadVideoStream
     {
