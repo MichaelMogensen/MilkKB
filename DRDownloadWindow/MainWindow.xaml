@@ -21,11 +21,10 @@
 
         <DockPanel Grid.Row="0" LastChildFill="True">
 
-            <Separator DockPanel.Dock="Left" />
-
             <Button DockPanel.Dock="Right" Command="NavigationCommands.GoToPage">
                 <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow\Ressources\Png\go.png" Width="50" Height="50"/>
             </Button>
+            <Separator DockPanel.Dock="Right" />
 
             <TextBox Name="urlTextBox" VerticalContentAlignment="Center" KeyUp="OnUrlEnter" FontSize="30" Background="LightSalmon"/>
 
@@ -33,13 +32,21 @@
 
         <DockPanel Grid.Row="1" LastChildFill="True">
 
-            <TextBox DockPanel.Dock="Top" Name="htmlTextBox" FontSize="10" Background="AntiqueWhite" MinHeight="200" Text="Raw html"/>
-            <TextBox Name="broadcastRecordTextBox" FontSize="10" Background="Beige" Text="First broadcast record"/>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="75*"/>
+                    <RowDefinition Height="25*"/>
+                </Grid.RowDefinitions>
+
+                <TextBox Grid.Row="0" Name="rawHtmlTextBox" FontSize="10" Background="AntiqueWhite" MinHeight="200" Text="Raw html" VerticalScrollBarVisibility="Auto" />
+                <TextBox Grid.Row="1" Name="broadcastRecordTextBox" FontSize="10" Background="Beige" Text="First broadcast record"/>
+
+            </Grid>
 
         </DockPanel>
-
-
-
 
     </Grid>
 </Window>
