@@ -148,20 +148,22 @@ namespace DRDownloadTests
             var mainBroadcastNode =
                 htmlDocument.
                 DocumentNode.
-                SelectNodes("//div[@class=\"boardcast-record-data\"]").
-                FirstOrDefault();
-            var leftSideNode = mainBroadcastNode?.SelectSingleNode("//div[@class=\"main-record-data\"]");
-            var rightSideNode = mainBroadcastNode?.SelectSingleNode("//div[@class=\"right-side\"]");
+                SelectSingleNode("//div[@class=\"boardcast-record-data\"]");
+            var leftSideNode = 
+                mainBroadcastNode?.
+                SelectSingleNode("//div[@class=\"main-record-data\"]");
+            var rightSideNode = 
+                mainBroadcastNode?.
+                SelectSingleNode("//div[@class=\"right-side\"]");
 
-
-            Console.WriteLine(InnerTextOfH2(mainBroadcastNode));
-            Console.WriteLine(InnerTextOfP(mainBroadcastNode));
-            Console.WriteLine(InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "event"));
-            Console.WriteLine(InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "schedule"));
-            Console.WriteLine(InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "tv"));
-            Console.WriteLine(InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "segment"));
-            Console.WriteLine(InnerTextOfLinkWithClassname(rightSideNode, "genre-link"));
-            Console.WriteLine(EntryId(StyleOfDivWithClassname(mainBroadcastNode, "playkit-poster")));
+            Console.WriteLine("Title: " + InnerTextOfH2(mainBroadcastNode));
+            Console.WriteLine("Description: " + InnerTextOfP(mainBroadcastNode));
+            Console.WriteLine("Date: " + InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "event"));
+            Console.WriteLine("Duration: " + InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "schedule"));
+            Console.WriteLine("Channal: " + InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "tv"));
+            Console.WriteLine("Episode: " + InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "segment"));
+            Console.WriteLine("Genre: " + InnerTextOfLinkWithClassname(rightSideNode, "genre-link"));
+            Console.WriteLine("EntryId: " + EntryId(StyleOfDivWithClassname(mainBroadcastNode, "playkit-poster")));
 
         }
 
