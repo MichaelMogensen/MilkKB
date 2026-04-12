@@ -149,20 +149,20 @@ namespace DRDownloadTests
                 htmlDocument.
                 DocumentNode.
                 SelectSingleNode("//div[@class=\"boardcast-record-data\"]");
-            var leftSideNode = 
+            var leftSideBroadcastNode = 
                 mainBroadcastNode?.
                 SelectSingleNode("//div[@class=\"main-record-data\"]");
-            var rightSideNode = 
+            var rightSideBroadcastNode = 
                 mainBroadcastNode?.
                 SelectSingleNode("//div[@class=\"right-side\"]");
 
             Console.WriteLine("Title: " + InnerTextOfH2(mainBroadcastNode));
             Console.WriteLine("Description: " + InnerTextOfP(mainBroadcastNode));
-            Console.WriteLine("Date: " + InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "event"));
-            Console.WriteLine("Duration: " + InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "schedule"));
-            Console.WriteLine("Channal: " + InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "tv"));
-            Console.WriteLine("Episode: " + InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "segment"));
-            Console.WriteLine("Genre: " + InnerTextOfLinkWithClassname(rightSideNode, "genre-link"));
+            Console.WriteLine("Date: " + InnerTextOfDivHoldingSpanWithClassname(rightSideBroadcastNode, "info", "event"));
+            Console.WriteLine("Duration: " + InnerTextOfDivHoldingSpanWithClassname(rightSideBroadcastNode, "info", "schedule"));
+            Console.WriteLine("Channel: " + InnerTextOfDivHoldingSpanWithClassname(rightSideBroadcastNode, "info", "tv"));
+            Console.WriteLine("Episode: " + InnerTextOfDivHoldingSpanWithClassname(rightSideBroadcastNode, "info", "segment"));
+            Console.WriteLine("Genre: " + InnerTextOfLinkWithClassname(rightSideBroadcastNode, "genre-link"));
             Console.WriteLine("EntryId: " + EntryId(StyleOfDivWithClassname(mainBroadcastNode, "playkit-poster")));
 
         }

@@ -171,7 +171,7 @@ namespace DRDownload.Media
                 SendDate = broadcast.SendDate,
                 DurationMin = broadcast.DurationMin,
                 Channel = broadcast.Channel,
-                ExtraInfo = broadcast.ExtraInfo?.TrimEnd(".".ToCharArray()) // . looks silly just before extension.
+                Description = broadcast.Description?.TrimEnd(".".ToCharArray()) // . looks silly just before extension.
             };
 
             // Replace things like "2/6" with "2 af 6".

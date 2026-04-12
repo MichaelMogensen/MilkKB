@@ -4,64 +4,64 @@
       "MediaType": "radio",
       "EntityId": "0_9tcfb2ez",
       "Title": "Kristian Leth og outsideren 1 af 4",
+      "Description": "4 programmer om om Glenn Gould's to indspilninger af Goldberg Variationerne",
       "SendDate": "2017-01-08T18:03:00",
       "DurationMin": 77,
-      "Channel": "P2",
-      "ExtraInfo": "4 programmer om om Glenn Gould's to indspilninger af Goldberg Variationerne"
+      "Channel": "P2"
     },
     {
       "MediaType": "radio",
       "EntityId": "0_4emsxe0w",
       "Title": "Kristian Leth og outsideren 2 af 4",
+      "Description": "4 programmer om om Glenn Gould's to indspilninger af Goldberg Variationerne",
       "SendDate": "2017-01-15T18:03:00",
       "DurationMin": 77,
-      "Channel": "P2",
-      "ExtraInfo": "4 programmer om om Glenn Gould's to indspilninger af Goldberg Variationerne"
+      "Channel": "P2"
     },
     {
       "MediaType": "radio",
       "EntityId": "0_0zjleny8",
       "Title": "Kristian Leth og outsideren 3 af 4",
+      "Description": "4 programmer om om Glenn Gould's to indspilninger af Goldberg Variationerne",
       "SendDate": "2017-01-22T18:03:00",
       "DurationMin": 77,
-      "Channel": "P2",
-      "ExtraInfo": "4 programmer om om Glenn Gould's to indspilninger af Goldberg Variationerne"
+      "Channel": "P2"
     },
     {
       "MediaType": "radio",
       "EntityId": "0_4pvngtpy",
       "Title": "Kristian Leth og outsideren 4 af 4",
+      "Description": "4 programmer om om Glenn Gould's to indspilninger af Goldberg Variationerne",
       "SendDate": "2017-01-29T18:03:00",
       "DurationMin": 77,
-      "Channel": "P2",
-      "ExtraInfo": "4 programmer om om Glenn Gould's to indspilninger af Goldberg Variationerne"
+      "Channel": "P2"
     },
     {
       "MediaType": "tv",
       "EntityId": "0_ela5z5u2",
       "Title": "Lørdagshjørnet - Otto Leisner",
+      "Description": "Aftenens gæst i Lørdagshjørnet er Otto Leisner",
       "SendDate": "2014-04-19T17:58:00",
       "DurationMin": 50,
-      "Channel": "DR-K",
-      "ExtraInfo": "Aftenens gæst i Lørdagshjørnet er Otto Leisner"
+      "Channel": "DR-K"
     },
     {
       "MediaType": "tv",
       "EntityId": "0_bcwvl3ah",
       "Title": "Dansk naturgas",
+      "Description": "Kirsten Peüliche, Per Pallesen og Tommy Kenter i selskab med Poul Godske, som også bestyrer flyglet og har skrevet det meste af musikken",
       "SendDate": "1989-07-28T20:39:00",
       "DurationMin": 38,
-      "Channel": "DR1",
-      "ExtraInfo": "Kirsten Peüliche, Per Pallesen og Tommy Kenter i selskab med Poul Godske, som også bestyrer flyglet og har skrevet det meste af musikken"
+      "Channel": "DR1"
     },
     {
       "MediaType": "tv",
       "EntityId": "0_lkdbg8ii",
       "Title": "Dansk naturgas",
+      "Description": "Endnu et udslip fra Kirsten Peüliche, Tommy Kenter, Per Pallesen og Poul Godske.",
       "SendDate": "2010-08-09T19:35:00",
       "DurationMin": 25,
-      "Channel": "DR1",
-      "ExtraInfo": "Endnu et udslip fra Kirsten Peüliche, Tommy Kenter, Per Pallesen og Poul Godske."
+      "Channel": "DR1"
     }
   ]
 }
