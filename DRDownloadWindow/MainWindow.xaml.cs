@@ -1,6 +1,5 @@
 ﻿using HtmlAgilityPack;
 using OpenQA.Selenium.Chrome;
-using System.Security.Policy;
 using System.Windows;
 using System.Windows.Input;
 
@@ -48,7 +47,7 @@ namespace DRDownloadWindow
             ChromeOptions options = new()
             {
                 BinaryLocation = @"C:\Program Files\Google\Chrome\Application\chrome.exe",
-                
+
             };
 
             //options.AddArgument("headless"); // :-) Now all html comes in! Minor: Can I hide/minimize browser?

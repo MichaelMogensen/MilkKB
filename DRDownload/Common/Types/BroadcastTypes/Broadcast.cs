@@ -16,3 +16,4 @@
     }
 }
 
+// New props: Id as Guid, Episode, Genre.

@@ -1,6 +1,13 @@
-﻿using DRDownload.Common;
+﻿using HtmlAgilityPack;
+using OpenQA.Selenium.Chrome;
+
+using DRDownload.Common;
 using DRDownload.Common.DownloadFile;
 using DRDownload.Common.Types.BroadcastTypes;
+
+using System.Text.RegularExpressions;
+using System.Collections.Frozen;
+using OpenQA.Selenium.DevTools.V145.HeapProfiler;
 
 namespace DRDownloadTests
 {
@@ -85,7 +92,184 @@ namespace DRDownloadTests
             await GetAsync(sharedClient);
         }
 
+        [TestMethod]
+        public void RegExTest()
+        {
+            var pattern = @"entry_id/0_[a-z0-9]{8}";
+
+            var text = $"-image: url(&quot;https://api.kltr.nordu.net/p/397/sp/39700/thumbnail/entry_id/0_im2bm9bq/version/100002/ipqwj p   ø 3rcipqwrc pq2iu3rc pq23rucpiq23urc il/entry_id/0_im2sk5bq/versi";
+
+            var regEx = new Regex(pattern);
+
+            var mc = regEx.Matches(text);
+            // Answer: entry_id/0_im2bm9bq + ...
+
+        }
+
+        [TestMethod]
+        public async Task FindTitleInHtmlTest()
+        {
+            var reader = new StreamReader("c:/temp/dansk_naturgas_html.txt");
+
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.Load(reader);
+
+            var forbiddenValues = new[]
+            {
+                    "Kontakt os gerne, hvis du har brug for hjælp",
+                    "Genveje",
+                    "Brug os",
+                    "Information"
+                }.ToList();
+
+            // Get title.
+            var values =
+                htmlDocument.
+                DocumentNode.
+                SelectNodes("//h2").
+                Select(node => node.InnerText).
+                ToList();
+
+            var value = values.Except(forbiddenValues)?.FirstOrDefault();
+
+            Console.WriteLine(value);
+
+
+        }
+
+        [TestMethod]
+        public async Task FindBigRecordInHtmlTest()
+        {
+            var reader = new StreamReader("c:/temp/dansk_naturgas_html.txt");
+
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.Load(reader);
+
+            var mainBroadcastNode =
+                htmlDocument.
+                DocumentNode.
+                SelectNodes("//div[@class=\"boardcast-record-data\"]").
+                FirstOrDefault();
+            var leftSideNode = mainBroadcastNode?.SelectSingleNode("//div[@class=\"main-record-data\"]");
+            var rightSideNode = mainBroadcastNode?.SelectSingleNode("//div[@class=\"right-side\"]");
+
+
+            Console.WriteLine(InnerTextOfH2(mainBroadcastNode));
+            Console.WriteLine(InnerTextOfP(mainBroadcastNode));
+            Console.WriteLine(InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "event"));
+            Console.WriteLine(InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "schedule"));
+            Console.WriteLine(InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "tv"));
+            Console.WriteLine(InnerTextOfDivHoldingSpanWithClassname(rightSideNode, "info", "segment"));
+            Console.WriteLine(InnerTextOfLinkWithClassname(rightSideNode, "genre-link"));
+            Console.WriteLine(EntryId(StyleOfDivWithClassname(mainBroadcastNode, "playkit-poster")));
+
+        }
+
+        private string? EntryId(string? text)
+        {
+            if (string.IsNullOrEmpty(text))
+            { return null; }
+
+            var pattern = @"entry_id/0_[a-z0-9]{8}";
+            var regEx = new Regex(pattern);
+
+            var firstMatch = regEx.Match(text);
+
+            if (string.IsNullOrEmpty(firstMatch?.Value))
+            { return null; }
+
+            var entryId = firstMatch.Value.Trim().Split('/')?.Last();
+
+            return entryId;
+        }
+
+        private string? InnerTextOfH2(HtmlNode? node)
+        {
+            if (node == null)
+            { return null; }
+
+            var value = node.SelectSingleNode("//h2").InnerText;
+
+            return value;
+        }
+
+        private string? InnerTextOfP(HtmlNode? node)
+        {
+            if (node == null)
+            { return null; }
+
+            var value = node.SelectSingleNode("//p").InnerText;
+
+            return value;
+        }
+
+        private string? InnerTextOfDivHoldingSpanWithClassname(HtmlNode? node, string className, string leadDivInnerTextToRemove)
+        {
+            if (node == null)
+            { return null; }
+
+            var value =
+                node.
+                SelectNodes($"//div[@class=\"{className}\"]").
+                Where(node => node.InnerText.StartsWith(leadDivInnerTextToRemove))?.
+                FirstOrDefault()?.
+                InnerText.
+                TrimStart(leadDivInnerTextToRemove.ToCharArray())?.
+                Trim();
+
+            return value;
+        }
+
+        private string? StyleOfDivWithClassname(HtmlNode? node, string className)
+        {
+            if (node == null)
+            { return null; }
+
+            var value =
+                node.
+                SelectSingleNode($"//div[@class=\"{className}\"]")?.
+                GetAttributeValue("style", "style not found")?.
+                Trim();
+
+            return value;
+        }
+
+        private string? InnerTextOfSpanWithClassname(HtmlNode? node, string className)
+        {
+            if (node == null)
+            { return null; }
+
+            var value =
+                node.
+                SelectSingleNode($"//span[@class=\"{className}\"]")?.
+                InnerText?.
+                Trim();
+
+            return value;
+        }
+
+        private string? InnerTextOfLinkWithClassname(HtmlNode? node, string className)
+        {
+            if (node == null)
+            { return null; }
+
+            var value =
+                node.
+                SelectSingleNode($"//a[@class=\"{className}\"]")?.
+                InnerText?.
+                Trim();
+
+            return value;
+        }
 
     }
 }
 
+
+//var title = mrd.SelectSingleNode("//h2").InnerText;
+//var description = mrd.SelectSingleNode("//p").InnerText;
+//Console.WriteLine(title);
+//Console.WriteLine(description);
+
+//Console.WriteLine(SpanInnerText(node, "set-duration"));
+//Console.WriteLine(SpanInnerText(node, "episode-text"));
