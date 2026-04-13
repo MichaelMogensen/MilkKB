@@ -6,7 +6,7 @@ namespace DRDownload.Common.Types.BroadcastTypes
     [JsonConverter(typeof(StringEnumConverter))]
     public enum EMediaType
     {
-        radio, tv
+        undesided, radio, tv
     }
 }
 

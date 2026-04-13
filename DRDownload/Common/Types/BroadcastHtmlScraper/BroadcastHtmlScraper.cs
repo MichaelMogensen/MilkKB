@@ -42,26 +42,29 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         /// </summary>
         private void ScrapeBroadcastRecord()
         {
-            // TODO.
+            BroadcastRecord = new Broadcast
+            {
+                UniqueId = Util.GenerateRandomGuid(),
+                MediaType = EMediaType.undesided,
+                EntityId = EntryId(StyleOfDivWithClassname(MainBroadcastNode, "playkit-poster")),
+                Title = InnerTextOfH2(MainBroadcastNode),
+                Description = InnerTextOfP(MainBroadcastNode),
+                SendDate = DateTime.MinValue,
+                DurationMin = -1,
+                Channel = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "tv"),
+                Episode = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "segment"),
+                Genre = InnerTextOfLinkWithClassname(RightSideBroadcastNode, "genre-link")
+            };
 
-            /*
-             
-            Console.WriteLine("Title: " + InnerTextOfH2(mainBroadcastNode));
-            Console.WriteLine("Description: " + InnerTextOfP(mainBroadcastNode));
-            Console.WriteLine("Date: " + InnerTextOfDivHoldingSpanWithClassname(rightSideBroadcastNode, "info", "event"));
-            Console.WriteLine("Duration: " + InnerTextOfDivHoldingSpanWithClassname(rightSideBroadcastNode, "info", "schedule"));
-            Console.WriteLine("Channel: " + InnerTextOfDivHoldingSpanWithClassname(rightSideBroadcastNode, "info", "tv"));
-            Console.WriteLine("Episode: " + InnerTextOfDivHoldingSpanWithClassname(rightSideBroadcastNode, "info", "segment"));
-            Console.WriteLine("Genre: " + InnerTextOfLinkWithClassname(rightSideBroadcastNode, "genre-link"));
-            Console.WriteLine("EntryId: " + EntryId(StyleOfDivWithClassname(mainBroadcastNode, "playkit-poster")));
-
-            */
+            // TODO: Util.MediaFromChannel()
+            // TODO: Util.DateFromNaturalDate(InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "event"))
+            // TODO: Util.DurationFromNaturalDuration(InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "schedule"))
         }
 
         #region Helpers.
 
         /// <summary>
-        /// 
+        /// Pick entryId from string.
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
@@ -84,7 +87,7 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         }
 
         /// <summary>
-        /// 
+        /// Read h2 ctrl.
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
@@ -99,7 +102,7 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         }
 
         /// <summary>
-        /// 
+        /// Read p ctrl.
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
@@ -114,7 +117,8 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         }
 
         /// <summary>
-        /// 
+        /// Read div ctrl holding span ctrl. When reading inner text we must remove inner 
+        /// text of div to get inner text og span because they are automatically added.
         /// </summary>
         /// <param name="node"></param>
         /// <param name="className"></param>
@@ -138,7 +142,7 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         }
 
         /// <summary>
-        /// 
+        /// Read span ctrl.
         /// </summary>
         /// <param name="node"></param>
         /// <param name="className"></param>
@@ -158,7 +162,7 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         }
 
         /// <summary>
-        /// 
+        /// Read a ctrl.
         /// </summary>
         /// <param name="node"></param>
         /// <param name="className"></param>
@@ -178,7 +182,7 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         }
 
         /// <summary>
-        /// 
+        /// Made to read out entryId string.
         /// </summary>
         /// <param name="node"></param>
         /// <param name="className"></param>
