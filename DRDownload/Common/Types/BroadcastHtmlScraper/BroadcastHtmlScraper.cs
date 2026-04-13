@@ -1,5 +1,6 @@
 ﻿using DRDownload.Common.Types.BroadcastTypes;
 using HtmlAgilityPack;
+using OpenQA.Selenium.DevTools.V145.Debugger;
 using System.Text.RegularExpressions;
 
 namespace DRDownload.Common.Types.BroadcastHtmlScraper
@@ -7,6 +8,8 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
     public class BroadcastHtmlScraper
     {
         public Broadcast? BroadcastRecord { get; private set; }
+
+        public HtmlDocument Document { get; set; } = new HtmlDocument();
 
         private HtmlNode? MainBroadcastNode { get; set; }
         private HtmlNode? LeftSideBroadcastNode { get; set; }
@@ -18,11 +21,10 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         /// <param name="html"></param>
         public BroadcastHtmlScraper(string html)
         {
-            var htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(html);
+            Document.LoadHtml(html);
 
             MainBroadcastNode =
-                htmlDocument.
+                Document.
                 DocumentNode?.
                 SelectSingleNode("//div[@class=\"boardcast-record-data\"]");
 
@@ -42,41 +44,57 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         /// </summary>
         private void ScrapeBroadcastRecord()
         {
+            // Parts for parts.
+            var drEvent = new ParseDRDate(InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "event")).Date;
+            var drSchedule = new ParseDRDuration(InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "schedule"));
+
+            // Parts.
+            var uniqueId = Util.GenerateRandomGuid();
+            var entityId = ParseEntryId();
+            var channel = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "tv");
+            var title = InnerTextOfH2(MainBroadcastNode);
+            var description = InnerTextOfP(MainBroadcastNode);
+            var sendDate = new DateTime(
+                drEvent.Date.Year,
+                drEvent.Date.Month,
+                drEvent.Date.Day,
+                drSchedule.From.Hour,
+                drSchedule.From.Minute,
+                drSchedule.From.Second);
+            var durationMin = (int)drSchedule.Duration.TotalMinutes;
+            var episode = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "segment");
+            var genre = InnerTextOfLinkWithClassname(RightSideBroadcastNode, "genre-link");
+            var medieType = string.IsNullOrEmpty(channel) ? EMediaType.undesided : channel.StartsWith("P") ? EMediaType.radio : EMediaType.tv;
+
+            // Full object.
             BroadcastRecord = new Broadcast
             {
-                UniqueId = Util.GenerateRandomGuid(),
-                MediaType = EMediaType.undesided,
-                EntityId = EntryId(StyleOfDivWithClassname(MainBroadcastNode, "playkit-poster")),
-                Title = InnerTextOfH2(MainBroadcastNode),
-                Description = InnerTextOfP(MainBroadcastNode),
-                SendDate = DateTime.MinValue,
-                DurationMin = -1,
-                Channel = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "tv"),
-                Episode = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "segment"),
-                Genre = InnerTextOfLinkWithClassname(RightSideBroadcastNode, "genre-link")
+                UniqueId = uniqueId,
+                EntityId = entityId,
+                Channel = channel,
+                Title = title,
+                Description = description,
+                SendDate = sendDate,
+                DurationMin = durationMin,
+                Episode = episode,
+                Genre = genre,
+                MediaType = medieType
             };
-
-            // TODO: Util.MediaFromChannel()
-            // TODO: Util.DateFromNaturalDate(InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "event"))
-            // TODO: Util.DurationFromNaturalDuration(InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "schedule"))
         }
 
-        #region Helpers.
+        #region Html parsing helpers.
 
         /// <summary>
-        /// Pick entryId from string.
+        /// Parse entryId from string.
         /// </summary>
-        /// <param name="text"></param>
         /// <returns></returns>
-        private static string? EntryId(string? text)
+        private string? ParseEntryId()
         {
-            if (string.IsNullOrEmpty(text))
-            { return null; }
 
             var pattern = @"entry_id/0_[a-z0-9]{8}";
             var regEx = new Regex(pattern);
 
-            var firstMatch = regEx.Match(text);
+            var firstMatch = regEx.Match(Document.ParsedText);
 
             if (string.IsNullOrEmpty(firstMatch?.Value))
             { return null; }
@@ -142,26 +160,6 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         }
 
         /// <summary>
-        /// Read span ctrl.
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="className"></param>
-        /// <returns></returns>
-        private static string? InnerTextOfSpanWithClassname(HtmlNode? node, string className)
-        {
-            if (node == null)
-            { return null; }
-
-            var value =
-                node.
-                SelectSingleNode($"//span[@class=\"{className}\"]")?.
-                InnerText?.
-                Trim();
-
-            return value;
-        }
-
-        /// <summary>
         /// Read a ctrl.
         /// </summary>
         /// <param name="node"></param>
@@ -176,26 +174,6 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
                 node.
                 SelectSingleNode($"//a[@class=\"{className}\"]")?.
                 InnerText?.
-                Trim();
-
-            return value;
-        }
-
-        /// <summary>
-        /// Made to read out entryId string.
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="className"></param>
-        /// <returns></returns>
-        private static string? StyleOfDivWithClassname(HtmlNode? node, string className)
-        {
-            if (node == null)
-            { return null; }
-
-            var value =
-                node.
-                SelectSingleNode($"//div[@class=\"{className}\"]")?.
-                GetAttributeValue("style", "style not found")?.
                 Trim();
 
             return value;

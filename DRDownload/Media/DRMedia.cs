@@ -21,7 +21,7 @@ namespace DRDownload.Media
     /// </summary>
     public class DRMedia
     {
-        private string DownloadFolder = Util.DownloadFolder();
+        private string DownloadFolder = Util.WindowsDownloadFolder();
 
         public Broadcasts? Broadcasts { get; set; }
 

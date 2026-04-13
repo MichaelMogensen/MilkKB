@@ -41,8 +41,8 @@
                     <RowDefinition Height="25*"/>
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Name="rawHtmlTextBox" FontSize="10" Background="AntiqueWhite" MinHeight="200" Text="Raw html" VerticalScrollBarVisibility="Auto" />
-                <TextBox Grid.Row="1" Name="broadcastRecordTextBox" FontSize="10" Background="Beige" Text="First broadcast record"/>
+                <TextBox Grid.Row="0" Name="rawHtmlTextBox" FontSize="10" Background="AntiqueWhite" MinHeight="200" Text="Raw html" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
+                <TextBox Grid.Row="1" Name="broadcastRecordTextBox" FontSize="10" Background="Beige" Text="Broadcast record" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
 
             </Grid>
 

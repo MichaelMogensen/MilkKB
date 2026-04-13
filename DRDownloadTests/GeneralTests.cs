@@ -1,13 +1,13 @@
-﻿using HtmlAgilityPack;
-using OpenQA.Selenium.Chrome;
-
-using DRDownload.Common;
+﻿using DRDownload.Common;
 using DRDownload.Common.DownloadFile;
+using DRDownload.Common.Types.BroadcastHtmlScraper;
 using DRDownload.Common.Types.BroadcastTypes;
-
-using System.Text.RegularExpressions;
-using System.Collections.Frozen;
+using HtmlAgilityPack;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.DevTools.V145.HeapProfiler;
+using System.Collections.Frozen;
+using System.Text.RegularExpressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DRDownloadTests
 {
@@ -17,7 +17,7 @@ namespace DRDownloadTests
         [TestMethod]
         public void DownloadFolderTest()
         {
-            Console.WriteLine(Util.DownloadFolder());
+            Console.WriteLine(Util.WindowsDownloadFolder());
         }
 
         [TestMethod]
@@ -47,7 +47,7 @@ namespace DRDownloadTests
         {
             var text = "raDio";
             Console.WriteLine(text);
-            Console.WriteLine(Util.Capitalized(text));
+            Console.WriteLine(Util.CapitalizedString(text));
         }
 
         [TestMethod]
@@ -138,7 +138,7 @@ namespace DRDownloadTests
         }
 
         [TestMethod]
-        public async Task FindBigRecordInHtmlTest()
+        public void FindBigRecordInHtmlTest()
         {
             var reader = new StreamReader("c:/temp/dansk_naturgas_html.txt");
 
@@ -149,10 +149,10 @@ namespace DRDownloadTests
                 htmlDocument.
                 DocumentNode.
                 SelectSingleNode("//div[@class=\"boardcast-record-data\"]");
-            var leftSideBroadcastNode = 
+            var leftSideBroadcastNode =
                 mainBroadcastNode?.
                 SelectSingleNode("//div[@class=\"main-record-data\"]");
-            var rightSideBroadcastNode = 
+            var rightSideBroadcastNode =
                 mainBroadcastNode?.
                 SelectSingleNode("//div[@class=\"right-side\"]");
 
@@ -165,6 +165,47 @@ namespace DRDownloadTests
             Console.WriteLine("Genre: " + InnerTextOfLinkWithClassname(rightSideBroadcastNode, "genre-link"));
             Console.WriteLine("EntryId: " + EntryId(StyleOfDivWithClassname(mainBroadcastNode, "playkit-poster")));
 
+        }
+
+        [TestMethod]
+        public void FindBigRecordInHtmlFromScraperTest()
+        {
+            var htmlFile = "c:/temp/dansk_naturgas_html.txt";
+            var html = File.ReadAllText(htmlFile);
+
+            var scraper = new BroadcastHtmlScraper(html);
+        }
+
+        [TestMethod]
+        public void DRDateToObjectTest()
+        {
+            var drExpression = "20. maj 2017";
+
+            try
+            {
+                var date = new ParseDRDate(drExpression).Date;
+                Console.WriteLine(date);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        [TestMethod]
+        public void DRTimeExpressionToObjectsTest()
+        {
+            var drExpression = "kl.  14:40 - 15:09 ( 29min 31sek )";
+
+            try
+            {
+                var p = new ParseDRDuration(drExpression);
+                Console.WriteLine(p.From);
+                Console.WriteLine(p.To);
+                Console.WriteLine(p.Duration);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private string? EntryId(string? text)

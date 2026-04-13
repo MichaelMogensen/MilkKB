@@ -19,22 +19,11 @@ namespace DRDownload.Common
         }
 
         /// <summary>
-        /// Establish download folder.
-        /// </summary>
-        /// <returns></returns>
-        public static string DownloadFolder()
-        {
-            var folder = Environment.ExpandEnvironmentVariables("%userprofile%\\downloads");
-
-            return folder;
-        }
-
-        /// <summary>
         /// First upper and rest lower.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string Capitalized(string value)
+        public static string CapitalizedString(string value)
         {
             if (string.IsNullOrEmpty(value) && value.Count() > 1)
             { return value; }
@@ -113,6 +102,9 @@ namespace DRDownload.Common
             return result;
         }
 
+        public static string? OrNull<T>(T theObject) => 
+            theObject is null ? "null" : theObject.ToString();
+
         /// <summary>
         /// DK date.
         /// </summary>
@@ -138,6 +130,17 @@ namespace DRDownload.Common
             var period_ = $"{from_} - {to_}";
 
             return period_;
+        }
+
+        /// <summary>
+        /// Establish download folder.
+        /// </summary>
+        /// <returns></returns>
+        public static string WindowsDownloadFolder()
+        {
+            var folder = Environment.ExpandEnvironmentVariables("%userprofile%\\downloads");
+
+            return folder;
         }
 
         /// <summary>

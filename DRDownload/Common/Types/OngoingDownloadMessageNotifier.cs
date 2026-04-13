@@ -11,7 +11,7 @@ namespace DRDownload.Common.Types
 
         public OngoingDownloadMessageNotifier(EMediaType mediaType)
         {
-            MediaType = Util.Capitalized(mediaType.ToString());
+            MediaType = Util.CapitalizedString(mediaType.ToString());
         }
 
         public string AlreadyDownloadedMessage(string file, string downloadFolder) =>

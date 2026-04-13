@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using DRDownload.Common.Types.BroadcastHtmlScraper;
+using HtmlAgilityPack;
 using OpenQA.Selenium.Chrome;
 using System.Windows;
 using System.Windows.Input;
@@ -33,27 +34,25 @@ namespace DRDownloadWindow
         /// </summary>
         private void GoToThatPage()
         {
-            var url = urlTextBox.Text;
-            rawHtmlTextBox.Text = ScrapePage(url);
+            rawHtmlTextBox.Text = string.Empty;
+            broadcastRecordTextBox.Text = string.Empty;
+
+            var html = ScrapePage(urlTextBox.Text);
+
+            rawHtmlTextBox.Text = html;
+            broadcastRecordTextBox.Text = new BroadcastHtmlScraper(html).BroadcastRecord?.ToString();
         }
 
-        /// <summary>
-        /// Scrape page.
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        private static async Task<string> ScrapePageAsync(string url)
+        private static string ScrapePage(string url)
         {
             ChromeOptions options = new()
             {
                 BinaryLocation = @"C:\Program Files\Google\Chrome\Application\chrome.exe",
-
             };
 
-            //options.AddArgument("headless"); // :-) Now all html comes in! Minor: Can I hide/minimize browser?
             var chrome = new ChromeDriver(options);
 
-            await chrome.Navigate().GoToUrlAsync(url);
+            chrome.Navigate().GoToUrl(url);
 
             var html = chrome.PageSource;
 
@@ -61,14 +60,41 @@ namespace DRDownloadWindow
             document.LoadHtml(html);
             return document.ParsedText;
         }
-        private static string ScrapePage(string url)
-        {
-            var task = Task.Run(async () => await ScrapePageAsync(url));
-            task.Wait();
-            var html = task.Result;
 
-            return html;
-        }
+
+        ///// <summary>
+        ///// Scrape page.
+        ///// </summary>
+        ///// <param name="url"></param>
+        ///// <returns></returns>
+        //private static async Task<string> ScrapePageAsync(string url)
+        //{
+        //    ChromeOptions options = new()
+        //    {
+        //        BinaryLocation = @"C:\Program Files\Google\Chrome\Application\chrome.exe",
+
+        //    };
+
+        //    //options.AddArgument("headless"); // :-) Now all html comes in! Minor: Can I hide/minimize browser?
+        //    var chrome = new ChromeDriver(options);
+
+        //    await chrome.Navigate().GoToUrlAsync(url);
+
+        //    var html = chrome.PageSource;
+
+        //    var document = new HtmlDocument();
+        //    document.LoadHtml(html);
+        //    return document.ParsedText;
+        //}
+
+        //private static string ScrapePage(string url)
+        //{
+        //    var task = Task.Run(async () => await ScrapePageAsync(url));
+        //    task.Wait();
+        //    var html = task.Result;
+
+        //    return html;
+        //}
 
 
         #region Event handlers.
