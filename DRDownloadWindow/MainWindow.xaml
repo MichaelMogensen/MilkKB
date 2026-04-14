@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DRDownloadWindow"
         mc:Ignorable="d"
-        Title="DR Downloader" Height="600" Width="1000">
+        Title="DR Downloader" Height="800" Width="1200">
     <Window.CommandBindings>
         <CommandBinding Command="NavigationCommands.GoToPage" CanExecute="OnGoToPageCanExecute" Executed="OnGoToPageExecuted" />
     </Window.CommandBindings>
@@ -37,12 +37,12 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="75*"/>
                     <RowDefinition Height="25*"/>
+                    <RowDefinition Height="75*"/>
                 </Grid.RowDefinitions>
 
                 <TextBox Grid.Row="0" Name="rawHtmlTextBox" FontSize="10" Background="AntiqueWhite" MinHeight="200" Text="Raw html" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
-                <TextBox Grid.Row="1" Name="broadcastRecordTextBox" FontSize="10" Background="Beige" Text="Broadcast record" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
+                <TextBox Grid.Row="1" Name="broadcastRecordTextBox" FontSize="20" Background="Beige" Text="Broadcast record" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
 
             </Grid>
 

@@ -86,7 +86,7 @@ namespace DRDownload.Media
             var messageNotifier = new OngoingDownloadMessageNotifier(broadcast.MediaType);
 
             var mp3Downloader = new DownloadFileStream(
-                new RestAPIUrlRadio(broadcast.EntityId).Url,
+                new RestAPIUrlRadio(broadcast.EntryId).Url,
                 new MP3BroadcastFile(DownloadFolder, broadcast).OutputFile);
 
             // If output file already exists we abord.
@@ -111,7 +111,7 @@ namespace DRDownload.Media
             var messageNotifier = new OngoingDownloadMessageNotifier(broadcast.MediaType);
 
             // Prepare m3u8 file download.
-            var url = new RestAPIUrlVideo(broadcast.EntityId).Url;
+            var url = new RestAPIUrlVideo(broadcast.EntryId).Url;
             var m3u8File = new M3U8BroadcastFile(DownloadFolder, broadcast).OutputFile;
 
             // Download m3u8 playlist and video.
@@ -166,7 +166,7 @@ namespace DRDownload.Media
             var broadcastClean = new Broadcast
             {
                 MediaType = broadcast.MediaType,
-                EntityId = broadcast.EntityId,
+                EntryId = broadcast.EntryId,
                 Title = broadcast.Title?.Trim(":\\".ToCharArray()), // : and \ is not allowed in filenames.
                 SendDate = broadcast.SendDate,
                 DurationMin = broadcast.DurationMin,

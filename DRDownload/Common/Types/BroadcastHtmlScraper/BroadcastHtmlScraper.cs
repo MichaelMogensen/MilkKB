@@ -15,11 +15,17 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         private HtmlNode? LeftSideBroadcastNode { get; set; }
         private HtmlNode? RightSideBroadcastNode { get; set; }
 
+        private string EntryIdPattern(EMediaType medieType) =>
+            medieType == EMediaType.radio ?
+            @"entryId/0_[a-z0-9]{8}" :
+            @"entry_id/0_[a-z0-9]{8}";
+
         /// <summary>
         /// Ctor.
         /// </summary>
+        /// <param name="url"></param>
         /// <param name="html"></param>
-        public BroadcastHtmlScraper(string html)
+        public BroadcastHtmlScraper(string url, string html)
         {
             Document.LoadHtml(html);
 
@@ -36,13 +42,31 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
                 MainBroadcastNode?.
                 SelectSingleNode("//div[@class=\"right-side\"]");
 
-            ScrapeBroadcastRecord();
+            CreateBroadcastRecord(url);
         }
 
         /// <summary>
-        /// Establish record.
+        /// Try to lookup entryId from string.
         /// </summary>
-        private void ScrapeBroadcastRecord()
+        /// <returns></returns>
+        private string? LookupEntryId(EMediaType medieType)
+        {
+            var regEx = new Regex(EntryIdPattern(medieType));
+            var firstMatch = regEx.Match(Document.ParsedText);
+
+            if (string.IsNullOrEmpty(firstMatch?.Value))
+            { return null; }
+
+            var entryId = firstMatch.Value.Trim().Split('/')?.Last();
+
+            return entryId;
+        }
+
+        /// <summary>
+        /// Create broadcast record.
+        /// </summary>
+        /// <param name="url"></param>
+        private void CreateBroadcastRecord(string url)
         {
             // Parts for parts.
             var drEvent = new ParseDRDate(InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "event")).Date;
@@ -50,7 +74,8 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
 
             // Parts.
             var uniqueId = Util.GenerateRandomGuid();
-            var entityId = ParseEntryId();
+            var medieType = url.Contains("radio") ? EMediaType.radio : EMediaType.tv;
+            var entryId = LookupEntryId(medieType);
             var channel = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "tv");
             var title = InnerTextOfH2(MainBroadcastNode);
             var description = InnerTextOfP(MainBroadcastNode);
@@ -64,13 +89,12 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
             var durationMin = (int)drSchedule.Duration.TotalMinutes;
             var episode = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "segment");
             var genre = InnerTextOfLinkWithClassname(RightSideBroadcastNode, "genre-link");
-            var medieType = string.IsNullOrEmpty(channel) ? EMediaType.undesided : channel.StartsWith("P") ? EMediaType.radio : EMediaType.tv;
 
             // Full object.
             BroadcastRecord = new Broadcast
             {
                 UniqueId = uniqueId,
-                EntityId = entityId,
+                EntryId = entryId,
                 Channel = channel,
                 Title = title,
                 Description = description,
@@ -78,31 +102,12 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
                 DurationMin = durationMin,
                 Episode = episode,
                 Genre = genre,
-                MediaType = medieType
+                MediaType = medieType,
+                KbUrl = url
             };
         }
 
         #region Html parsing helpers.
-
-        /// <summary>
-        /// Parse entryId from string.
-        /// </summary>
-        /// <returns></returns>
-        private string? ParseEntryId()
-        {
-
-            var pattern = @"entry_id/0_[a-z0-9]{8}";
-            var regEx = new Regex(pattern);
-
-            var firstMatch = regEx.Match(Document.ParsedText);
-
-            if (string.IsNullOrEmpty(firstMatch?.Value))
-            { return null; }
-
-            var entryId = firstMatch.Value.Trim().Split('/')?.Last();
-
-            return entryId;
-        }
 
         /// <summary>
         /// Read h2 ctrl.
@@ -114,7 +119,7 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
             if (node == null)
             { return null; }
 
-            var value = node.SelectSingleNode("//h2").InnerText;
+            var value = node.SelectSingleNode("//h2").InnerText.Trim();
 
             return value;
         }
@@ -129,7 +134,7 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
             if (node == null)
             { return null; }
 
-            var value = node.SelectSingleNode("//p").InnerText;
+            var value = node.SelectSingleNode("//p").InnerText.Trim();
 
             return value;
         }
