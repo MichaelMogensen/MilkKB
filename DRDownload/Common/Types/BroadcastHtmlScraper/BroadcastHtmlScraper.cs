@@ -1,6 +1,5 @@
 ﻿using DRDownload.Common.Types.BroadcastTypes;
 using HtmlAgilityPack;
-using OpenQA.Selenium.DevTools.V145.Debugger;
 using System.Text.RegularExpressions;
 
 namespace DRDownload.Common.Types.BroadcastHtmlScraper

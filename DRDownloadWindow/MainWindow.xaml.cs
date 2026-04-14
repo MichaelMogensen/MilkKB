@@ -14,8 +14,11 @@ namespace DRDownloadWindow
         });
 
         // Main search page: https://www.kb.dk/find-materiale/dr-arkivet/
-        //
-        public static readonly string StartUrl = "https://www.kb.dk/find-materiale/dr-arkivet/post/ds.tv:oai:io:666816aa-3fd7-422c-9786-f05f124f5b5a";
+        
+        private static readonly string SomeRadioUrl = "https://www.kb.dk/find-materiale/dr-arkivet/post/ds.radio:oai:io:751158fa-e3e3-4657-bce1-90ea04f9215a";
+        private static readonly string SomeTvUrl = "https://www.kb.dk/find-materiale/dr-arkivet/post/ds.tv:oai:io:666816aa-3fd7-422c-9786-f05f124f5b5a";
+
+        public static readonly string StartUrl = SomeRadioUrl;
 
         /// <summary>
         /// Ctor.
@@ -45,14 +48,16 @@ namespace DRDownloadWindow
             rawHtmlTextBox.Text = html;
 
             var broadcastHtmlScraper = new BroadcastHtmlScraper(url, html);
-            var broadcastRecord = broadcastHtmlScraper.BroadcastRecord?.ToString();
-            if (string.IsNullOrEmpty(broadcastRecord))
+            if (broadcastHtmlScraper.BroadcastRecord == null)
+            { return; }
+            if (string.IsNullOrEmpty(broadcastHtmlScraper.BroadcastRecord.EntryId))
             {
-                return;
+                MessageBox.Show("No EntryId found!", "Parse error");
             }
 
-            broadcastRecord = broadcastRecord.Replace("|", Environment.NewLine);
-            broadcastRecordTextBox.Text = broadcastRecord;
+            var broadcastRecordText = broadcastHtmlScraper.BroadcastRecord.ToString();
+            broadcastRecordText = broadcastRecordText.Replace("|", Environment.NewLine);
+            broadcastRecordTextBox.Text = broadcastRecordText;
         }
 
         /// <summary>
@@ -86,6 +91,11 @@ namespace DRDownloadWindow
         private void OnGoToPageExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             Navigate();
+        }
+
+        private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ChromeBrowser.Quit();
         }
 
         #endregion

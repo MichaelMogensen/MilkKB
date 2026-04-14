@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DRDownloadWindow"
         mc:Ignorable="d"
-        Title="DR Downloader" Height="800" Width="1200">
+        Title="DR Downloader" Height="800" Width="1200"
+        Closing="OnWindowClosing">
     <Window.CommandBindings>
         <CommandBinding Command="NavigationCommands.GoToPage" CanExecute="OnGoToPageCanExecute" Executed="OnGoToPageExecuted" />
     </Window.CommandBindings>
