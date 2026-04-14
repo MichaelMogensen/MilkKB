@@ -1,3 +1,34 @@
+        private static readonly string SomeRadioUrl = "https://www.kb.dk/find-materiale/dr-arkivet/post/ds.radio:oai:io:751158fa-e3e3-4657-bce1-90ea04f9215a";
+        private static readonly string SomeTvUrl = "https://www.kb.dk/find-materiale/dr-arkivet/post/ds.tv:oai:io:666816aa-3fd7-422c-9786-f05f124f5b5a";
+
+
+
+        /// <summary>
+        /// Avoid special characters.
+        /// </summary>
+        /// <param name="broadcast"></param>
+        /// <returns></returns>
+        private static Broadcast TrimBroadcast(Broadcast broadcast)
+        {
+            var broadcastClean = new Broadcast
+            {
+                MediaType = broadcast.MediaType,
+                EntryId = broadcast.EntryId,
+                Title = broadcast.Title?.Trim(":\\".ToCharArray()), // : and \ is not allowed in filenames.
+                SendDate = broadcast.SendDate,
+                DurationMin = broadcast.DurationMin,
+                Channel = broadcast.Channel,
+                Description = broadcast.Description?.TrimEnd(".".ToCharArray()) // . looks silly just before extension.
+            };
+
+            // Replace things like "2/6" with "2 af 6".
+            broadcastClean.Title = broadcastClean.Title?.Replace("/", " af "); // / is not allowed in filenames.
+
+            return broadcastClean;
+        }
+        
+        
+        
         ///// <summary>
         ///// Scrape page.
         ///// </summary>

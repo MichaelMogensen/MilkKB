@@ -62,15 +62,12 @@ namespace DRDownload.Media
             // Iterate broadcasts in json file.
             foreach (var broadcast in broadcasts)
             {
-                // Ensure no disturbing characters anywhere.
-                var broadcastClean = TrimBroadcast(broadcast);
-
                 // Split tv/radio download.
                 if (broadcast.MediaType == EMediaType.tv)
-                    await StartTvDownloadAsync(cts.Token, broadcastClean);
+                    await StartTvDownloadAsync(cts.Token, broadcast);
                 else
                     if (broadcast.MediaType == EMediaType.radio)
-                        await StartRadioDownloadAsync(cts.Token, broadcastClean);
+                        await StartRadioDownloadAsync(cts.Token, broadcast);
             }
         }
 
@@ -156,29 +153,6 @@ namespace DRDownload.Media
             PipeOutput?.PipeMessageTo(messageNotifier.EndDownloadMessage(file, DownloadFolder, watch.Elapsed));
         }
 
-        /// <summary>
-        /// Avoid special characters.
-        /// </summary>
-        /// <param name="broadcast"></param>
-        /// <returns></returns>
-        private static Broadcast TrimBroadcast(Broadcast broadcast)
-        {
-            var broadcastClean = new Broadcast
-            {
-                MediaType = broadcast.MediaType,
-                EntryId = broadcast.EntryId,
-                Title = broadcast.Title?.Trim(":\\".ToCharArray()), // : and \ is not allowed in filenames.
-                SendDate = broadcast.SendDate,
-                DurationMin = broadcast.DurationMin,
-                Channel = broadcast.Channel,
-                Description = broadcast.Description?.TrimEnd(".".ToCharArray()) // . looks silly just before extension.
-            };
-
-            // Replace things like "2/6" with "2 af 6".
-            broadcastClean.Title = broadcastClean.Title?.Replace("/", " af "); // / is not allowed in filenames.
-
-            return broadcastClean;
-        }
     }
 }
 

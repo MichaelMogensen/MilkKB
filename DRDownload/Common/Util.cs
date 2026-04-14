@@ -102,6 +102,12 @@ namespace DRDownload.Common
             return result;
         }
 
+        /// <summary>
+        /// Ensure to write "null" on object == null.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="theObject"></param>
+        /// <returns></returns>
         public static string? OrNull<T>(T theObject) => 
             theObject is null ? "null" : theObject.ToString();
 

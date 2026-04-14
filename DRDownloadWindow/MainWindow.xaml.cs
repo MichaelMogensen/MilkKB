@@ -1,6 +1,8 @@
 ﻿using DRDownload.Common.Types.BroadcastHtmlScraper;
 using HtmlAgilityPack;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System.Windows;
 using System.Windows.Input;
 
@@ -8,17 +10,13 @@ namespace DRDownloadWindow
 {
     public partial class MainWindow : Window
     {
+        private static readonly string MainSearchPage = "https://www.kb.dk/find-materiale/dr-arkivet/";
+        public static readonly string StartUrl = MainSearchPage;
+
         private ChromeDriver ChromeBrowser { get; set; } = new ChromeDriver(new ChromeOptions()
         {
             BinaryLocation = @"C:\Program Files\Google\Chrome\Application\Chrome.exe",
         });
-
-        // Main search page: https://www.kb.dk/find-materiale/dr-arkivet/
-        
-        private static readonly string SomeRadioUrl = "https://www.kb.dk/find-materiale/dr-arkivet/post/ds.radio:oai:io:751158fa-e3e3-4657-bce1-90ea04f9215a";
-        private static readonly string SomeTvUrl = "https://www.kb.dk/find-materiale/dr-arkivet/post/ds.tv:oai:io:666816aa-3fd7-422c-9786-f05f124f5b5a";
-
-        public static readonly string StartUrl = SomeRadioUrl;
 
         /// <summary>
         /// Ctor.
@@ -43,17 +41,13 @@ namespace DRDownloadWindow
         private void Navigate()
         {
             var url = urlTextBox.Text;
-            var html = ReadHtml(url);
+            var html = LoadHtml(url);
 
             rawHtmlTextBox.Text = html;
 
             var broadcastHtmlScraper = new BroadcastHtmlScraper(url, html);
             if (broadcastHtmlScraper.BroadcastRecord == null)
             { return; }
-            if (string.IsNullOrEmpty(broadcastHtmlScraper.BroadcastRecord.EntryId))
-            {
-                MessageBox.Show("No EntryId found!", "Parse error");
-            }
 
             var broadcastRecordText = broadcastHtmlScraper.BroadcastRecord.ToString();
             broadcastRecordText = broadcastRecordText.Replace("|", Environment.NewLine);
@@ -65,9 +59,22 @@ namespace DRDownloadWindow
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        private string ReadHtml(string url)
+        private string LoadHtml(string url)
         {
             ChromeBrowser.Navigate().GoToUrl(url);
+
+            var wait = new WebDriverWait(ChromeBrowser, TimeSpan.FromSeconds(20));
+            var element = wait.Until(d =>
+            {
+                try
+                {
+                    return d.FindElement(By.XPath("//div[@class=\"boardcast-record-data\"]"));
+                }
+                catch
+                {
+                    return null;
+                }
+            });
 
             var document = new HtmlDocument();
             document.LoadHtml(ChromeBrowser.PageSource);
@@ -103,3 +110,7 @@ namespace DRDownloadWindow
     }
 }
 
+//if (string.IsNullOrEmpty(broadcastHtmlScraper.BroadcastRecord.EntryId))
+//{
+//    MessageBox.Show("No EntryId found!", "Parse error");
+//}

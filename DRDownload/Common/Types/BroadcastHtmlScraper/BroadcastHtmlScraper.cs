@@ -86,7 +86,7 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
                 drSchedule.From.Minute,
                 drSchedule.From.Second);
             var durationMin = (int)drSchedule.Duration.TotalMinutes;
-            var episode = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "segment");
+            var episode = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "segment", "episode n/a");
             var genre = InnerTextOfLinkWithClassname(RightSideBroadcastNode, "genre-link");
 
             // Full object.
@@ -145,8 +145,9 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         /// <param name="node"></param>
         /// <param name="className"></param>
         /// <param name="leadDivInnerTextToRemove"></param>
+        /// <param name="default_"></param>
         /// <returns></returns>
-        private static string? InnerTextOfDivHoldingSpanWithClassname(HtmlNode? node, string className, string leadDivInnerTextToRemove)
+        private static string? InnerTextOfDivHoldingSpanWithClassname(HtmlNode? node, string className, string leadDivInnerTextToRemove, string? default_ = null)
         {
             if (node == null)
             { return null; }
@@ -160,7 +161,7 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
                 TrimStart(leadDivInnerTextToRemove.ToCharArray())?.
                 Trim();
 
-            return value;
+            return value ?? default_;
         }
 
         /// <summary>
@@ -168,8 +169,9 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         /// </summary>
         /// <param name="node"></param>
         /// <param name="className"></param>
+        /// <param name="default_"></param>
         /// <returns></returns>
-        private static string? InnerTextOfLinkWithClassname(HtmlNode? node, string className)
+        private static string? InnerTextOfLinkWithClassname(HtmlNode? node, string className, string? default_ = null)
         {
             if (node == null)
             { return null; }
@@ -180,7 +182,7 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
                 InnerText?.
                 Trim();
 
-            return value;
+            return value ?? default_;
         }
 
         #endregion
