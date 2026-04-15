@@ -27,26 +27,25 @@ namespace DRDownload.Common.Types.BroadcastFiles
         /// <param name="broadcast"></param>
         private void CreateFilename(string basePath, string ext, Broadcast broadcast)
         {
-            var filename = 
-                $"{broadcast.Title}, " +
-                $"{Util.ToDanishDate(broadcast.SendDate)}, " +
-                $"{Util.ToDanishDuration(broadcast.SendDate, broadcast.Duration)} på " +
-                $"{broadcast.Channel}, " +
-                $"{broadcast.Episode}, " +
-                $"{broadcast.Description}";
+            var filename =
+                Util.EllipsisString(
+                    Util.AggregateStringsNotNull(
+                        ", ",
+                        broadcast.Title,
+                        Util.ToDanishDate(broadcast.SendDate),
+                        Util.ToDanishDuration(broadcast.SendDate, broadcast.Duration),
+                        broadcast.Channel,
+                        broadcast.Episode,
+                        broadcast.Description),
+                    MAX_FILE_LEN) + $".{ext ?? "unknown"}";
 
-            if (filename.Length > MAX_FILE_LEN)
-            {
-                filename = filename.Substring(0, MAX_FILE_LEN) + " [...forkortet]";
-            }
-
-            filename += $".{ext}";
-            filename = filename.Trim(":#%&{}\\<>".ToCharArray());
-            filename = filename.Replace("/", " af ");
+            filename = new ReplaceDisallowedFilenameCharacters(filename).Filename;
 
             OutputFile = Path.Combine(basePath, filename);
             OutputFile = OutputFile.ToLower();
         }
+
     }
 }
+
 

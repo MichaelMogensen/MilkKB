@@ -6,4 +6,5 @@
   <Project Path="DRDownload/DRDownload.csproj" Id="790baf6e-16e6-4d87-bfd5-92837c7c0a85" />
   <Project Path="DRDownloadTests/DRDownloadTests.csproj" Id="1a136743-f177-444b-8437-a65ded86ef6e" />
   <Project Path="DRDownloadWindow/DRDownloadWindow.csproj" Id="24a1c741-f6dd-4aa2-913b-68ac6a385e3d" />
+  <Project Path="DRDownloadWindow2/DRDownloadWindow2.csproj" Id="2d1e8ba0-3884-4782-8b67-193a7f0d9e1b" />
 </Solution>

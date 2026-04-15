@@ -6,6 +6,10 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
 {
     public class BroadcastHtmlScraper
     {
+        public static readonly string BROADCAST_REC_DATA_PARENT_XPATH = "//div[@class=\"boardcast-record-data\"]";
+        public static readonly string BROADCAST_REC_DATA_LEFT_XPATH = "//div[@class=\"main-record-data\"]";
+        public static readonly string BROADCAST_REC_DATA_RIGHT_XPATH = "//div[@class=\"right-side\"]";
+
         public Broadcast? BroadcastRecord { get; private set; }
 
         public HtmlDocument Document { get; set; } = new HtmlDocument();
@@ -14,6 +18,11 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         private HtmlNode? LeftSideBroadcastNode { get; set; }
         private HtmlNode? RightSideBroadcastNode { get; set; }
 
+        /// <summary>
+        /// RegEx pattern differ a little depending on media.
+        /// </summary>
+        /// <param name="medieType"></param>
+        /// <returns></returns>
         private string EntryIdPattern(EMediaType medieType) =>
             medieType == EMediaType.radio ?
             @"entryId/0_[a-z0-9]{8}" :
@@ -31,15 +40,15 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
             MainBroadcastNode =
                 Document.
                 DocumentNode?.
-                SelectSingleNode("//div[@class=\"boardcast-record-data\"]");
+                SelectSingleNode(BROADCAST_REC_DATA_PARENT_XPATH);
 
             LeftSideBroadcastNode =
                 MainBroadcastNode?.
-                SelectSingleNode("//div[@class=\"main-record-data\"]");
+                SelectSingleNode(BROADCAST_REC_DATA_LEFT_XPATH);
 
             RightSideBroadcastNode =
                 MainBroadcastNode?.
-                SelectSingleNode("//div[@class=\"right-side\"]");
+                SelectSingleNode(BROADCAST_REC_DATA_RIGHT_XPATH);
 
             CreateBroadcastRecord(url);
         }
@@ -86,7 +95,7 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
                 drSchedule.From.Minute,
                 drSchedule.From.Second);
             var durationMin = (int)drSchedule.Duration.TotalMinutes;
-            var episode = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "segment", "episode n/a");
+            var episode = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "segment");
             var genre = InnerTextOfLinkWithClassname(RightSideBroadcastNode, "genre-link");
 
             // Full object.
@@ -112,30 +121,32 @@ namespace DRDownload.Common.Types.BroadcastHtmlScraper
         /// Read h2 ctrl.
         /// </summary>
         /// <param name="node"></param>
+        /// <param name="default_"></param>
         /// <returns></returns>
-        private static string? InnerTextOfH2(HtmlNode? node)
+        private static string? InnerTextOfH2(HtmlNode? node, string? default_ = null)
         {
             if (node == null)
             { return null; }
 
             var value = node.SelectSingleNode("//h2").InnerText.Trim();
 
-            return value;
+            return value ?? default_;
         }
 
         /// <summary>
         /// Read p ctrl.
         /// </summary>
         /// <param name="node"></param>
+        /// <param name="default_"></param>
         /// <returns></returns>
-        private static string? InnerTextOfP(HtmlNode? node)
+        private static string? InnerTextOfP(HtmlNode? node, string? default_ = null)
         {
             if (node == null)
             { return null; }
 
             var value = node.SelectSingleNode("//p").InnerText.Trim();
 
-            return value;
+            return value ?? default_;
         }
 
         /// <summary>

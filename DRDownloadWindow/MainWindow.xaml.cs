@@ -41,7 +41,7 @@ namespace DRDownloadWindow
         private void Navigate()
         {
             var url = urlTextBox.Text;
-            var html = LoadHtml(url);
+            var html = LoadAndWaitForHtml(url);
 
             rawHtmlTextBox.Text = html;
 
@@ -59,7 +59,7 @@ namespace DRDownloadWindow
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        private string LoadHtml(string url)
+        private string LoadAndWaitForHtml(string url)
         {
             ChromeBrowser.Navigate().GoToUrl(url);
 
@@ -68,7 +68,7 @@ namespace DRDownloadWindow
             {
                 try
                 {
-                    return d.FindElement(By.XPath("//div[@class=\"boardcast-record-data\"]"));
+                    return d.FindElement(By.XPath(BroadcastHtmlScraper.BROADCAST_REC_DATA_PARENT_XPATH));
                 }
                 catch
                 {

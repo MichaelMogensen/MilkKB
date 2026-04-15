@@ -8,6 +8,22 @@ namespace DRDownload.Common
     public static class Util
     {
         /// <summary>
+        /// Aggregate N smaller not-null strings into one big string.
+        /// </summary>
+        /// <param name="separator"></param>
+        /// <param name="parts"></param>
+        /// <returns></returns>
+        public static string AggregateStringsNotNull(string separator, params string?[] parts)
+        {
+            var notNullParts =
+                parts.
+                Where(part => part is not null).
+                Aggregate((p1, p2) => $"{p1}{separator}{p2}");
+
+            return notNullParts ?? string.Empty;
+        }
+
+        /// <summary>
         /// Base64.
         /// </summary>
         /// <param name="plainText"></param>
@@ -55,6 +71,25 @@ namespace DRDownload.Common
             catch { }
 
             return default;
+        }
+
+        /// <summary>
+        /// Makes too long string a shorter string ending with ...
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="maxLength"></param>
+        /// <param name="endingOnTooLong"></param>
+        /// <returns></returns>
+        public static string EllipsisString(string value, int maxLength, string endingOnTooLong = "...")
+        {
+            if (value.Length > maxLength)
+            {
+                var shortValue = $"{value.Substring(0, maxLength)} {endingOnTooLong}";
+
+                return shortValue;
+            }
+
+            return value;
         }
 
         /// <summary>
@@ -108,7 +143,7 @@ namespace DRDownload.Common
         /// <typeparam name="T"></typeparam>
         /// <param name="theObject"></param>
         /// <returns></returns>
-        public static string? OrNull<T>(T theObject) => 
+        public static string? OrNull<T>(T theObject) =>
             theObject is null ? "null" : theObject.ToString();
 
         /// <summary>
