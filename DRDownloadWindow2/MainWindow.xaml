@@ -4,18 +4,34 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DRDownloadWindow2"
+        xmlns:l="clr-namespace:DRDownloadWindow2.Util"
         mc:Ignorable="d"
-        Title="DR download broadcast" 
         Background="PeachPuff" 
-        Height="800" 
-        Width="1200">
-    <Border Background="BlanchedAlmond" CornerRadius="30" Margin="10">
-        <Grid>
+        Height="500" 
+        Width="1000"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        KeyDown="OnKeyDown">
+    <Border Background="BlanchedAlmond" CornerRadius="30" Margin="20" Padding="40">
+        <DockPanel x:Name="test" LastChildFill="False" >
+            <StackPanel DockPanel.Dock="Top" >
+                <TextBox l:TextBoxHelper.Placeholder="Udsendelse" Background="BlanchedAlmond" BorderThickness="0" FontSize="30" IsReadOnly="True" FontWeight="Bold"></TextBox>
+                <Separator Background="LightGray"/>
+                <TextBox l:TextBoxHelper.Placeholder="Dato" Background="BlanchedAlmond" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBox l:TextBoxHelper.Placeholder="Beskrivelse" Background="BlanchedAlmond" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBox l:TextBoxHelper.Placeholder="Episode" Background="BlanchedAlmond" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBox l:TextBoxHelper.Placeholder="Kanal" Background="BlanchedAlmond" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBox l:TextBoxHelper.Placeholder="Genre" Background="BlanchedAlmond" BorderThickness="0" FontSize="20" IsReadOnly="True" Margin="0,0,0,20"></TextBox>
 
+                <TextBox l:TextBoxHelper.Placeholder="UniqueId" Background="BlanchedAlmond" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                <TextBox l:TextBoxHelper.Placeholder="EntryId" Background="BlanchedAlmond" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                <TextBox l:TextBoxHelper.Placeholder="MedieType" Background="BlanchedAlmond" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                <TextBox l:TextBoxHelper.Placeholder="File" Background="BlanchedAlmond" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
 
+            </StackPanel>
+            <Image DockPanel.Dock="Bottom" Width="100" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png" MouseLeftButtonDown="OnDownload"/>
+        </DockPanel>
 
-
-
-        </Grid>
     </Border>
 </Window>

@@ -173,7 +173,7 @@ namespace DRDownloadTests
             var htmlFile = "c:/temp/dansk_naturgas_html.txt";
             var html = File.ReadAllText(htmlFile);
 
-            var scraper = new BroadcastHtmlScraper(html);
+            var scraper = new BroadcastHtmlScraper("", html);
         }
 
         [TestMethod]

@@ -1,0 +1,16 @@
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
+            hwndSource.AddHook(WndProcHook);
+            base.OnSourceInitialized(e);
+        }
+
+        private static IntPtr WndProcHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handeled)
+        {
+            if (msg == 0x0084) // WM_NCHITTEST
+            {
+                handeled = true;
+                return 2; // HTCAPTION
+            }
+            return IntPtr.Zero;
+        }
