@@ -9,14 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Ressources\Images\download light.png" />
     <None Remove="Ressources\Images\download.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Ressources\Images\download light.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Ressources\Images\download.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

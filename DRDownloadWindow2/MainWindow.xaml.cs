@@ -1,7 +1,5 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 
 namespace DRDownloadWindow2
 {
@@ -15,12 +13,25 @@ namespace DRDownloadWindow2
             InitializeComponent();
         }
 
-        private void OnKeyDown(object sender, KeyEventArgs e)
+        // TODO: BackgroundWorker to update SB.
+
+        #region Message handlers.
+
+        private void OnCopyUrl(object sender, MouseButtonEventArgs e)
         {
-            if (e.Key == Key.Return)
-            {
-                MessageBox.Show(e.Key.ToString());
-            }
+            MessageBox.Show("Copy url");
         }
+
+        private void OnDownload(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Download");
+        }
+
+        private void OnClose(object sender, MouseButtonEventArgs e)
+        {
+            Close();
+        }
+
+        #endregion
     }
 }

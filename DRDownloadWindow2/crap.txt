@@ -1,3 +1,14 @@
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                MessageBox.Show(e.Key.ToString());
+            }
+        }
+        
+        
+        
+        
         protected override void OnSourceInitialized(EventArgs e)
         {
             var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
