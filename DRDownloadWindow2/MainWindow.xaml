@@ -26,14 +26,15 @@
                 <TextBox Name="tbGenre" Text="Genre" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
                 <Expander Margin="0,30,0,0" FontFamily="Reem Kufi" Background="BlanchedAlmond" FontSize="20" Foreground="Gray" HorizontalAlignment="Stretch" Header="Tekniske detaljer" ExpandDirection="Down" IsExpanded="False">
                     <StackPanel Margin="0,10,0,0">
-                        <TextBox Name="tbUniqueId" Text="UniqueId: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbEntryId" Text="EntryId: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbMediaType" Text="MediaType: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbUrl" Text="Url: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbm3uFile" Text="m3u file: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbmp3File" Text="mp3 file: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbmp4File" Text="mp4 file: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tblogFile" Text="log file: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tbUniqueId" Text="UniqueId = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tbEntryId" Text="EntryId = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tbMediaType" Text="MediaType = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tbUrl" Text="Url = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tbDownloadFolder" Text="Download folder = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tbmp3File" Text="mp3 file = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tbm3uFile" Text="m3u file = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tbmp4File" Text="mp4 file = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tblogFile" Text="log file = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
                     </StackPanel>
                 </Expander>
             </StackPanel>

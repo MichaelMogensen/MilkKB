@@ -1,4 +1,6 @@
 ﻿using DRDownloadWindow2.DRBroadcast;
+using DRDownloadWindow2.Types;
+using DRDownloadWindow2.Utilities;
 using System.Windows;
 using System.Windows.Input;
 
@@ -67,7 +69,7 @@ namespace DRDownloadWindow2
 
         private void CmdCopyUrl()
         {
-            UpdateWindow();
+            UpdateWindowWith(PotentialBroadcast());
         }
 
         private void CmdDownload()
@@ -85,26 +87,61 @@ namespace DRDownloadWindow2
             Browser.GoToUrl(MainSearchPage);
         }
 
-        private void UpdateStatusbar()
+        /// <summary>
+        /// If page has broadcast details full broadcast object is constructed here. If not object has only its Url 
+        /// set and rest of properties is null.
+        /// </summary>
+        /// <returns></returns>
+        private Broadcast PotentialBroadcast()
+        {
+            var url = Browser.Url;
+            var html = DRBroadcastHtmlScraper.MediaTypeByUrl(url) == EMediaType.nomedia ? 
+                Browser.GetPageHtml() : // Holds crab not relevant for us.
+                Browser.GetPageHtml(DRBroadcastHtmlScraper.BROADCAST_REC_DATA_PARENT_XPATH); // Holds broadcast details.
+
+            var broadcast = new DRBroadcastHtmlScraper(url, html).Broadcast;
+
+            return broadcast;
+        }
+
+        /// <summary>
+        /// Show message.
+        /// </summary>
+        /// <param name="msg"></param>
+        private void UpdateStatusbarWith(string msg)
         {
         }
 
         /// <summary>
-        /// Try to fill in broadcast if browser is no broadcast page.
+        /// Fill in potential broadcast.
         /// </summary>
-        private void UpdateWindow()
+        /// <param name="broadcast"></param>
+        private void UpdateWindowWith(Broadcast broadcast)
         {
-            // Try to read broadcast data from current url (it's ok to fail).
-            var broadcast = new DRBroadcastHtmlScraper(Browser.GetPageHtml(), DRBroadcastHtmlScraper.MediaType(Browser.Url)).Broadcast;
-
             // Set main fields.
-            tbTitle.Text = broadcast.Title;
+            tbTitle.Text = Util.OrDefault(broadcast.Title, 
+                "Udsendelse");
+            tbDate.Text = Util.OrDefault(Util.ToDanishDateAndDuration(broadcast.SendDate, broadcast.Duration), 
+                "Dato");
+            tbDescription.Text = Util.OrDefault(broadcast.Description, 
+                "Beskrivelse");
+            tbEpisode.Text = Util.OrDefault(broadcast.Episode, 
+                "Episode");
+            tbChannel.Text = Util.OrDefault(broadcast.Channel, 
+                "Kanal");
+            tbGenre.Text = Util.OrDefault(broadcast.Genre, 
+                "Genre");
 
             // Set technical fields.
-            tbUniqueId.Text = $"{nameof(broadcast.UniqueId)}: {broadcast.UniqueId}";
-            tbEntryId.Text = $"{nameof(broadcast.EntryId)}: {broadcast.EntryId}";
-
-            tbUrl.Text = $"{nameof(Browser.Url)}: {Browser.Url}";
+            tbUniqueId.Text = $"{nameof(broadcast.UniqueId)} = {Util.OrNil(broadcast.UniqueId)}";
+            tbEntryId.Text = $"{nameof(broadcast.EntryId)} = {Util.OrNil(broadcast.EntryId)}";
+            tbMediaType.Text = $"{nameof(broadcast.MediaType)} = {Util.OrNil(broadcast.MediaType)}";
+            tbUrl.Text = $"{nameof(Browser.Url)} = {Util.OrNil(Browser.Url)}";
+            tbDownloadFolder.Text = $"{nameof(broadcast.DownloadFolder)} = {Util.OrNil(broadcast.DownloadFolder)}";
+            tbmp3File.Text = $"{nameof(broadcast.Mp3File)} = {Util.OrNil(broadcast.Mp3File)}";
+            tbm3uFile.Text = $"{nameof(broadcast.M3uFile)} = {Util.OrNil(broadcast.M3uFile)}";
+            tbmp4File.Text = $"{nameof(broadcast.Mp4File)} = {Util.OrNil(broadcast.Mp4File)}";
+            tblogFile.Text = $"{nameof(broadcast.LogFile)} = {Util.OrNil(broadcast.LogFile)}";
         }
 
         #endregion

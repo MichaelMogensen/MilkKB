@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using Microsoft.VisualBasic;
+using System.Globalization;
 using System.Text;
 
 namespace DRDownloadWindow2.Utilities
@@ -120,34 +121,56 @@ namespace DRDownloadWindow2.Utilities
         /// <typeparam name="T"></typeparam>
         /// <param name="theObject"></param>
         /// <returns></returns>
+        public static string? OrDefault<T>(T theObject, string? default_ = "null") =>
+            theObject is null ? default_ : theObject.ToString();
+        public static string? OrNil<T>(T theObject) =>
+            OrDefault(theObject, "NIL");
         public static string? OrNull<T>(T theObject) =>
-            theObject is null ? "null" : theObject.ToString();
+            OrDefault(theObject, "null");
 
         /// <summary>
         /// DK date.
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public static string ToDanishDate(DateTime date) =>
-            date.ToString("d. MMMM yyyy", new CultureInfo("da-DK"));
+        public static string? ToDanishDate(DateTime? date) =>
+            date == null ? null : date.Value.ToString("d. MMMM yyyy", new CultureInfo("da-DK"));
 
         /// <summary>
         /// DK duration.
         /// </summary>
-        /// <param name="sendDate"></param>
+        /// <param name="date"></param>
         /// <param name="duration"></param>
         /// <returns></returns>
-        public static string ToDanishDuration(DateTime sendDate, TimeSpan duration)
+        public static string? ToDanishDuration(DateTime? date, TimeSpan? duration)
         {
-            var from = sendDate;
-            var to = sendDate + duration;
+            if (date == null || duration == null)
+            {
+                return null;
+            }
 
-            var from_ = $"{from.Hour:00}.{from.Minute:00}";
-            var to_ = $"{to.Hour:00}.{to.Minute:00}";
+            var from = date;
+            var to = date + duration;
+
+            var from_ = $"{from.Value.Hour:00}.{from.Value.Minute:00}";
+            var to_ = $"{to.Value.Hour:00}.{to.Value.Minute:00}";
 
             var period_ = $"{from_} - {to_}";
 
             return period_;
+        }
+
+        public static string? ToDanishDateAndDuration(DateTime? date, TimeSpan? duration)
+        {
+            var date_ = ToDanishDate(date);
+            var period_ = ToDanishDuration(date, duration);
+
+            if (date_ == null || period_ == null)
+            {
+                return null;
+            }
+
+            return $"{date_} {period_}";
         }
 
         /// <summary>
@@ -156,7 +179,7 @@ namespace DRDownloadWindow2.Utilities
         /// <returns></returns>
         public static string WindowsDownloadFolder()
         {
-            var folder = Environment.ExpandEnvironmentVariables("%userprofile%\\downloads");
+            var folder = Environment.ExpandEnvironmentVariables("%userprofile%\\downloads").ToLower();
 
             return folder;
         }

@@ -2,7 +2,7 @@
 {
     public enum EMediaType
     {
-        undesided, radio, tv
+        nomedia, radio, tv
     }
 }
 

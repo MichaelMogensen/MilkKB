@@ -1,4 +1,5 @@
-﻿using DRDownloadWindow2.Types;
+﻿using DRDownloadWindow2.DRBroadcast.DRBroadcastFile;
+using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
@@ -32,9 +33,9 @@ namespace DRDownloadWindow2.DRBroadcast
         /// <summary>
         /// Ctor.
         /// </summary>
+        /// <param name="url"></param>
         /// <param name="html"></param>
-        /// <param name="medieType"></param>
-        public DRBroadcastHtmlScraper(string html, EMediaType medieType)
+        public DRBroadcastHtmlScraper(string url, string html)
         {
             Document.LoadHtml(html);
 
@@ -51,7 +52,7 @@ namespace DRDownloadWindow2.DRBroadcast
                 MainBroadcastNode?.
                 SelectSingleNode(BROADCAST_REC_DATA_RIGHT_XPATH);
 
-            CreateBroadcastRecord(medieType);
+            CreateBroadcastRecord(url);
         }
 
         /// <summary>
@@ -74,8 +75,17 @@ namespace DRDownloadWindow2.DRBroadcast
         /// <summary>
         /// Create broadcast record.
         /// </summary>
-        private void CreateBroadcastRecord(EMediaType mediaType)
+        /// <param name="url"></param>
+        private void CreateBroadcastRecord(string url)
         {
+            var mediaType = MediaTypeByUrl(url);
+            if (mediaType == EMediaType.nomedia)
+            {
+                Broadcast.MediaType = mediaType;
+                Broadcast.Url = url;
+                return;
+            }
+
             // Parts for parts.
             var drEvent = new ParseDRDate(InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "event")).Date;
             var drSchedule = new ParseDRDuration(InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "schedule"));
@@ -97,6 +107,8 @@ namespace DRDownloadWindow2.DRBroadcast
             var episode = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "segment");
             var genre = InnerTextOfLinkWithClassname(RightSideBroadcastNode, "genre-link");
 
+            var downloadFolder = Util.WindowsDownloadFolder();
+
             // Full object.
             Broadcast = new Broadcast
             {
@@ -109,8 +121,19 @@ namespace DRDownloadWindow2.DRBroadcast
                 DurationMin = durationMin,
                 Episode = episode,
                 Genre = genre,
-                MediaType = mediaType
+                MediaType = mediaType,
+                Url = url,
+                DownloadFolder = downloadFolder,
+                Mp3File = null,
+                M3uFile = null,
+                Mp4File = null,
+                LogFile = null,
             };
+
+            // Rest of props. depends on broadcast and is set now after creation.
+            Broadcast.Mp3File = new DRMP3BroadcastFile(Broadcast).OutputFile;
+            
+            // TODO: REST...
         }
 
         #region Html parsing helpers.
@@ -199,8 +222,10 @@ namespace DRDownloadWindow2.DRBroadcast
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static EMediaType MediaType(string url) =>
-            url.Contains("radio") ? EMediaType.radio : EMediaType.tv;
+        public static EMediaType MediaTypeByUrl(string url) =>
+            url.Contains("radio") ? EMediaType.radio : 
+            url.Contains("tv") ? EMediaType.tv : 
+            EMediaType.nomedia;
 
         #endregion
 
