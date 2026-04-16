@@ -4,16 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DRDownloadWindow2"
-        xmlns:l="clr-namespace:DRDownloadWindow2.Util"
         mc:Ignorable="d"
         Background="PeachPuff" 
         Height="700" 
         Width="1000"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Closing="OnWindowClosing">
     <Border Background="BlanchedAlmond" CornerRadius="30" Margin="20" Padding="40">
         <DockPanel LastChildFill="False">
+            <Image DockPanel.Dock="Top" Width="200" Margin="0,0,0,50" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\dr.png" />
+          
             <StackPanel DockPanel.Dock="Top">
                 <TextBox Name="tbTitle" Text="Udsendelse" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="30" IsReadOnly="True" FontWeight="Bold"></TextBox>
                 <Separator Background="Gray"/>
@@ -26,9 +28,12 @@
                     <StackPanel Margin="0,10,0,0">
                         <TextBox Name="tbUniqueId" Text="UniqueId: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
                         <TextBox Name="tbEntryId" Text="EntryId: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbMediaType" Text="MedieType: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tbMediaType" Text="MediaType: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
                         <TextBox Name="tbUrl" Text="Url: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbFile" Text="File: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tbm3uFile" Text="m3u file: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tbmp3File" Text="mp3 file: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tbmp4File" Text="mp4 file: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Name="tblogFile" Text="log file: NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
                     </StackPanel>
                 </Expander>
             </StackPanel>
