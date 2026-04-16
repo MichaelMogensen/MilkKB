@@ -15,6 +15,9 @@ namespace DRDownloadWindow2
 
         public ChromeBrowser Browser { get; set; } = new ChromeBrowser();
 
+        /// <summary>
+        /// Ctor.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -147,3 +150,4 @@ namespace DRDownloadWindow2
         #endregion
     }
 }
+

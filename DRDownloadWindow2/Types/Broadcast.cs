@@ -22,24 +22,6 @@ namespace DRDownloadWindow2.Types
         public string? M3uFile { get; set; }
         public string? Mp4File { get; set; }
         public string? LogFile { get; set; }
-
-        public override string ToString() =>
-            $"{nameof(UniqueId)} = {Util.OrNil(UniqueId)}|" +
-            $"{nameof(MediaType)} = {Util.OrNil(MediaType)}|" +
-            $"{nameof(EntryId)} = {Util.OrNil(EntryId)}|" +
-            $"{nameof(Channel)} = {Util.OrNil(Channel)}|" +
-            $"{nameof(Title)} = {Util.OrNil(Title)}|" +
-            $"{nameof(Description)} = {Util.OrNil(Description)}|" +
-            $"{nameof(SendDate)} = {Util.OrNil(SendDate)}|" +
-            $"{nameof(DurationMin)} = {Util.OrNil(DurationMin)}|" +
-            $"{nameof(Episode)} = {Util.OrNil(Episode)}|" +
-            $"{nameof(Genre)} = {Util.OrNil(Genre)}|" +
-            $"{nameof(Url)} = {Util.OrNil(Url)}|" +
-            $"{nameof(DownloadFolder)} = {Util.OrNil(DownloadFolder)}|" +
-            $"{nameof(Mp3File)} = {Util.OrNil(Mp3File)}|" +
-            $"{nameof(M3uFile)} = {Util.OrNil(M3uFile)}|" +
-            $"{nameof(Mp4File)} = {Util.OrNil(Mp4File)}|" +
-            $"{nameof(LogFile)} = {Util.OrNil(LogFile)}";
     }
 }
 

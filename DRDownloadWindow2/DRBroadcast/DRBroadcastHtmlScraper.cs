@@ -1,7 +1,9 @@
-﻿using DRDownloadWindow2.DRBroadcast.DRBroadcastFile;
+﻿using DRDownload.Common.DownloadVideo;
+using DRDownloadWindow2.DRBroadcast.DRBroadcastFile;
 using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
 using HtmlAgilityPack;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace DRDownloadWindow2.DRBroadcast
@@ -96,7 +98,7 @@ namespace DRDownloadWindow2.DRBroadcast
             var channel = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "tv");
             var title = InnerTextOfH2(MainBroadcastNode);
             var description = InnerTextOfP(MainBroadcastNode);
-            var sendDate = new DateTime( // TODO: Protect for null!
+            var sendDate = new DateTime(
                 drEvent.Date.Year,
                 drEvent.Date.Month,
                 drEvent.Date.Day,
@@ -108,6 +110,10 @@ namespace DRDownloadWindow2.DRBroadcast
             var genre = InnerTextOfLinkWithClassname(RightSideBroadcastNode, "genre-link");
 
             var downloadFolder = Util.WindowsDownloadFolder();
+            if (string.IsNullOrEmpty(downloadFolder))
+            {
+                throw new ArgumentNullException($"{nameof(downloadFolder)} == null");
+            }
 
             // Full object.
             Broadcast = new Broadcast
@@ -130,10 +136,17 @@ namespace DRDownloadWindow2.DRBroadcast
                 LogFile = null,
             };
 
-            // Rest of props. depends on broadcast and is set now after creation.
-            Broadcast.Mp3File = new DRMP3BroadcastFile(Broadcast).OutputFile;
-            
-            // TODO: REST...
+            // Rest of props. depends on other props. in broadcast and is set now after creation.
+            if (mediaType == EMediaType.radio)
+            {
+                Broadcast.Mp3File = new DRMP3BroadcastFile(Broadcast).OutputFile;
+            }
+            else if (mediaType == EMediaType.tv)
+            {
+                Broadcast.M3uFile = new DRM3U8BroadcastFile(Broadcast).OutputFile;
+                Broadcast.Mp4File = Path.ChangeExtension(Broadcast.M3uFile, "mp4");
+                Broadcast.LogFile = Path.ChangeExtension(Broadcast.M3uFile, "log");
+            }
         }
 
         #region Html parsing helpers.

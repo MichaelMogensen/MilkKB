@@ -41,9 +41,7 @@ namespace DRDownloadWindow2.DRBroadcast.DRBroadcastFile
 
             filename = new ReplaceDisallowedFilenameCharacters(filename).Filename;
 
-            var basePath = broadcast.DownloadFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-            OutputFile = Path.Combine(basePath, filename);
+            OutputFile = Path.Combine(broadcast.DownloadFolder, filename);
             OutputFile = OutputFile.ToLower();
         }
 
