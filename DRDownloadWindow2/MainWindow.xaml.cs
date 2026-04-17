@@ -13,7 +13,9 @@ namespace DRDownloadWindow2
     {
         private static readonly string MainSearchPage = "https://www.kb.dk/find-materiale/dr-arkivet/";
 
-        public ChromeBrowser Browser { get; set; } = new ChromeBrowser();
+        private ChromeBrowser Browser { get; set; } = new ChromeBrowser();
+
+        private Broadcast Broadcast { get; set; } = new Broadcast();
 
         /// <summary>
         /// Ctor.
@@ -72,12 +74,13 @@ namespace DRDownloadWindow2
 
         private void CmdCopyUrl()
         {
-            UpdateWindowWith(PotentialBroadcast());
+            ReadPotentialBroadcastByPageHtml();
+            UpdateWindow();
         }
 
         private void CmdDownload()
         {
-            MessageBox.Show("Download");
+            
         }
 
         private void CmdClose()
@@ -87,64 +90,65 @@ namespace DRDownloadWindow2
 
         private void InitializeUsecase()
         {
+            pbDownload.Minimum = 0;
+            pbDownload.Maximum = 100;
+            pbDownload.Value = 10;
+
             Browser.GoToUrl(MainSearchPage);
         }
 
         /// <summary>
-        /// If page has broadcast details full broadcast object is constructed here. If not object has only its Url 
+        /// If page has broadcast details full broadcast object is constructed here. If not, object has only its Url 
         /// set and rest of properties is null.
         /// </summary>
         /// <returns></returns>
-        private Broadcast PotentialBroadcast()
+        private void ReadPotentialBroadcastByPageHtml()
         {
             var url = Browser.Url;
             var html = DRBroadcastHtmlScraper.MediaTypeByUrl(url) == EMediaType.nomedia ? 
                 Browser.GetPageHtml() : // Holds crab not relevant for us.
                 Browser.GetPageHtml(DRBroadcastHtmlScraper.BROADCAST_REC_DATA_PARENT_XPATH); // Holds broadcast details.
 
-            var broadcast = new DRBroadcastHtmlScraper(url, html).Broadcast;
-
-            return broadcast;
+            Broadcast = new DRBroadcastHtmlScraper(url, html).Broadcast;
         }
 
         /// <summary>
-        /// Show message.
+        /// Update message.
         /// </summary>
         /// <param name="msg"></param>
-        private void UpdateStatusbarWith(string msg)
+        private void UpdateStatusbar(string msg)
         {
         }
 
         /// <summary>
-        /// Fill in potential broadcast.
+        /// Update window.
         /// </summary>
-        /// <param name="broadcast"></param>
-        private void UpdateWindowWith(Broadcast broadcast)
+        private void UpdateWindow()
         {
             // Set main fields.
-            tbTitle.Text = Util.OrDefault(broadcast.Title, 
+            tbTitle.Text = Util.OrDefault(Broadcast.Title, 
                 "Udsendelse");
-            tbDate.Text = Util.OrDefault(Util.ToDanishDateAndDuration(broadcast.SendDate, broadcast.Duration), 
+            tbDate.Text = Util.OrDefault(Util.ToDanishDateAndDuration(Broadcast.SendDate, Broadcast.Duration), 
                 "Dato");
-            tbDescription.Text = Util.OrDefault(broadcast.Description, 
+            tbDescription.Text = Util.OrDefault(Broadcast.Description, 
                 "Beskrivelse");
-            tbEpisode.Text = Util.OrDefault(broadcast.Episode, 
+            tbEpisode.Text = Util.OrDefault(Broadcast.Episode, 
                 "Episode");
-            tbChannel.Text = Util.OrDefault(broadcast.Channel, 
+            tbChannel.Text = Util.OrDefault(Broadcast.Channel, 
                 "Kanal");
-            tbGenre.Text = Util.OrDefault(broadcast.Genre, 
+            tbGenre.Text = Util.OrDefault(Broadcast.Genre, 
                 "Genre");
 
             // Set technical fields.
-            tbUniqueId.Text = $"{nameof(broadcast.UniqueId)} = {Util.OrNil(broadcast.UniqueId)}";
-            tbEntryId.Text = $"{nameof(broadcast.EntryId)} = {Util.OrNil(broadcast.EntryId)}";
-            tbMediaType.Text = $"{nameof(broadcast.MediaType)} = {Util.OrNil(broadcast.MediaType)}";
+            tbUniqueId.Text = $"{nameof(Broadcast.UniqueId)} = {Util.OrNil(Broadcast.UniqueId)}";
+            tbEntryId.Text = $"{nameof(Broadcast.EntryId)} = {Util.OrNil(Broadcast.EntryId)}";
+            tbMediaType.Text = $"{nameof(Broadcast.MediaType)} = {Util.OrNil(Broadcast.MediaType)}";
             tbUrl.Text = $"{nameof(Browser.Url)} = {Util.OrNil(Browser.Url)}";
-            tbDownloadFolder.Text = $"{nameof(broadcast.DownloadFolder)} = {Util.OrNil(broadcast.DownloadFolder)}";
-            tbmp3File.Text = $"{nameof(broadcast.Mp3File)} = {Util.OrNil(broadcast.Mp3File)}";
-            tbm3uFile.Text = $"{nameof(broadcast.M3uFile)} = {Util.OrNil(broadcast.M3uFile)}";
-            tbmp4File.Text = $"{nameof(broadcast.Mp4File)} = {Util.OrNil(broadcast.Mp4File)}";
-            tblogFile.Text = $"{nameof(broadcast.LogFile)} = {Util.OrNil(broadcast.LogFile)}";
+            tbDownloadFolder.Text = $"{nameof(Broadcast.DownloadFolder)} = {Util.OrNil(Broadcast.DownloadFolder)}";
+            tbmp3File.Text = $"{nameof(Broadcast.Mp3File)} = {Util.OrNil(Broadcast.Mp3File)}";
+            tbm3uFile.Text = $"{nameof(Broadcast.M3uFile)} = {Util.OrNil(Broadcast.M3uFile)}";
+            tbmp4File.Text = $"{nameof(Broadcast.Mp4File)} = {Util.OrNil(Broadcast.Mp4File)}";
+            tblogFile.Text = $"{nameof(Broadcast.LogFile)} = {Util.OrNil(Broadcast.LogFile)}";
         }
 
         #endregion

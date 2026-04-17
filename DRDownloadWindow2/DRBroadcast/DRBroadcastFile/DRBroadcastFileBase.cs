@@ -27,6 +27,11 @@ namespace DRDownloadWindow2.DRBroadcast.DRBroadcastFile
         /// <param name="broadcast"></param>
         private void CreateFilename(string ext, Broadcast broadcast)
         {
+            if (broadcast.DownloadFolder == null)
+            {
+                throw new ArgumentNullException($"{nameof(broadcast.DownloadFolder)} is null");
+            }
+
             var filename =
                 Util.EllipsisString(
                     Util.AggregateStringsNotNull(
@@ -37,7 +42,7 @@ namespace DRDownloadWindow2.DRBroadcast.DRBroadcastFile
                         broadcast.Channel,
                         broadcast.Episode,
                         broadcast.Description),
-                    MAX_FILE_LEN) + $".{ext ?? "unknown"}";
+                    MAX_FILE_LEN).TrimEnd('.') + $".{ext ?? "unknown"}";
 
             filename = new ReplaceDisallowedFilenameCharacters(filename).Filename;
 

@@ -16,7 +16,7 @@
         <DockPanel LastChildFill="False">
             <Image DockPanel.Dock="Top" Width="200" Margin="0,0,0,50" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\dr.png" />
           
-            <StackPanel DockPanel.Dock="Top">
+            <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
                 <TextBox Name="tbTitle" Text="Udsendelse" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="30" IsReadOnly="True" FontWeight="Bold"></TextBox>
                 <Separator Background="Gray"/>
                 <TextBox Name="tbDate" Text="Dato" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
@@ -39,11 +39,19 @@
                 </Expander>
             </StackPanel>
 
-            <StatusBar DockPanel.Dock="Bottom" Background="BlanchedAlmond" Foreground="Gray">
-                <StatusBarItem Name="sbiMessage" FontFamily="Reem Kufi">Klar</StatusBarItem>
-            </StatusBar>
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
+                <StatusBar Background="BlanchedAlmond" Foreground="Gray">
+                    <StatusBarItem Name="sbiMessage" FontFamily="Reem Kufi">
+                        Klar
+                    </StatusBarItem>
+                    <StatusBarItem Width="300" HorizontalAlignment="Right">
+                        <ProgressBar Name="pbDownload" Height="10">
+                        </ProgressBar>
+                    </StatusBarItem>
+                </StatusBar>
+            </StackPanel>
 
-            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png" MouseLeftButtonDown="OnCopyUrl"/>
                 <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png" MouseLeftButtonDown="OnDownload"/>
                 <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\close.png" MouseLeftButtonDown="OnClose"/>
