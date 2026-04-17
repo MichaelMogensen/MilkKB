@@ -41,11 +41,11 @@
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
                 <StatusBar Background="BlanchedAlmond" Foreground="Gray">
-                    <StatusBarItem Name="sbiMessage" FontFamily="Reem Kufi">
-                        Klar
+                    <StatusBarItem FontFamily="Reem Kufi">
+                        <TextBlock Name="sbMessage">Klar</TextBlock>
                     </StatusBarItem>
-                    <StatusBarItem Width="300" HorizontalAlignment="Right">
-                        <ProgressBar Name="pbDownload" Height="10">
+                    <StatusBarItem Width="300" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch">
+                        <ProgressBar Name="pbDownload" BorderThickness="0" Height="1" Foreground="Gray" Background="BlanchedAlmond">
                         </ProgressBar>
                     </StatusBarItem>
                 </StatusBar>

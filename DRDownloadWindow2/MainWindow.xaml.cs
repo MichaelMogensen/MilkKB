@@ -80,7 +80,9 @@ namespace DRDownloadWindow2
 
         private void CmdDownload()
         {
-            
+            sbMessage.Text = "50%";
+            pbDownload.Value = 50;
+
         }
 
         private void CmdClose()
@@ -92,7 +94,6 @@ namespace DRDownloadWindow2
         {
             pbDownload.Minimum = 0;
             pbDownload.Maximum = 100;
-            pbDownload.Value = 10;
 
             Browser.GoToUrl(MainSearchPage);
         }
