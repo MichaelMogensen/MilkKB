@@ -1,3 +1,15 @@
+            Broadcasts = Util.DeserializeFile<Broadcasts>(broadcastsAsJson);
+            PipeOutput = pipeOutput;
+
+            PipeOutput?.PipeMessageTo(
+                $"Download radio/tv from www.kb.dk to {DownloadFolder} based on {Broadcasts?.All?.Count() ?? 0} broadcasts as defined in {broadcastsAsJson}");
+            PipeOutput?.PipeMessageTo();
+            PipeOutput?.PipeMessageTo();
+
+
+
+
+
         //public override string ToString() =>
         //    $"{nameof(UniqueId)} = {Util.OrNil(UniqueId)}|" +
         //    $"{nameof(MediaType)} = {Util.OrNil(MediaType)}|" +
