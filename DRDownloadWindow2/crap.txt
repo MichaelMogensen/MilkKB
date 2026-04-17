@@ -1,3 +1,178 @@
+        ///// <summary>
+        ///// On copy url.
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void OnBtnCopyUrl(object sender, MouseButtonEventArgs e)
+        //{
+        //    CmdCopyUrl();
+        //}
+
+        ///// <summary>
+        ///// On download.
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private async void OnBtnDownload(object sender, MouseButtonEventArgs e)
+        //{
+        //    await CmdDownloadAsync();
+        //}
+        
+        
+        
+        
+        
+        private void CmdCopyUrl()
+        {
+            ReadPotentialBroadcastByPageHtml();
+            UpdateWindow();
+        }
+
+
+        /// <summary>
+        /// If page has broadcast details full broadcast object is constructed here. If not, object has only its Url 
+        /// set and rest of properties is null.
+        /// </summary>
+        /// <returns></returns>
+        private void ReadPotentialBroadcastByPageHtml()
+        {
+            var url = Browser.Url;
+            var html = DRBroadcastHtmlScraper.MediaTypeByUrl(url) == EMediaType.nomedia ?
+                Browser.GetPageHtml() : // Holds crab not relevant for us.
+                Browser.GetPageHtml(DRBroadcastHtmlScraper.BROADCAST_REC_DATA_PARENT_XPATH); // Holds broadcast details.
+
+            Broadcast = new DRBroadcastHtmlScraper(url, html).Broadcast;
+        }
+
+        /// <summary>
+        /// Update window.
+        /// </summary>
+        private void UpdateWindow()
+        {
+            // Set main fields.
+            tbTitle.Text = Util.OrDefault(Broadcast.Title,
+                "Udsendelse");
+            tbDate.Text = Util.OrDefault(Util.ToDanishDateAndDuration(Broadcast.SendDate, Broadcast.Duration),
+                "Dato");
+            tbDescription.Text = Util.OrDefault(Broadcast.Description,
+                "Beskrivelse");
+            tbEpisode.Text = Util.OrDefault(Broadcast.Episode,
+                "Episode");
+            tbChannel.Text = Util.OrDefault(Broadcast.Channel,
+                "Kanal");
+            tbGenre.Text = Util.OrDefault(Broadcast.Genre,
+                "Genre");
+
+            // Set technical fields.
+            tbUniqueId.Text = $"{nameof(Broadcast.UniqueId)} = {Util.OrNil(Broadcast.UniqueId)}";
+            tbEntryId.Text = $"{nameof(Broadcast.EntryId)} = {Util.OrNil(Broadcast.EntryId)}";
+            tbMediaType.Text = $"{nameof(Broadcast.MediaType)} = {Util.OrNil(Broadcast.MediaType)}";
+            tbUrl.Text = $"{nameof(Browser.Url)} = {Util.OrNil(Browser.Url)}";
+            tbDownloadFolder.Text = $"{nameof(Broadcast.DownloadFolder)} = {Util.OrNil(Broadcast.DownloadFolder)}";
+            tbmp3File.Text = $"{nameof(Broadcast.Mp3File)} = {Util.OrNil(Broadcast.Mp3File)}";
+            tbm3uFile.Text = $"{nameof(Broadcast.M3uFile)} = {Util.OrNil(Broadcast.M3uFile)}";
+            tbmp4File.Text = $"{nameof(Broadcast.Mp4File)} = {Util.OrNil(Broadcast.Mp4File)}";
+            tblogFile.Text = $"{nameof(Broadcast.LogFile)} = {Util.OrNil(Broadcast.LogFile)}";
+        }
+        
+        
+        
+        
+        
+        
+        
+        /// <summary>
+        /// Set progress.
+        /// </summary>
+        /// <param name="percent"></param>
+        public void Progress(int percent) =>
+            pbDownloadProgress.Value = percent;
+        private void Statusbar(string message) =>
+            sbMessage.Text = message;
+            
+            
+            
+            
+            
+            DownloadWorker.DoWork += Download;
+DownloadWorker.ProgressChanged += DownloadProgressChanged;
+DownloadWorker.RunWorkerCompleted += DownloadCompleted;
+
+/// <summary>
+/// Used from worker thread.
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+private static void Download(object? sender, DoWorkEventArgs e)
+{
+    for (int pct = 0; pct < 100; pct++)
+    {
+        if (DownloadWorker.CancellationPending)
+        {
+            e.Cancel = true;
+            return;
+        }
+
+        DownloadWorker.ReportProgress(pct);
+        Thread.Sleep(100);
+
+
+        e.Result = 123;
+    }
+}
+
+/// <summary>
+/// Used from worker thread.
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+private static void DownloadProgressChanged(object? sender, ProgressChangedEventArgs e)
+{
+
+}
+
+/// <summary>
+/// Used from worker thread.
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+private static void DownloadCompleted(object? sender, RunWorkerCompletedEventArgs e)
+{
+
+    if (e.Cancelled)
+    {
+        // Operation Cancelled.
+    }
+    else if (e.Error == null)
+    {
+        // Operation Completed.
+    }
+    else
+    {
+        // Error in Process.
+    }
+}
+
+private static BackgroundWorker DownloadWorker = new BackgroundWorker
+{
+    WorkerReportsProgress = true,
+    WorkerSupportsCancellation = true
+};
+
+            DownloadWorker.RunWorkerAsync();
+
+
+
+
+
+
+
+
+
+
+
+
+
             Broadcasts = Util.DeserializeFile<Broadcasts>(broadcastsAsJson);
             PipeOutput = pipeOutput;
 

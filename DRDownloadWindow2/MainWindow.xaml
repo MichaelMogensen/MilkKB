@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DRDownloadWindow2"
+        xmlns:local="clr-namespace:DRDownloadWindow2.ViewModels"
         mc:Ignorable="d"
         Background="PeachPuff" 
         Height="700" 
@@ -11,13 +11,14 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         ResizeMode="NoResize"
-        Closing="OnWindowClosing">
+        Closing="OnWindowClosing"
+        d:DataContext="{d:DesignInstance local:BroadcastViewModel, IsDesignTimeCreatable=True}">
     <Border Background="BlanchedAlmond" CornerRadius="30" Margin="20" Padding="40">
         <DockPanel LastChildFill="False">
             <Image DockPanel.Dock="Top" Width="200" Margin="0,0,0,50" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\dr.png" />
           
             <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
-                <TextBox Name="tbTitle" Text="Udsendelse" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="30" IsReadOnly="True" FontWeight="Bold"></TextBox>
+                <TextBox Name="tbTitle" Text="{Binding Path=Title}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="30" IsReadOnly="True" FontWeight="Bold"></TextBox>
                 <Separator Background="Gray"/>
                 <TextBox Name="tbDate" Text="Dato" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
                 <TextBox Name="tbDescription" Text="Beskrivelse" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
@@ -45,16 +46,22 @@
                         <TextBlock Name="sbMessage">Klar</TextBlock>
                     </StatusBarItem>
                     <StatusBarItem Width="300" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch">
-                        <ProgressBar Name="pbDownload" BorderThickness="0" Height="1" Foreground="Gray" Background="BlanchedAlmond">
+                        <ProgressBar Name="pbDownloadProgress" BorderThickness="0" Height="1" Foreground="Gray" Background="BlanchedAlmond" Minimum="0" Maximum="100">
                         </ProgressBar>
                     </StatusBarItem>
                 </StatusBar>
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png" MouseLeftButtonDown="OnCopyUrl"/>
-                <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png" MouseLeftButtonDown="OnDownload"/>
-                <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\close.png" MouseLeftButtonDown="OnClose"/>
+                <Button Foreground="Transparent" Background="Transparent" BorderThickness="0" >
+                    <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png"/>
+                </Button>
+                <Button Foreground="Transparent" Background="Transparent" BorderThickness="0" Command="{Binding StartDownloadCommand}">
+                    <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
+                </Button>
+                <Button Foreground="Transparent" Background="Transparent" BorderThickness="0" Click="OnBtnClose">
+                    <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\close.png"/>
+                </Button>
             </StackPanel>
 
         </DockPanel>

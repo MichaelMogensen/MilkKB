@@ -47,7 +47,7 @@ namespace DRDownload.Common.DownloadFile
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //DRMedia.PipeOutput?.PipeMessageTo(ex.Message);
             }
