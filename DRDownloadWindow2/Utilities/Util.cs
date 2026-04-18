@@ -116,19 +116,6 @@ namespace DRDownloadWindow2.Utilities
         }
 
         /// <summary>
-        /// Ensure to write "null" on object == null.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="theObject"></param>
-        /// <returns></returns>
-        public static string? OrDefault<T>(T theObject, string? default_ = "null") =>
-            theObject is null ? default_ : theObject.ToString();
-        public static string? OrNil<T>(T theObject) =>
-            OrDefault(theObject, "NIL");
-        public static string? OrNull<T>(T theObject) =>
-            OrDefault(theObject, "null");
-
-        /// <summary>
         /// DK date.
         /// </summary>
         /// <param name="date"></param>

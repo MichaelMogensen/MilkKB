@@ -8,8 +8,6 @@ namespace DRDownloadWindow2
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly string MainSearchPage = "https://www.kb.dk/find-materiale/dr-arkivet/";
-
         public IBroadcastViewModel ViewModel
         {
             get { return (IBroadcastViewModel)DataContext; }
@@ -24,10 +22,6 @@ namespace DRDownloadWindow2
             InitializeComponent();
 
             ViewModel = new BroadcastViewModel();
-
-            ViewModel.Title = "Hejsa";
-
-            //ViewModel.Browser.GoToUrl(MainSearchPage);
         }
 
         #region Message handlers.
@@ -49,7 +43,7 @@ namespace DRDownloadWindow2
         /// <param name="e"></param>
         private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //Browser.Close();
+            ViewModel.Browser.Close();
         }
 
         #endregion

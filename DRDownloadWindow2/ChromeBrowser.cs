@@ -69,11 +69,13 @@ namespace DRDownloadWindow2
         /// Navigate.
         /// </summary>
         /// <param name="url"></param>
-        public void GoToUrl(string url)
+        public void GoToUrl(string? url)
         {
+            if (string.IsNullOrEmpty(url))
+            { return; }
+
             Browser.Navigate().GoToUrl(url);
         }
-
 
     }
 }

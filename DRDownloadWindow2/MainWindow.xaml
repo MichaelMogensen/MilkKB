@@ -11,31 +11,32 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         ResizeMode="NoResize"
+        Topmost="False"
         Closing="OnWindowClosing"
-        d:DataContext="{d:DesignInstance local:BroadcastViewModel, IsDesignTimeCreatable=True}">
+        d:DataContext="{d:DesignInstance local:BroadcastViewModel, IsDesignTimeCreatable=False}">
     <Border Background="BlanchedAlmond" CornerRadius="30" Margin="20" Padding="40">
         <DockPanel LastChildFill="False">
             <Image DockPanel.Dock="Top" Width="200" Margin="0,0,0,50" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\dr.png" />
           
             <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
-                <TextBox Name="tbTitle" Text="{Binding Path=Title}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="30" IsReadOnly="True" FontWeight="Bold"></TextBox>
+                <TextBox Text="{Binding Path=Title}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="30" IsReadOnly="True" FontWeight="Bold"></TextBox>
                 <Separator Background="Gray"/>
-                <TextBox Name="tbDate" Text="Dato" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
-                <TextBox Name="tbDescription" Text="Beskrivelse" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
-                <TextBox Name="tbEpisode" Text="Episode" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
-                <TextBox Name="tbChannel" Text="Kanal" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
-                <TextBox Name="tbGenre" Text="Genre" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBox Text="Dato" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBox Text="Beskrivelse" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBox Text="Episode" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBox Text="Kanal" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBox Text="Genre" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
                 <Expander Margin="0,30,0,0" FontFamily="Reem Kufi" Background="BlanchedAlmond" FontSize="20" Foreground="Gray" HorizontalAlignment="Stretch" Header="Tekniske detaljer" ExpandDirection="Down" IsExpanded="False">
                     <StackPanel Margin="0,10,0,0">
-                        <TextBox Name="tbUniqueId" Text="UniqueId = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbEntryId" Text="EntryId = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbMediaType" Text="MediaType = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbUrl" Text="Url = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbDownloadFolder" Text="Download folder = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbmp3File" Text="mp3 file = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbm3uFile" Text="m3u file = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tbmp4File" Text="mp4 file = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
-                        <TextBox Name="tblogFile" Text="log file = NIL" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Text="{Binding Path=UniqueId}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Text="{Binding Path=EntryId}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Text="{Binding Path=MediaType}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Text="{Binding Path=Url}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Text="{Binding Path=DownloadFolder}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Text="{Binding Path=Mp3File}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Text="{Binding Path=M3uFile}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Text="{Binding Path=Mp4File}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Text="{Binding Path=LogFile}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
                     </StackPanel>
                 </Expander>
             </StackPanel>
@@ -53,10 +54,10 @@
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Foreground="Transparent" Background="Transparent" BorderThickness="0" >
+                <Button Foreground="Transparent" Background="Transparent" BorderThickness="0" Command="{Binding CopyCommand}">
                     <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png"/>
                 </Button>
-                <Button Foreground="Transparent" Background="Transparent" BorderThickness="0" Command="{Binding StartDownloadCommand}">
+                <Button Foreground="Transparent" Background="Transparent" BorderThickness="0" Command="{Binding DownloadCommand}">
                     <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
                 </Button>
                 <Button Foreground="Transparent" Background="Transparent" BorderThickness="0" Click="OnBtnClose">
