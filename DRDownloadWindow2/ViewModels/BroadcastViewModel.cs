@@ -1,4 +1,5 @@
-﻿using DRDownloadWindow2.Extensions;
+﻿using DRDownloadWindow2.DRBroadcast;
+using DRDownloadWindow2.Extensions;
 using DRDownloadWindow2.Models;
 using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
@@ -36,16 +37,16 @@ namespace DRDownloadWindow2.ViewModels
 
         #endregion
 
-        #region Date.
+        #region SendDateAndDuration.
 
-        private string? _date;
-        public string? Date
+        private string? _sendDateAndDuration;
+        public string? SendDateAndDuration
         {
-            get { return _date; }
+            get { return _sendDateAndDuration; }
             set
             {
-                _date = value.OrDefault("Dato");
-                OnPropertyChanged("Date");
+                _sendDateAndDuration = value.OrDefault("Dato og varighed");
+                OnPropertyChanged("SendDateAndDuration");
             }
         }
 
@@ -59,7 +60,7 @@ namespace DRDownloadWindow2.ViewModels
             get { return _description; }
             set
             {
-                _description = value.OrDefault("Beskrivelse");
+                _description = value.OrDefault("Ingen beskrivelse");
                 OnPropertyChanged("Description");
             }
         }
@@ -74,7 +75,7 @@ namespace DRDownloadWindow2.ViewModels
             get { return _episode; }
             set
             {
-                _episode = value.OrDefault("Episode");
+                _episode = value.OrDefault("Ingen episode oplysninger");
                 OnPropertyChanged("Episode");
             }
         }
@@ -89,7 +90,7 @@ namespace DRDownloadWindow2.ViewModels
             get { return _channel; }
             set
             {
-                _channel = value.OrDefault("Kanal");
+                _channel = value.OrDefault("Ingen kanal oplysninger");
                 OnPropertyChanged("Channel");
             }
         }
@@ -104,7 +105,7 @@ namespace DRDownloadWindow2.ViewModels
             get { return _genre; }
             set
             {
-                _genre = value.OrDefault("Genre");
+                _genre = value.OrDefault("Ingen genre oplysninger");
                 OnPropertyChanged("Genre");
             }
         }
@@ -263,7 +264,12 @@ namespace DRDownloadWindow2.ViewModels
                         {
                             Task.Run(() =>
                             {
-                                Model.Browser.GoToUrl(Model.Broadcast.Url);
+                                // Here we expect user has already navigated to broadcast page.
+                                var handler = new DRBroadcastHandler(Model.Browser);
+                                handler.ScrapeBroadcastDetails();
+                                Model.Broadcast = handler.Broadcast;
+                                Update();
+
                             });
                         },
                         s => true));
@@ -305,7 +311,7 @@ namespace DRDownloadWindow2.ViewModels
         {
             // User prop's.
             Title = Model.Broadcast.Title;
-            Date = Util.ToDanishDateAndDuration(Model.Broadcast.SendDate, Model.Broadcast.Duration);
+            SendDateAndDuration = Util.ToDanishDateAndDuration(Model.Broadcast.SendDate, Model.Broadcast.Duration);
             Description = Model.Broadcast.Description;
             Episode = Model.Broadcast.Episode;
             Channel = Model.Broadcast.Channel;

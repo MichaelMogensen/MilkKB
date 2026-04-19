@@ -8,7 +8,7 @@ namespace DRDownloadWindow2.ViewModels
 
         // User prop's.
         public string? Title { get; set; }
-        public string? Date { get; set; }
+        public string? SendDateAndDuration { get; set; }
         public string? Description { get; set; }
         public string? Episode { get; set; }
         public string? Channel { get; set; }

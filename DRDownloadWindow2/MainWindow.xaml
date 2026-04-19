@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DRDownloadWindow2.ViewModels"
         mc:Ignorable="d"
         Background="PeachPuff" 
-        Height="700" 
+        Height="800" 
         Width="1000"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -21,11 +21,11 @@
             <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
                 <TextBox Text="{Binding Path=Title}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="30" IsReadOnly="True" FontWeight="Bold"></TextBox>
                 <Separator Background="Gray"/>
-                <TextBox Text="Dato" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
-                <TextBox Text="Beskrivelse" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
-                <TextBox Text="Episode" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
-                <TextBox Text="Kanal" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
-                <TextBox Text="Genre" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBox Text="{Binding Path=SendDateAndDuration}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBlock Text="{Binding Path=Description}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" FontSize="20" TextWrapping="Wrap"></TextBlock>
+                <TextBox Text="{Binding Path=Episode}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBox Text="{Binding Path=Channel}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
+                <TextBox Text="{Binding Path=Genre}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
                 <Expander Margin="0,30,0,0" FontFamily="Reem Kufi" Background="BlanchedAlmond" FontSize="20" Foreground="Gray" HorizontalAlignment="Stretch" Header="Tekniske detaljer" ExpandDirection="Down" IsExpanded="False">
                     <StackPanel Margin="0,10,0,0">
                         <TextBox Text="{Binding Path=UniqueId}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>

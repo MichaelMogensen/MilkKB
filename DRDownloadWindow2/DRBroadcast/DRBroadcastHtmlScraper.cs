@@ -37,8 +37,13 @@ namespace DRDownloadWindow2.DRBroadcast
         /// </summary>
         /// <param name="url"></param>
         /// <param name="html"></param>
-        public DRBroadcastHtmlScraper(string url, string html)
+        public DRBroadcastHtmlScraper(string? url, string? html)
         {
+            if (string.IsNullOrEmpty(url))
+            { return; }
+            if (string.IsNullOrEmpty(html))
+            { return; }
+
             Document.LoadHtml(html);
 
             MainBroadcastNode =
@@ -235,7 +240,8 @@ namespace DRDownloadWindow2.DRBroadcast
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static EMediaType MediaTypeByUrl(string url) =>
+        public static EMediaType MediaTypeByUrl(string? url) =>
+            string.IsNullOrEmpty(url) ? EMediaType.nomedia :
             url.Contains("radio") ? EMediaType.radio : 
             url.Contains("tv") ? EMediaType.tv : 
             EMediaType.nomedia;

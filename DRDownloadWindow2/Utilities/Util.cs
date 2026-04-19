@@ -142,22 +142,23 @@ namespace DRDownloadWindow2.Utilities
             var from_ = $"{from.Value.Hour:00}.{from.Value.Minute:00}";
             var to_ = $"{to.Value.Hour:00}.{to.Value.Minute:00}";
 
-            var period_ = $"{from_} - {to_}";
+            var period_ = $"fra {from_} til {to_}";
 
             return period_;
         }
 
         public static string? ToDanishDateAndDuration(DateTime? date, TimeSpan? duration)
         {
-            var date_ = ToDanishDate(date);
-            var period_ = ToDanishDuration(date, duration);
-
-            if (date_ == null || period_ == null)
+            if (date == null || duration == null)
             {
                 return null;
             }
 
-            return $"{date_} {period_}";
+            var date_ = ToDanishDate(date);
+            var period_ = ToDanishDuration(date, duration);
+            var totalMinutes_ = duration.Value.TotalMinutes;
+
+            return $"{date_} {period_} ({totalMinutes_} min)";
         }
 
         /// <summary>

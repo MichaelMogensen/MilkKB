@@ -7,7 +7,7 @@ namespace DRDownloadWindow2
 {
     public class ChromeBrowser
     {
-        public string Url => Browser.Url;
+        public string? Url { get => Browser.Url; set { GoToUrl(value); } }
 
         private ChromeDriver Browser { get; set; } = new ChromeDriver(new ChromeOptions()
         {
@@ -69,7 +69,7 @@ namespace DRDownloadWindow2
         /// Navigate.
         /// </summary>
         /// <param name="url"></param>
-        public void GoToUrl(string? url)
+        private void GoToUrl(string? url)
         {
             if (string.IsNullOrEmpty(url))
             { return; }
