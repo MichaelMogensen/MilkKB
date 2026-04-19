@@ -1,5 +1,7 @@
 ﻿using DRDownloadWindow2.Extensions;
+using DRDownloadWindow2.Models;
 using DRDownloadWindow2.Types;
+using DRDownloadWindow2.Utilities;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -7,40 +9,15 @@ namespace DRDownloadWindow2.ViewModels
 {
     public class BroadcastViewModel : INotifyPropertyChanged, IBroadcastViewModel
     {
-        // TODO: Consider move to DataModel.
-        private static readonly string MainSearchPage = "https://www.kb.dk/find-materiale/dr-arkivet/";
+        public BroadcastModel Model { get; set; } = new BroadcastModel();
 
         /// <summary>
         /// Ctor.
         /// </summary>
         public BroadcastViewModel()
         {
-            // User prop's.
-            Title = "Udsendelse"; // TODO: OrDefault().
-            Date = "Dato";
-            Description = "Beskrivelse";
-            Episode = "Episode";
-            Channel = "Kanel";
-            Genre = "Genre";
-
-            // Technical prop's.
-            UniqueId = null;
-            EntryId = null;
-            MediaType = null;
-            Url = MainSearchPage;
-            DownloadFolder = null;
-            Mp3File = null;
-            M3uFile = null;
-            Mp4File = null;
-            LogFile = null;
+            Update();
         }
-
-        // TODO: Consider move to DataModel.
-        #region Browser.
-
-        public ChromeBrowser Browser { get; set; } = new ChromeBrowser();
-
-        #endregion
 
         // User prop's.
 
@@ -52,10 +29,7 @@ namespace DRDownloadWindow2.ViewModels
             get { return _title; }
             set
             {
-                if (value == _title)
-                    return;
-
-                _title = value;
+                _title = value.OrDefault("Udsendelse");
                 OnPropertyChanged("Title");
             }
         }
@@ -70,10 +44,7 @@ namespace DRDownloadWindow2.ViewModels
             get { return _date; }
             set
             {
-                if (value == _date)
-                    return;
-
-                _date = value;
+                _date = value.OrDefault("Dato");
                 OnPropertyChanged("Date");
             }
         }
@@ -88,10 +59,7 @@ namespace DRDownloadWindow2.ViewModels
             get { return _description; }
             set
             {
-                if (value == _description)
-                    return;
-
-                _description = value;
+                _description = value.OrDefault("Beskrivelse");
                 OnPropertyChanged("Description");
             }
         }
@@ -106,10 +74,7 @@ namespace DRDownloadWindow2.ViewModels
             get { return _episode; }
             set
             {
-                if (value == _episode)
-                    return;
-
-                _episode = value;
+                _episode = value.OrDefault("Episode");
                 OnPropertyChanged("Episode");
             }
         }
@@ -124,10 +89,7 @@ namespace DRDownloadWindow2.ViewModels
             get { return _channel; }
             set
             {
-                if (value == _channel)
-                    return;
-
-                _channel = value;
+                _channel = value.OrDefault("Kanal");
                 OnPropertyChanged("Channel");
             }
         }
@@ -142,10 +104,7 @@ namespace DRDownloadWindow2.ViewModels
             get { return _genre; }
             set
             {
-                if (value == _genre)
-                    return;
-
-                _genre = value;
+                _genre = value.OrDefault("Genre");
                 OnPropertyChanged("Genre");
             }
         }
@@ -304,7 +263,7 @@ namespace DRDownloadWindow2.ViewModels
                         {
                             Task.Run(() =>
                             {
-                                Browser.GoToUrl(Url);
+                                Model.Browser.GoToUrl(Model.Broadcast.Url);
                             });
                         },
                         s => true));
@@ -326,7 +285,7 @@ namespace DRDownloadWindow2.ViewModels
                         {
                             Task.Run(() =>
                             {
-
+                                // TODO.
                             });
                         },
                         s => true));
@@ -335,9 +294,38 @@ namespace DRDownloadWindow2.ViewModels
 
         #endregion
 
+        // Other.
 
+        #region Methods.
 
-        #region Property change.
+        /// <summary>
+        /// Sync. viewmodel and model.
+        /// </summary>
+        public void Update()
+        {
+            // User prop's.
+            Title = Model.Broadcast.Title;
+            Date = Util.ToDanishDateAndDuration(Model.Broadcast.SendDate, Model.Broadcast.Duration);
+            Description = Model.Broadcast.Description;
+            Episode = Model.Broadcast.Episode;
+            Channel = Model.Broadcast.Channel;
+            Genre = Model.Broadcast.Genre;
+
+            // Technical prop's.
+            UniqueId = Model.Broadcast.UniqueId;
+            EntryId = Model.Broadcast.EntryId;
+            MediaType = Model.Broadcast.MediaType == EMediaType.nomedia ? null : Model.Broadcast.MediaType.ToString();
+            Url = Model.Broadcast.Url;
+            DownloadFolder = Model.Broadcast.DownloadFolder;
+            Mp3File = Model.Broadcast.Mp3File;
+            M3uFile = Model.Broadcast.M3uFile;
+            Mp4File = Model.Broadcast.Mp4File;
+            LogFile = Model.Broadcast.LogFile;
+        }
+
+        #endregion
+
+        #region Background methods.
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -350,6 +338,3 @@ namespace DRDownloadWindow2.ViewModels
     }
 }
 
-
-//public ChromeBrowser Browser { get; set; } = new ChromeBrowser();
-//public Broadcast Broadcast { get; set; } = new Broadcast();

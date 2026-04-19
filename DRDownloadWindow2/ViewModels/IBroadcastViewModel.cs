@@ -1,9 +1,10 @@
-﻿namespace DRDownloadWindow2.ViewModels
+﻿using DRDownloadWindow2.Models;
+
+namespace DRDownloadWindow2.ViewModels
 {
     public interface IBroadcastViewModel
     {
-        // Background prop's to make usecase work.
-        public ChromeBrowser Browser { get; set; }
+        public BroadcastModel Model { get; set; }
 
         // User prop's.
         public string? Title { get; set; }

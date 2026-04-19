@@ -43,7 +43,7 @@ namespace DRDownloadWindow2
         /// <param name="e"></param>
         private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ViewModel.Browser.Close();
+            ViewModel.Model.Browser.Close();
         }
 
         #endregion
