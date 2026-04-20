@@ -22,7 +22,7 @@
         public bool Calc(TimeSpan currentDuration)
         {
             var progress = ProgressAsInteger(currentDuration);
-            if (progress == Value)
+            if (progress <= Value)
             {
                 // No news.
                 return false;
@@ -47,6 +47,9 @@
             var f = currentDurationMS / totalDurationMS;
 
             var pct = 100.0 * f;
+
+            pct = Math.Max(0.0, pct);
+            pct = Math.Min(100.0, pct);
 
             return pct;
         }
