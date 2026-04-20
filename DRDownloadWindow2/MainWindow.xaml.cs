@@ -1,5 +1,8 @@
 ﻿using DRDownloadWindow2.ViewModels;
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Interop;
 
 namespace DRDownloadWindow2
 {
@@ -8,6 +11,10 @@ namespace DRDownloadWindow2
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        /// <summary>
+        /// ViewModel holds everything.
+        /// </summary>
         public IBroadcastViewModel ViewModel
         {
             get { return (IBroadcastViewModel)DataContext; }
@@ -37,7 +44,17 @@ namespace DRDownloadWindow2
         }
 
         /// <summary>
-        /// On window closing.
+        /// On window left mouse button down we drag window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnLeftMouseButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        /// <summary>
+        /// On window closing we close browser.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -45,10 +62,6 @@ namespace DRDownloadWindow2
         {
             ViewModel.Model.Browser.Close();
         }
-
-        #endregion
-
-        #region Methods.
 
         #endregion
 

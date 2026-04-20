@@ -300,6 +300,38 @@ namespace DRDownloadWindow2.ViewModels
 
         #endregion
 
+        // Statusbar and progressbar.
+
+        #region Statusbar.
+
+        private string? _statusBarText { get; set; }
+        public string? StatusBarText
+        {
+            get => _statusBarText;
+            set
+            {
+                _statusBarText = value;
+                OnPropertyChanged("StatusBarText");
+            }
+        }
+
+        #endregion
+
+        #region Progressbar.
+
+        private int? _progressBarPercent { get; set; }
+        public int? ProgressBarPercent
+        {
+            get => _progressBarPercent;
+            set
+            {
+                _progressBarPercent = value;
+                OnPropertyChanged("ProgressBarPercent");
+            }
+        }
+
+        #endregion
+
         // Other.
 
         #region Methods.
