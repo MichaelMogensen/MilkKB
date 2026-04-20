@@ -1,4 +1,5 @@
-﻿using DRDownloadWindow2.DRBroadcast;
+﻿using DRDownloadWindow2.Download;
+using DRDownloadWindow2.DRBroadcast;
 using DRDownloadWindow2.Extensions;
 using DRDownloadWindow2.Models;
 using DRDownloadWindow2.Types;
@@ -266,10 +267,9 @@ namespace DRDownloadWindow2.ViewModels
                             {
                                 // Here we expect user has already navigated to broadcast page.
                                 var handler = new DRBroadcastHandler(Model.Browser);
-                                handler.ScrapeBroadcastDetails();
+                                handler.ReadBroadcastDetails();
                                 Model.Broadcast = handler.Broadcast;
                                 Update();
-
                             });
                         },
                         s => true));
@@ -289,9 +289,9 @@ namespace DRDownloadWindow2.ViewModels
                     new DelegateCommand(
                         s =>
                         {
-                            Task.Run(() =>
+                            Task.Run(async () =>
                             {
-                                // TODO.
+                                await new DRMedia(Model.Broadcast).StartDownloadAsync(new CancellationToken());
                             });
                         },
                         s => true));

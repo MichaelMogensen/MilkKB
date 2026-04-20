@@ -1,6 +1,4 @@
 ﻿using DRDownload.Common.DownloadVideo.Arguments;
-using DRDownloadWindow2.Download;
-using DRDownloadWindow2.Types;
 using FFMpegCore;
 using FFMpegCore.Enums;
 using System.Diagnostics;
@@ -19,16 +17,25 @@ namespace DRDownload.Common.DownloadVideo
     /// </summary>
     public class DownloadVideoStream
     {
-        private Broadcast Broadcast { get; set; }
+        public string? InputFile { get; set; }
+        public string? OutputFile { get; set; }
+        public string? LogFile { get; set; }
+
+        public TimeSpan? ExpectedTotalMp4Duration { get; set; }
 
         /// <summary>
         /// Ctor.
         /// </summary>
-        /// <param name="inputFile">Could be m3u8 file or mp4 file etc.</param>
-        /// <param name="durationVideo">From metadata the total duration of the video</param>
-        public DownloadVideoStream(Broadcast broadcast)
+        /// <param name="inputFile">Expected to be a m3u8 file</param>
+        /// <param name="outputFile">Expected to be a mp4 file</param>
+        /// <param name="logFile">Log file. No null nothing is logged</param>
+        /// <param name="expectedTotalMp4Duration">From metadata the total duration of the video</param>
+        public DownloadVideoStream(string? inputFile, string? outputFile, string? logFile, TimeSpan? expectedTotalMp4Duration)
         {
-            Broadcast = broadcast;
+            InputFile = inputFile;
+            OutputFile = outputFile;
+            LogFile = logFile;
+            ExpectedTotalMp4Duration = expectedTotalMp4Duration;
         }
 
         /// <summary>
@@ -37,53 +44,33 @@ namespace DRDownload.Common.DownloadVideo
         /// <returns></returns>
         public async Task StartAsync(CancellationToken cts)
         {
-            if (Broadcast.M3uFile == null)
-            {
-                throw new ArgumentNullException($"{nameof(Broadcast.M3uFile)} == null");
-            }
-            if (Broadcast.Mp4File == null)
-            {
-                throw new ArgumentNullException($"{nameof(Broadcast.Mp4File)} == null");
-            }
-            if (Broadcast.LogFile == null)
-            {
-                throw new ArgumentNullException($"{nameof(Broadcast.LogFile)} == null");
-            }
-            if (Broadcast.Duration == null)
-            {
-                throw new ArgumentNullException($"{nameof(Broadcast.Duration)} == null");
-            }
-
-            var logNotifier = new OngoingDownloadLogNotifier(Broadcast.LogFile);
-            var progressNotifier = new OngoingDownloadProgressNotifier(Broadcast.Duration.Value);
-
             cts.ThrowIfCancellationRequested();
 
             try
             {
-                if (File.Exists(Broadcast.LogFile))
+                if (!string.IsNullOrEmpty(LogFile) && File.Exists(LogFile))
                 {
-                    File.Delete(Broadcast.LogFile);
+                    File.Delete(LogFile);
                 }
 
                 var watch = new Stopwatch();
                 watch.Start();
 
                 var ff = await FFMpegArguments
-                    .FromFileInput(Broadcast.M3uFile, true, op => op
+                    .FromFileInput(InputFile, true, op => op
                         .WithArgument(new ProtocolWhitelistArgument())
                         .WithArgument(new OverwriteOutputfileArgument()))
-                    .OutputToFile(Broadcast.Mp4File, true, op => op
+                    .OutputToFile(OutputFile, true, op => op
                         .WithFastStart())
                         .CancellableThrough(cts)
                         .NotifyOnProgress(duration =>
                         {
-                            progressNotifier.NotifyConsoleBelow100Pct(duration);
-                            logNotifier.LogLine($"DUR: {duration:c}");
+                            //progressNotifier.NotifyConsoleBelow100Pct(duration);
+                            //logNotifier.LogLine($"DUR: {duration:c}");
                         })
                         .NotifyOnError(msg =>
                         {
-                            logNotifier.LogLine($"MSG: {msg}");
+                            //logNotifier.LogLine($"MSG: {msg}");
                         })
                         .ProcessAsynchronously(
                             true,
@@ -91,18 +78,18 @@ namespace DRDownload.Common.DownloadVideo
 
                 watch.Stop();
 
-                progressNotifier.NotifyConsoleAt100Pct();
-                logNotifier.LogLine($"Duration: {watch.Elapsed:c}");
+                //progressNotifier.NotifyConsoleAt100Pct();
+                //logNotifier.LogLine($"Duration: {watch.Elapsed:c}");
             }
             catch (OperationCanceledException ex)
             {
                 //DRMedia.PipeOutput?.PipeMessageTo(ex.Message);
-                logNotifier.LogLine(ex.Message);
+                //logNotifier.LogLine(ex.Message);
             }
             catch (Exception ex)
             {
                 //DRMedia.PipeOutput?.PipeMessageTo(ex.Message);
-                logNotifier.LogLine(ex.Message);
+                //logNotifier.LogLine(ex.Message);
             }
 
         }

@@ -21,7 +21,7 @@ namespace DRDownloadWindow2.DRBroadcast
         /// set and rest of properties is null.
         /// </summary>
         /// <returns></returns>
-        public void ScrapeBroadcastDetails()
+        public void ReadBroadcastDetails()
         {
             if (Browser == null)
             { return; }

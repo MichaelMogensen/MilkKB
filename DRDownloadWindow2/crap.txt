@@ -1,3 +1,15 @@
+                                for (var value = 0; value <= 100; value += 10)
+                                {
+                                    Application.Current.Dispatcher.Invoke(() => { ProgressBarPercent = value;  });
+                                    Application.Current.Dispatcher.Invoke(() => { StatusBarText = value.ToString();  });
+
+                                    await Task.Delay(250);
+                                }
+
+
+
+
+
         ///// <summary>
         ///// On copy url.
         ///// </summary>
@@ -232,3 +244,23 @@ private static BackgroundWorker DownloadWorker = new BackgroundWorker
             }
             return IntPtr.Zero;
         }
+
+
+
+
+
+
+
+
+        ********************
+
+
+
+        var result = operation switch
+{
+    1 => "Case 1",
+    2 => "Case 2",
+    3 => "Case 3",
+    4 => "Case 4",
+    _ => "No case availabe"
+};
