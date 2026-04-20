@@ -53,6 +53,7 @@ namespace DRDownloadTests
         [TestMethod]
         public async Task DownloadBTTest()
         {
+                    // https://www.kb.dk/find-materiale/dr-arkivet/post/ds.radio:oai:io:b2dd0046-24db-4890-b191-e2cb2e573fb3
             var url = "https://www.kb.dk/find-materiale/dr-arkivet/post/ds.tv:oai:io:90562507-e5e2-4c2e-8a9f-6a09cc9105dd";
             var file = "c:/temp/kb.txt";
 

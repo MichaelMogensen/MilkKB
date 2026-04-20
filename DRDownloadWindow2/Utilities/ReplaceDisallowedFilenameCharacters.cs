@@ -22,15 +22,15 @@
         {
             var replaceAWithB = new Tuple<string, string>[]
             {
-                new Tuple<string, string>("\\", "~"),
-                new Tuple<string, string>("/", "~"),
-                new Tuple<string, string>(":", "~"),
-                new Tuple<string, string>("*", "~"),
-                new Tuple<string, string>("?", "~"),
-                new Tuple<string, string>("<", "~"),
-                new Tuple<string, string>(">", "~"),
-                new Tuple<string, string>("\"", "~"),
-                new Tuple<string, string>("|", "~")
+                new Tuple<string, string>("\\", ""), // TOTO: Find some good char to replace with.
+                new Tuple<string, string>("/", ""),
+                new Tuple<string, string>(":", ""),
+                new Tuple<string, string>("*", ""),
+                new Tuple<string, string>("?", ""),
+                new Tuple<string, string>("<", ""),
+                new Tuple<string, string>(">", ""),
+                new Tuple<string, string>("\"", ""),
+                new Tuple<string, string>("|", "")
             };
 
             foreach (var ab in replaceAWithB)

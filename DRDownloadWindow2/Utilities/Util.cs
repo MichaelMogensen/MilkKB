@@ -1,6 +1,9 @@
-﻿using Microsoft.VisualBasic;
+﻿using DRDownloadWindow2.Types;
+using System.Drawing;
 using System.Globalization;
 using System.Text;
+using System.Windows.Media;
+using Color = System.Drawing.Color;
 
 namespace DRDownloadWindow2.Utilities
 {
@@ -170,6 +173,21 @@ namespace DRDownloadWindow2.Utilities
             var folder = Environment.ExpandEnvironmentVariables("%userprofile%\\downloads").ToLower();
 
             return folder;
+        }
+
+        /// <summary>
+        /// Color (for binding) by warning level.
+        /// </summary>
+        /// <param name="warningLevel"></param>
+        /// <returns></returns>
+        public static string WarningLevelToColor(EWarningLevel warningLevel)
+        {
+            return warningLevel switch
+            {
+                EWarningLevel.error => Color.Red.Name.ToString(),
+                EWarningLevel.warning => Color.Orange.Name.ToString(),
+                _ => Color.Gray.Name.ToString()
+            };
         }
 
         /// <summary>

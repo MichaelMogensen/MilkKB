@@ -5,6 +5,7 @@ using DRDownloadWindow2.Models;
 using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DRDownloadWindow2.ViewModels
@@ -291,7 +292,19 @@ namespace DRDownloadWindow2.ViewModels
                         {
                             Task.Run(async () =>
                             {
-                                await new DRMedia(Model.Broadcast).StartDownloadAsync(new CancellationToken());
+                                await new DRMedia(
+                                    Model.Broadcast,
+                                    new UIDispatchUpdater<UIElementProps<string>>(e =>
+                                    {
+                                        StatusBar = e.Value;
+                                        StatusBarColor = Util.WarningLevelToColor(e.WarningLevel);
+                                    }),
+                                    new UIDispatchUpdater<UIElementProps<int>>(e =>
+                                    {
+                                        ProgressBar = e.Value;
+                                        ProgressBarColor = Util.WarningLevelToColor(e.WarningLevel);
+                                    })).
+                                    StartDownloadAsync(new CancellationToken());
                             });
                         },
                         s => true));
@@ -304,14 +317,25 @@ namespace DRDownloadWindow2.ViewModels
 
         #region Statusbar.
 
-        private string? _statusBarText { get; set; }
-        public string? StatusBarText
+        private string? _statusBar { get; set; }
+        public string? StatusBar
         {
-            get => _statusBarText;
+            get => _statusBar;
             set
             {
-                _statusBarText = value;
-                OnPropertyChanged("StatusBarText");
+                _statusBar = value;
+                OnPropertyChanged(nameof(StatusBar));
+            }
+        }
+
+        private string? _statusBarColor { get; set; }
+        public string? StatusBarColor
+        {
+            get => _statusBarColor;
+            set
+            {
+                _statusBarColor = value;
+                OnPropertyChanged(nameof(StatusBarColor));
             }
         }
 
@@ -319,14 +343,25 @@ namespace DRDownloadWindow2.ViewModels
 
         #region Progressbar.
 
-        private int? _progressBarPercent { get; set; }
-        public int? ProgressBarPercent
+        private int? _progressBar { get; set; }
+        public int? ProgressBar
         {
-            get => _progressBarPercent;
+            get => _progressBar;
             set
             {
-                _progressBarPercent = value;
-                OnPropertyChanged("ProgressBarPercent");
+                _progressBar = value;
+                OnPropertyChanged(nameof(ProgressBar));
+            }
+        }
+
+        private string? _progressBarColor { get; set; }
+        public string? ProgressBarColor
+        {
+            get => _progressBarColor;
+            set
+            {
+                _progressBarColor = value;
+                OnPropertyChanged(nameof(ProgressBarColor));
             }
         }
 
@@ -359,6 +394,12 @@ namespace DRDownloadWindow2.ViewModels
             M3uFile = Model.Broadcast.M3uFile;
             Mp4File = Model.Broadcast.Mp4File;
             LogFile = Model.Broadcast.LogFile;
+
+            StatusBar = "Klar";
+            StatusBarColor = Util.WarningLevelToColor(EWarningLevel.info);
+
+            ProgressBar = 0;
+            ProgressBarColor = Util.WarningLevelToColor(EWarningLevel.info);
         }
 
         #endregion

@@ -2,6 +2,7 @@
 using DRDownload.Common.DownloadVideo;
 using DRDownloadWindow2.Download.KLTRRestAPI;
 using DRDownloadWindow2.Types;
+using DRDownloadWindow2.Utilities;
 using System.Diagnostics;
 using File = System.IO.File;
 
@@ -14,12 +15,23 @@ namespace DRDownloadWindow2.Download
     {
         private Broadcast Broadcast { get; set; }
 
+        public UIDispatchUpdater<UIElementProps<string>> StatusBar { get; set; }
+        public UIDispatchUpdater<UIElementProps<int>> ProgressBar { get; set; }
+
         /// <summary>
         /// Ctor.
         /// </summary>
-        public DRMedia(Broadcast broadcast)
+        /// <param name="broadcast"></param>
+        /// <param name="statusBar"></param>
+        /// <param name="progressBar"></param>
+        public DRMedia(
+            Broadcast broadcast, 
+            UIDispatchUpdater<UIElementProps<string>> statusBar, 
+            UIDispatchUpdater<UIElementProps<int>> progressBar)
         {
             Broadcast = broadcast;
+            StatusBar = statusBar;
+            ProgressBar = progressBar;
         }
 
         /// <summary>
@@ -29,15 +41,18 @@ namespace DRDownloadWindow2.Download
         /// <returns></returns>
         public async Task StartDownloadAsync(CancellationToken cts)
         {
-            if (Broadcast.MediaType == null || Broadcast.MediaType == EMediaType.nomedia)
-            {
-                throw new ArgumentNullException($"Cannot start download since media type is unknown at start. Has to be radio or tv");
-            }
-
             if (Broadcast.MediaType == EMediaType.radio)
+            {
                 await StartRadioDownloadAsync();
+            }
             else if (Broadcast.MediaType == EMediaType.tv)
+            {
                 await StartTvDownloadAsync(cts);
+            }
+            else
+            {
+                StatusBar.Value = new UIElementProps<string>("Media type skal være enten radio eller tv", EWarningLevel.error);
+            }
         }
 
         /// <summary>
@@ -48,15 +63,17 @@ namespace DRDownloadWindow2.Download
         {
             if (string.IsNullOrEmpty(Broadcast.Mp3File))
             {
-                throw new ArgumentNullException($"Cannot start radio download since output file is unknown at start");
+                StatusBar.Value = new UIElementProps<string>("Kan ikke starte radio download med manglende mp3 fil", EWarningLevel.error);
+                return;
             }
 
             var restUrl = new KLTRRestAPIUrlRadio(Broadcast.EntryId).Url;
             var mp3Downloader = new DownloadFileStream(restUrl, Broadcast.Mp3File);
 
-            // If output file already exists we abord.
+            // If output file already exists we abort.
             if (File.Exists(mp3Downloader.OutputFile))
             {
+                StatusBar.Value = new UIElementProps<string>($"Filen {mp3Downloader.OutputFile} findes allerede. Slet den hvis du vil downloade igen", EWarningLevel.warning);
                 return;
             }
 
@@ -73,19 +90,23 @@ namespace DRDownloadWindow2.Download
         {
             if (string.IsNullOrEmpty(Broadcast.M3uFile))
             {
-                throw new ArgumentNullException($"Cannot start tv download since input file is unknown at start");
+                StatusBar.Value = new UIElementProps<string>("Kan ikke starte radio tv med manglende m3u8 fil", EWarningLevel.error);
+                return;
             }
             if (string.IsNullOrEmpty(Broadcast.Mp4File))
             {
-                throw new ArgumentNullException($"Cannot start tv download since output file is unknown at start");
+                StatusBar.Value = new UIElementProps<string>("Kan ikke starte radio tv med manglende mp4 fil", EWarningLevel.error);
+                return;
             }
             if (string.IsNullOrEmpty(Broadcast.LogFile))
             {
-                throw new ArgumentNullException($"Cannot start tv download since log file is unknown at start");
+                StatusBar.Value = new UIElementProps<string>("Kan ikke starte radio tv med manglende log fil", EWarningLevel.error);
+                return;
             }
             if (Broadcast.Duration == null || Broadcast.Duration.Value == default)
             {
-                throw new ArgumentNullException($"Cannot start tv download since expected total duration of video is unknown at start");
+                StatusBar.Value = new UIElementProps<string>("Kan ikke starte radio tv med manglende total varighed på udsendelse", EWarningLevel.error);
+                return;
             }
 
             // Prepare m3u8 file download.
@@ -99,14 +120,18 @@ namespace DRDownloadWindow2.Download
                 Broadcast.M3uFile,
                 Broadcast.Mp4File,
                 Broadcast.LogFile,
-                Broadcast.Duration);
+                Broadcast.Duration.Value,
+                StatusBar,
+                ProgressBar);
 
             // If output file already exists we abord.
             if (File.Exists(Broadcast.Mp4File))
             {
+                StatusBar.Value = new UIElementProps<string>($"Filen {mp4Downloader.OutputFile} findes allerede. Slet den hvis du vil downloade igen", EWarningLevel.warning);
                 return;
             }
 
+            // Begin download of m3u+mp4 files.
             await DownloadAsync(async () =>
             {
                 if (!File.Exists(Broadcast.M3uFile))
@@ -126,9 +151,15 @@ namespace DRDownloadWindow2.Download
         {
             var watch = new Stopwatch();
 
+            StatusBar.Value = new UIElementProps<string>("Download start", EWarningLevel.info);
+            await Task.Delay(1000);
+
             watch.Start();
             await DownloadAsync();
             watch.Stop();
+
+            StatusBar.Value = new UIElementProps<string>("Download slut", EWarningLevel.info);
+            await Task.Delay(1000);
         }
 
     }

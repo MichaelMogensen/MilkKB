@@ -1,4 +1,5 @@
 ﻿using DRDownload.Common.DownloadVideo.Arguments;
+using DRDownloadWindow2.Utilities;
 using FFMpegCore;
 using FFMpegCore.Enums;
 using System.Diagnostics;
@@ -17,11 +18,14 @@ namespace DRDownload.Common.DownloadVideo
     /// </summary>
     public class DownloadVideoStream
     {
-        public string? InputFile { get; set; }
-        public string? OutputFile { get; set; }
-        public string? LogFile { get; set; }
+        public string InputFile { get; set; }
+        public string OutputFile { get; set; }
+        public string LogFile { get; set; }
 
-        public TimeSpan? ExpectedTotalMp4Duration { get; set; }
+        public TimeSpan ExpectedTotalMp4Duration { get; set; }
+
+        public UIDispatchUpdater<UIElementProps<string>> StatusBar { get; set; }
+        public UIDispatchUpdater<UIElementProps<int>> ProgressBar { get; set; }
 
         /// <summary>
         /// Ctor.
@@ -30,12 +34,22 @@ namespace DRDownload.Common.DownloadVideo
         /// <param name="outputFile">Expected to be a mp4 file</param>
         /// <param name="logFile">Log file. No null nothing is logged</param>
         /// <param name="expectedTotalMp4Duration">From metadata the total duration of the video</param>
-        public DownloadVideoStream(string? inputFile, string? outputFile, string? logFile, TimeSpan? expectedTotalMp4Duration)
+        /// <param name="statusBar"></param>
+        /// <param name="progressBar"></param>
+        public DownloadVideoStream(
+            string inputFile,
+            string outputFile,
+            string logFile,
+            TimeSpan expectedTotalMp4Duration,
+            UIDispatchUpdater<UIElementProps<string>> statusBar,
+            UIDispatchUpdater<UIElementProps<int>> progressBar)
         {
             InputFile = inputFile;
             OutputFile = outputFile;
             LogFile = logFile;
             ExpectedTotalMp4Duration = expectedTotalMp4Duration;
+            StatusBar = statusBar;
+            ProgressBar = progressBar;
         }
 
         /// <summary>
@@ -45,6 +59,9 @@ namespace DRDownload.Common.DownloadVideo
         public async Task StartAsync(CancellationToken cts)
         {
             cts.ThrowIfCancellationRequested();
+
+            var calcProgress = new CalcProgress(ExpectedTotalMp4Duration);
+            var logNotifier = new LogNotifier(LogFile);
 
             try
             {
@@ -65,12 +82,16 @@ namespace DRDownload.Common.DownloadVideo
                         .CancellableThrough(cts)
                         .NotifyOnProgress(duration =>
                         {
-                            //progressNotifier.NotifyConsoleBelow100Pct(duration);
-                            //logNotifier.LogLine($"DUR: {duration:c}");
+                            if (calcProgress.Calc(duration))
+                            {
+                                StatusBar.Value = new UIElementProps<string>($"{calcProgress.Value}% downloaded");
+                                ProgressBar.Value = new UIElementProps<int>(calcProgress.Value);
+                            }
+                            logNotifier.LogLine($"DUR: {duration:c}");
                         })
                         .NotifyOnError(msg =>
                         {
-                            //logNotifier.LogLine($"MSG: {msg}");
+                            logNotifier.LogLine($"MSG: {msg}");
                         })
                         .ProcessAsynchronously(
                             true,
@@ -78,18 +99,24 @@ namespace DRDownload.Common.DownloadVideo
 
                 watch.Stop();
 
-                //progressNotifier.NotifyConsoleAt100Pct();
-                //logNotifier.LogLine($"Duration: {watch.Elapsed:c}");
+                if (calcProgress.Calc(ExpectedTotalMp4Duration))
+                {
+                    ProgressBar.Value = new UIElementProps<int>(calcProgress.Value);
+                    logNotifier.LogLine($"Duration: {watch.Elapsed:c}");
+                }
+
+                await Task.Delay(1000);
+
+                StatusBar.Value = new UIElementProps<string>($"Varighed {watch.Elapsed:c}");
             }
             catch (OperationCanceledException ex)
             {
-                //DRMedia.PipeOutput?.PipeMessageTo(ex.Message);
-                //logNotifier.LogLine(ex.Message);
+                StatusBar.Value = new UIElementProps<string>($"Download afbrudt");
+                logNotifier.LogLine(ex.Message);
             }
             catch (Exception ex)
             {
-                //DRMedia.PipeOutput?.PipeMessageTo(ex.Message);
-                //logNotifier.LogLine(ex.Message);
+                logNotifier.LogLine(ex.Message);
             }
 
         }

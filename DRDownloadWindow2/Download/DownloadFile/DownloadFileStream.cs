@@ -1,5 +1,4 @@
-﻿
-using System.IO;
+﻿using System.IO;
 using System.Net.Http;
 
 namespace DRDownload.Common.DownloadFile

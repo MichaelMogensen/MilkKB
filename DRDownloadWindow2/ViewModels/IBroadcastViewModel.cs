@@ -25,8 +25,8 @@ namespace DRDownloadWindow2.ViewModels
         public string? Mp4File { get; set; }
         public string? LogFile { get; set; }
 
-        public string? StatusBarText { get; set; }
-        public int? ProgressBarPercent { get; set; }
+        public string? StatusBar { get; set; }
+        public int? ProgressBar { get; set; }
     }
 }
 

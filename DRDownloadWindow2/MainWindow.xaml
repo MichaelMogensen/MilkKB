@@ -45,10 +45,10 @@
             <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
                 <StatusBar Background="BlanchedAlmond" Foreground="Gray">
                     <StatusBarItem FontFamily="Reem Kufi">
-                        <TextBox Text="{Binding Path=StatusBarText}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
+                        <TextBox Text="{Binding Path=StatusBar}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="{Binding Path=StatusBarColor}" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
                     </StatusBarItem>
                     <StatusBarItem Width="300" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch">
-                        <ProgressBar Value="{Binding Path=ProgressBarPercent}" BorderThickness="0" Height="1" Foreground="Gray" Background="BlanchedAlmond" Minimum="0" Maximum="100"/>
+                        <ProgressBar Value="{Binding Path=ProgressBar}" BorderThickness="0" Height="1" Foreground="{Binding Path=ProgressBarColor}" Background="BlanchedAlmond" Minimum="0" Maximum="100"/>
                     </StatusBarItem>
                 </StatusBar>
             </StackPanel>
