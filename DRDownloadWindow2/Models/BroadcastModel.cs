@@ -8,12 +8,17 @@ namespace DRDownloadWindow2.Models
 
         public Broadcast Broadcast { get; set; } = new Broadcast { Url = BaseUrl };
 
-        public ChromeBrowser Browser { get; set; } = new ChromeBrowser();
+        public ChromeBrowser? Browser { get; set; } = 
+#if WITH_BROWSER
+            new ChromeBrowser();
+#else
+            null;
+#endif
 
         public BroadcastModel()
         {
             // First time we goto base url.
-            Browser.Url = Broadcast.Url;
+            Browser?.Url = Broadcast.Url;
         }
     }
 }

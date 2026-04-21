@@ -1,6 +1,5 @@
 ﻿using DRDownloadWindow2.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace DRDownloadWindow2
@@ -59,7 +58,7 @@ namespace DRDownloadWindow2
         /// <param name="e"></param>
         private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ViewModel.Model.Browser.Close();
+            ViewModel.Model.Browser?.Close();
         }
 
         #endregion

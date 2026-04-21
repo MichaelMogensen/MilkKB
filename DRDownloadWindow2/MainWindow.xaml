@@ -16,9 +16,46 @@
         MouseLeftButtonDown="OnLeftMouseButtonDown"
         d:DataContext="{d:DesignInstance local:BroadcastViewModel, IsDesignTimeCreatable=False}">
     <Border Background="BlanchedAlmond" CornerRadius="30" Margin="20" Padding="40">
+        
+        <Border.Resources>
+            <!--        PeachPuff = ffdab9 -->
+            <!-- Light  PeachPuff = ffe0b9 -->
+            <!-- Light+ PeachPuff = ffe6b9 -->
+            <ControlTemplate x:Key="MM_BTN_TEMPLATE" TargetType="{x:Type Button}">
+                <!-- Visual tree -->
+                <Grid Width="100" Height="100" Margin="10">
+                    <Rectangle x:Name="MM_BTN_COLOR" RadiusX="20" RadiusY="20">
+                        <Rectangle.Fill>
+                            <Brush>#ffdab9</Brush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Viewbox>
+                        <ContentPresenter Content="{TemplateBinding Content}" Margin="20">
+                        
+                        </ContentPresenter>
+                    </Viewbox>
+                </Grid>
+                <!-- Behaviour -->
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="MM_BTN_COLOR" Property="Fill" Value="#ffe0b9"/> 
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter TargetName="MM_BTN_COLOR" Property="Fill" Value="#ffe6b9"/>
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="0.95" ScaleY="0.95"></ScaleTransform>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Border.Resources>
+
         <DockPanel LastChildFill="False">
             <Image DockPanel.Dock="Top" Width="200" Margin="0,0,0,50" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\dr.png" />
-          
+
             <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
                 <TextBox Text="{Binding Path=Title}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="30" IsReadOnly="True" FontWeight="Bold"></TextBox>
                 <Separator Background="Gray"/>
@@ -54,14 +91,16 @@
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Foreground="Transparent" Background="Transparent" BorderThickness="0" Command="{Binding CopyCommand}">
-                    <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png"/>
+                <Button Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding CopyCommand}">
+                    <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png"/>
                 </Button>
-                <Button Foreground="Transparent" Background="Transparent" BorderThickness="0" Command="{Binding DownloadCommand}">
-                    <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
+
+                <Button Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding DownloadCommand}">
+                    <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
                 </Button>
-                <Button Foreground="Transparent" Background="Transparent" BorderThickness="0" Click="OnBtnClose">
-                    <Image Width="75" Margin="10" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\close.png"/>
+
+                <Button Template="{StaticResource MM_BTN_TEMPLATE}"  Click="OnBtnClose">
+                    <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\close.png"/>
                 </Button>
             </StackPanel>
 

@@ -2,8 +2,26 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:DRDownloadWindow2"
+             xmlns:utilities="clr-namespace:DRDownloadWindow2.Utilities"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
+        <ControlTemplate x:Key="progressPie" TargetType="{x:Type ProgressBar}">
+
+            <!-- Ressources -->
+            <ControlTemplate.Resources>
+                <utilities:ValueMinMaxToIsLargeArcConverter x:Key="converter2"/>
+            </ControlTemplate.Resources>
+            
+            <!-- Visual tree -->
+            <Viewbox>
+                
+                
+                
+            </Viewbox>
+            
+        </ControlTemplate>
+        
     </Application.Resources>
+   
 </Application>
