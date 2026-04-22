@@ -3,17 +3,27 @@ using DRDownload.Common.DownloadFile;
 using DRDownload.Common.Types.BroadcastHtmlScraper;
 using DRDownload.Common.Types.BroadcastTypes;
 using HtmlAgilityPack;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.DevTools.V145.HeapProfiler;
-using System.Collections.Frozen;
 using System.Text.RegularExpressions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DRDownloadTests
 {
     [TestClass]
     public sealed class GeneralTests
     {
+        [TestMethod]
+        public void PointAtCircleArcTest()
+        {
+            Console.WriteLine(Util.PointAtCircleArc(0f));
+            Console.WriteLine(Util.PointAtCircleArc(25f));
+            Console.WriteLine(Util.PointAtCircleArc(50f));
+            Console.WriteLine(Util.PointAtCircleArc(75f));
+            Console.WriteLine(Util.PointAtCircleArc(100f));
+
+            Console.WriteLine(Util.PointAtCircleArc(10f));
+            Console.WriteLine(Util.PointAtCircleArc(40f));
+            Console.WriteLine(Util.PointAtCircleArc(80f));
+        }
+
         [TestMethod]
         public void DownloadFolderTest()
         {
@@ -53,7 +63,7 @@ namespace DRDownloadTests
         [TestMethod]
         public async Task DownloadBTTest()
         {
-                    // https://www.kb.dk/find-materiale/dr-arkivet/post/ds.radio:oai:io:b2dd0046-24db-4890-b191-e2cb2e573fb3
+            // https://www.kb.dk/find-materiale/dr-arkivet/post/ds.radio:oai:io:b2dd0046-24db-4890-b191-e2cb2e573fb3
             var url = "https://www.kb.dk/find-materiale/dr-arkivet/post/ds.tv:oai:io:90562507-e5e2-4c2e-8a9f-6a09cc9105dd";
             var file = "c:/temp/kb.txt";
 

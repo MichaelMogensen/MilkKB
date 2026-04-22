@@ -292,19 +292,26 @@ namespace DRDownloadWindow2.ViewModels
                         {
                             Task.Run(async () =>
                             {
-                                await new DRMedia(
-                                    Model.Broadcast,
-                                    new UIDispatchUpdater<UIElementProps<string>>(e =>
-                                    {
-                                        StatusBar = e.Value;
-                                        StatusBarColor = Util.WarningLevelToColor(e.WarningLevel);
-                                    }),
-                                    new UIDispatchUpdater<UIElementProps<int>>(e =>
-                                    {
-                                        ProgressBar = e.Value;
-                                        ProgressBarColor = Util.WarningLevelToColor(e.WarningLevel);
-                                    })).
-                                    StartDownloadAsync(new CancellationToken());
+                                for (var value = 0; value <= 100; value += 10)
+                                {
+                                    Application.Current.Dispatcher.Invoke(() => { ProgressBar = value;  });
+
+                                    await Task.Delay(250);
+                                }
+
+                                //await new DRMedia(
+                                //    Model.Broadcast,
+                                //    new UIDispatchUpdater<UIElementProps<string>>(e =>
+                                //    {
+                                //        StatusBar = e.Value;
+                                //        StatusBarColor = Util.WarningLevelToColor(e.WarningLevel);
+                                //    }),
+                                //    new UIDispatchUpdater<UIElementProps<int>>(e =>
+                                //    {
+                                //        ProgressBar = e.Value;
+                                //        ProgressBarColor = Util.WarningLevelToColor(e.WarningLevel);
+                                //    })).
+                                //    StartDownloadAsync(new CancellationToken());
                             });
                         },
                         s => true));

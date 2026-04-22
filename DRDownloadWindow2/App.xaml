@@ -6,22 +6,52 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        <ControlTemplate x:Key="progressPie" TargetType="{x:Type ProgressBar}">
+        <ControlTemplate x:Key="MM_PROGRESS_TEMPLATE" TargetType="{x:Type ProgressBar}">
 
             <!-- Ressources -->
             <ControlTemplate.Resources>
-                <utilities:ValueMinMaxToIsLargeArcConverter x:Key="converter2"/>
+                <Brush x:Key="PeachPuffDark">#ffd7b9</Brush>
+
+                <utilities:RangeToPointConverter x:Key="pointConverter"/>
+                <utilities:RangeToLargeArcConverter x:Key="arcConverter"/>
             </ControlTemplate.Resources>
-            
+
             <!-- Visual tree -->
             <Viewbox>
-                
-                
-                
+                <Grid Width="100" Height="100">
+                    <Path Fill="{StaticResource ResourceKey=PeachPuffDark}">
+                        <Path.Data>
+                            <PathGeometry>
+                                <PathGeometry.Figures>
+                                    <PathFigureCollection>
+                                        <PathFigure StartPoint="50,0" IsClosed="True">
+                                            <PathFigure.Segments>
+                                                <PathSegmentCollection>
+                                                    <ArcSegment Size="50,50" SweepDirection="Clockwise">
+                                                        <ArcSegment.Point>
+                                                            <MultiBinding Converter="{StaticResource pointConverter}">
+                                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
+                                                            </MultiBinding>
+                                                        </ArcSegment.Point>
+                                                        <ArcSegment.IsLargeArc>
+                                                            <MultiBinding Converter="{StaticResource arcConverter}">
+                                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
+                                                            </MultiBinding>
+                                                        </ArcSegment.IsLargeArc>
+                                                    </ArcSegment>
+                                                    <LineSegment Point="50,50"/>
+                                                </PathSegmentCollection>
+                                            </PathFigure.Segments>
+                                        </PathFigure>
+                                    </PathFigureCollection>
+                                </PathGeometry.Figures>
+                            </PathGeometry>
+                        </Path.Data>
+                    </Path>
+                </Grid>
             </Viewbox>
-            
         </ControlTemplate>
-        
+
     </Application.Resources>
-   
+
 </Application>

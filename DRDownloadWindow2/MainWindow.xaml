@@ -18,9 +18,6 @@
     <Border Background="BlanchedAlmond" CornerRadius="30" Margin="20" Padding="40">
 
         <Border.Resources>
-            <!--        PeachPuff = ffdab9 -->
-            <!-- Light  PeachPuff = ffe0b9 -->
-            <!-- Light+ PeachPuff = ffe6b9 -->
             <ControlTemplate x:Key="MM_BTN_TEMPLATE" TargetType="{x:Type Button}">
 
                 <ControlTemplate.Resources>
@@ -98,9 +95,9 @@
                     <StatusBarItem FontFamily="Reem Kufi">
                         <TextBox Text="{Binding Path=StatusBar}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="{Binding Path=StatusBarColor}" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
                     </StatusBarItem>
-                    <StatusBarItem Width="300" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch">
+                    <!--<StatusBarItem Width="300" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch">
                         <ProgressBar Value="{Binding Path=ProgressBar}" BorderThickness="0" Height="1" Foreground="{Binding Path=ProgressBarColor}" Background="BlanchedAlmond" Minimum="0" Maximum="100"/>
-                    </StatusBarItem>
+                    </StatusBarItem>-->
                 </StatusBar>
             </StackPanel>
 
@@ -113,9 +110,11 @@
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
                 </Button>
 
-                <Button Template="{StaticResource MM_BTN_TEMPLATE}"  Click="OnBtnClose">
+                <Button Template="{StaticResource MM_BTN_TEMPLATE}" Click="OnBtnClose">
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\close.png"/>
                 </Button>
+
+                <ProgressBar Width="100" Height="100" Template="{StaticResource MM_PROGRESS_TEMPLATE}" Value="25"/>
             </StackPanel>
 
         </DockPanel>

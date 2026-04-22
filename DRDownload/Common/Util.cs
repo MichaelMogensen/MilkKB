@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Drawing;
 using System.Globalization;
 using System.Text;
 
@@ -52,6 +53,36 @@ namespace DRDownload.Common
             return capitalized;
         }
 
+        /// <summary>
+        /// Full circle is 100% and circle is inside box of 2 x radius, 2 x radius. Circle touching box in 4 points. Point returned 
+        /// is found somewhere on arc and 
+        /// 00% is at 00h hour, 
+        /// 25% is at 03h, 
+        /// 50% is at 06h and 
+        /// 75% is at 09h.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="radius"></param>
+        /// <returns></returns>
+        public static PointF PointAtCircleArc(float value)
+        {
+            const float RadFactor = 2.0f * (float)Math.PI / 360f;
+            var corde = 360f * value / 100f;
+
+            if (corde == 360f)
+                corde = 359.999f; // To make it close pie.
+            corde -= 90f; // To start at top.
+            corde *= RadFactor; // To rad.
+
+            float x = 50f + 50f * (float)Math.Cos(corde);
+            float y = 50f + 50f * (float)Math.Sin(corde);
+
+            //x = (float)Math.Ceiling((double)x);
+            //y = (float)Math.Ceiling((double)y);
+
+            return new PointF(x, y);
+        }
+        
         /// <summary>
         /// Read JSON file and return instance of object it should be able to deserialize to.
         /// </summary>
