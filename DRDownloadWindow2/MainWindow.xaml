@@ -16,34 +16,48 @@
         MouseLeftButtonDown="OnLeftMouseButtonDown"
         d:DataContext="{d:DesignInstance local:BroadcastViewModel, IsDesignTimeCreatable=False}">
     <Border Background="BlanchedAlmond" CornerRadius="30" Margin="20" Padding="40">
-        
+
         <Border.Resources>
             <!--        PeachPuff = ffdab9 -->
             <!-- Light  PeachPuff = ffe0b9 -->
             <!-- Light+ PeachPuff = ffe6b9 -->
             <ControlTemplate x:Key="MM_BTN_TEMPLATE" TargetType="{x:Type Button}">
+
+                <ControlTemplate.Resources>
+                    <Brush x:Key="PeachPuffDark">#ffd7b9</Brush>
+                    <Color x:Key="PeachPuff">#ffdab9</Color>
+                    <Brush x:Key="PeachPuffLight">#ffddb9</Brush>
+                </ControlTemplate.Resources>
+
                 <!-- Visual tree -->
                 <Grid Width="100" Height="100" Margin="10">
                     <Rectangle x:Name="MM_BTN_COLOR" RadiusX="20" RadiusY="20">
                         <Rectangle.Fill>
-                            <Brush>#ffdab9</Brush>
+                            <SolidColorBrush Color="{StaticResource ResourceKey=PeachPuff}"></SolidColorBrush>
                         </Rectangle.Fill>
                     </Rectangle>
                     <Viewbox>
                         <ContentPresenter Content="{TemplateBinding Content}" Margin="20">
-                        
                         </ContentPresenter>
                     </Viewbox>
                 </Grid>
                 <!-- Behaviour -->
                 <ControlTemplate.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter TargetName="MM_BTN_COLOR" Property="Fill" Value="#ffe0b9"/> 
-                    </Trigger>
-                    <Trigger Property="IsPressed" Value="True">
-                        <Setter TargetName="MM_BTN_COLOR" Property="Fill" Value="#ffe6b9"/>
+                        <Setter TargetName="MM_BTN_COLOR" Property="Fill" Value="{StaticResource ResourceKey=PeachPuffLight}"/>
                         <Setter Property="RenderTransform">
                             <Setter.Value>
+                                <!-- Grow -->
+                                <ScaleTransform ScaleX="1.05" ScaleY="1.05"></ScaleTransform>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter TargetName="MM_BTN_COLOR" Property="Fill" Value="{StaticResource ResourceKey=PeachPuffDark}"/>
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <!-- Shrink -->
                                 <ScaleTransform ScaleX="0.95" ScaleY="0.95"></ScaleTransform>
                             </Setter.Value>
                         </Setter>
