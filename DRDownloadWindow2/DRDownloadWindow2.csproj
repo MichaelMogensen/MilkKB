@@ -8,7 +8,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);WITH_BROWSER</DefineConstants>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Download\OngoingDownloadLogNotifier.cs" />

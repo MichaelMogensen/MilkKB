@@ -292,27 +292,29 @@ namespace DRDownloadWindow2.ViewModels
                         {
                             Task.Run(async () =>
                             {
-                                for (var value = 0; value <= 100; value += 1)
-                                {
-                                    Application.Current.Dispatcher.Invoke(() => { ProgressBar = value; });
-                                    Application.Current.Dispatcher.Invoke(() => { StatusBar = value.ToString(); });
+                                // Testing Progress ans Status.
 
-                                    await Task.Delay(100);
-                                }
+                                //for (var value = 0; value <= 100; value += 1)
+                                //{
+                                //    Application.Current.Dispatcher.Invoke(() => { ProgressBar = value; });
+                                //    Application.Current.Dispatcher.Invoke(() => { StatusBar = value.ToString(); });
 
-                                //await new DRMedia(
-                                //    Model.Broadcast,
-                                //    new UIDispatchUpdater<UIElementProps<string>>(e =>
-                                //    {
-                                //        StatusBar = e.Value;
-                                //        StatusBarColor = Util.WarningLevelToColor(e.WarningLevel);
-                                //    }),
-                                //    new UIDispatchUpdater<UIElementProps<int>>(e =>
-                                //    {
-                                //        ProgressBar = e.Value;
-                                //        ProgressBarColor = Util.WarningLevelToColor(e.WarningLevel);
-                                //    })).
-                                //    StartDownloadAsync(new CancellationToken());
+                                //    await Task.Delay(100);
+                                //}
+
+                                await new DRMedia(
+                                    Model.Broadcast,
+                                    new UIDispatchUpdater<UIElementProps<string>>(e =>
+                                    {
+                                        StatusBar = e.Value;
+                                        StatusBarColor = Util.WarningLevelToColor(e.WarningLevel);
+                                    }),
+                                    new UIDispatchUpdater<UIElementProps<int>>(e =>
+                                    {
+                                        ProgressBar = e.Value;
+                                        ProgressBarColor = Util.WarningLevelToColor(e.WarningLevel);
+                                    })).
+                                    StartDownloadAsync(new CancellationToken());
                             });
                         },
                         s => true));
