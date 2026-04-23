@@ -1,8 +1,8 @@
 ﻿using DRDownloadWindow2.Types;
-using System.Drawing;
+//using System.Drawing;
 using System.Globalization;
 using System.Text;
-using System.Windows.Media;
+using System.Windows;
 using Color = System.Drawing.Color;
 
 namespace DRDownloadWindow2.Utilities
@@ -52,32 +52,6 @@ namespace DRDownloadWindow2.Utilities
             var capitalized = first + rest;
 
             return capitalized;
-        }
-
-        /// <summary>
-        /// Full circle is 100% and circle is inside box of 2 x radius, 2 x radius. Circle touching box in 4 points. Point returned 
-        /// is found somewhere on arc and 
-        /// 00% is at 00h hour, 
-        /// 25% is at 03h, 
-        /// 50% is at 06h and 
-        /// 75% is at 09h.
-        /// </summary>
-        /// <param name="percentage">0 - 100%</param>
-        /// <returns></returns>
-        public static PointF PointAtCircle(float percentage)
-        {
-            const float RadFactor = 2.0f * (float)Math.PI / 360f;
-            var corde = 360f * percentage / 100f;
-
-            if (corde == 360f)
-                corde = 359.999f; // To make it close pie.
-            corde -= 90f; // To start at top.
-            corde *= RadFactor; // To rad.
-
-            float x = 50f + 50f * (float)Math.Cos(corde);
-            float y = 50f + 50f * (float)Math.Sin(corde);
-
-            return new PointF(x, y);
         }
 
         /// <summary>
@@ -142,6 +116,42 @@ namespace DRDownloadWindow2.Utilities
 
             result = $"{prefix}{result}";
             return result;
+        }
+
+        /// <summary>
+        /// Full circle is 100% and circle is inside box of 2 x radius, 2 x radius. Circle touching box in 4 points. Point returned 
+        /// is found somewhere on arc and 
+        /// 00% is at 00h hour, 
+        /// 25% is at 03h, 
+        /// 50% is at 06h and 
+        /// 75% is at 09h.
+        /// </summary>
+        /// <param name="percentage">0 - 100%</param>
+        /// <returns></returns>
+        public static Point PercentToCircleArcPoint(double percentage)
+        {
+            const double RadFactor = 2.0 * Math.PI / 360.0;
+            var corde = 360.0 * percentage / 100.0;
+
+            if (corde == 360.0)
+                corde = 359.999; // To make it close pie.
+            corde -= 90.0; // To start at top.
+            corde *= RadFactor; // To rad.
+
+            var x = 50.0 + 50.0 * Math.Cos(corde);
+            var y = 50.0 + 50.0 * Math.Sin(corde);
+
+            return new Point(x, y);
+        }
+
+        /// <summary>
+        /// Return T if > 50% of circle arc and F if not.
+        /// </summary>
+        /// <param name="percentage"></param>
+        /// <returns></returns>
+        public static bool PercentToCircleIsLargeArc(double percentage)
+        {
+            return percentage > 50.0;
         }
 
         /// <summary>

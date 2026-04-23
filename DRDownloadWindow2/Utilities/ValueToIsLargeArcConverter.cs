@@ -3,13 +3,19 @@ using System.Windows.Data;
 
 namespace DRDownloadWindow2.Utilities
 {
-    public class RangeToLargeArcConverter : IMultiValueConverter
+    public class ValueToIsLargeArcConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var value = (float)values[0];
+            if (values[0] != System.Windows.DependencyProperty.UnsetValue)
+            {
+                if (double.TryParse(values[0]?.ToString(), out double percentage))
+                {
+                    return Util.PercentToCircleIsLargeArc(percentage);
+                }
+            }
 
-            return value >= 50f;
+            return Binding.DoNothing;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

@@ -1,3 +1,9 @@
+            //File.AppendAllText(@"c:\temp\debug_ac.txt", $"{parameter} = {values[0]}");
+
+            //File.AppendAllText(@"c:\temp\debug_pc.txt", $"{parameter} = {values[0]}");
+
+
+
                                 for (var value = 0; value <= 100; value += 10)
                                 {
                                     Application.Current.Dispatcher.Invoke(() => { ProgressBarPercent = value;  });

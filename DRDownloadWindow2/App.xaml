@@ -12,8 +12,8 @@
             <ControlTemplate.Resources>
                 <Brush x:Key="PeachPuffDark">#ffd7b9</Brush>
 
-                <utilities:RangeToPointConverter x:Key="pointConverter"/>
-                <utilities:RangeToLargeArcConverter x:Key="arcConverter"/>
+                <utilities:ValueToPointConverter x:Key="pointConverter"/>
+                <utilities:ValueToIsLargeArcConverter x:Key="arcConverter"/>
             </ControlTemplate.Resources>
 
             <!-- Visual tree -->
@@ -27,7 +27,8 @@
                                         <PathFigure StartPoint="50,0" IsClosed="True">
                                             <PathFigure.Segments>
                                                 <PathSegmentCollection>
-                                                    <ArcSegment Size="50,50" SweepDirection="Clockwise">
+                                                    <ArcSegment Size="50,50" SweepDirection="Clockwise" RotationAngle="-90">
+                                                        <!--Point="79.38927,90.45085"-->
                                                         <ArcSegment.Point>
                                                             <MultiBinding Converter="{StaticResource pointConverter}">
                                                                 <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>

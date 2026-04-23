@@ -294,7 +294,8 @@ namespace DRDownloadWindow2.ViewModels
                             {
                                 for (var value = 0; value <= 100; value += 10)
                                 {
-                                    Application.Current.Dispatcher.Invoke(() => { ProgressBar = value;  });
+                                    Application.Current.Dispatcher.Invoke(() => { ProgressBar = value; });
+                                    Application.Current.Dispatcher.Invoke(() => { StatusBar = value.ToString(); });
 
                                     await Task.Delay(250);
                                 }

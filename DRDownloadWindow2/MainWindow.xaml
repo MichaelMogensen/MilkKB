@@ -114,7 +114,7 @@
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\close.png"/>
                 </Button>
 
-                <ProgressBar Width="100" Height="100" Template="{StaticResource MM_PROGRESS_TEMPLATE}" Value="25"/>
+                <ProgressBar Width="100" Height="100" Template="{StaticResource MM_PROGRESS_TEMPLATE}" Value="{Binding Path=ProgressBar}" Minimum="0" Maximum="100"/>
             </StackPanel>
 
         </DockPanel>
