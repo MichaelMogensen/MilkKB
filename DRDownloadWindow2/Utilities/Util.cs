@@ -1,5 +1,4 @@
 ﻿using DRDownloadWindow2.Types;
-//using System.Drawing;
 using System.Globalization;
 using System.Text;
 using System.Windows;

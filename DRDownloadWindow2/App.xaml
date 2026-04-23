@@ -14,6 +14,7 @@
 
                 <utilities:ValueToPointConverter x:Key="pointConverter"/>
                 <utilities:ValueToIsLargeArcConverter x:Key="arcConverter"/>
+                <utilities:ValueToPercentageConverter x:Key="pctConverter"/>
             </ControlTemplate.Resources>
 
             <!-- Visual tree -->
@@ -49,6 +50,13 @@
                             </PathGeometry>
                         </Path.Data>
                     </Path>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Reem Kufi" Foreground="Gray" FontSize="20">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource pctConverter}">
+                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
                 </Grid>
             </Viewbox>
         </ControlTemplate>

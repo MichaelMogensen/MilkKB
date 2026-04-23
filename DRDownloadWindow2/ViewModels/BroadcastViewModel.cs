@@ -292,12 +292,12 @@ namespace DRDownloadWindow2.ViewModels
                         {
                             Task.Run(async () =>
                             {
-                                for (var value = 0; value <= 100; value += 10)
+                                for (var value = 0; value <= 100; value += 1)
                                 {
                                     Application.Current.Dispatcher.Invoke(() => { ProgressBar = value; });
                                     Application.Current.Dispatcher.Invoke(() => { StatusBar = value.ToString(); });
 
-                                    await Task.Delay(250);
+                                    await Task.Delay(100);
                                 }
 
                                 //await new DRMedia(
