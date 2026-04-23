@@ -19,15 +19,13 @@
 
         <Border.Resources>
             <ControlTemplate x:Key="MM_BTN_TEMPLATE" TargetType="{x:Type Button}">
-
                 <ControlTemplate.Resources>
                     <Brush x:Key="PeachPuffDark">#ffd7b9</Brush>
                     <Color x:Key="PeachPuff">#ffdab9</Color>
                     <Brush x:Key="PeachPuffLight">#ffddb9</Brush>
                 </ControlTemplate.Resources>
-
                 <!-- Visual tree -->
-                <Grid Width="100" Height="100" Margin="10">
+                <Grid Margin="10">
                     <Rectangle x:Name="MM_BTN_COLOR" RadiusX="20" RadiusY="20">
                         <Rectangle.Fill>
                             <SolidColorBrush Color="{StaticResource ResourceKey=PeachPuff}"></SolidColorBrush>
@@ -102,17 +100,26 @@
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding CopyCommand}">
+                <Button Width="100" Height="100" Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding CopyCommand}">
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png"/>
                 </Button>
 
-                <Button Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding DownloadCommand}">
-                    <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
+                <Button Width="200" Height="100" Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding DownloadCommand}">
+                    <Grid Width="300">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Image Grid.Row="0" Grid.Column="0" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
+                        <ProgressBar Grid.Row="0" Grid.Column="1" Template="{StaticResource MM_PROGRESS_0_TO_100_PCT_TEMPLATE}" Value="{Binding Path=ProgressBar}"/>
+                    </Grid>
                 </Button>
 
-                <ProgressBar Width="100" Height="100" Template="{StaticResource MM_PROGRESS_TEMPLATE}" Value="{Binding Path=ProgressBar}"/>
-
-                <Button Template="{StaticResource MM_BTN_TEMPLATE}" Click="OnBtnClose">
+                <Button Width="100" Height="100" Template="{StaticResource MM_BTN_TEMPLATE}" Click="OnBtnClose">
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\close.png"/>
                 </Button>
 

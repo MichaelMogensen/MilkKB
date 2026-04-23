@@ -6,11 +6,13 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        <ControlTemplate x:Key="MM_PROGRESS_TEMPLATE" TargetType="{x:Type ProgressBar}">
+        <ControlTemplate x:Key="MM_PROGRESS_0_TO_100_PCT_TEMPLATE" TargetType="{x:Type ProgressBar}">
 
             <!-- Ressources -->
+            <!-- https://htmlcolorcodes.com/colors/shades-of-orange/ -->
             <ControlTemplate.Resources>
-                <Brush x:Key="PeachPuffDark">#ffd7b9</Brush>
+                <Brush x:Key="ProgressColor">#FFF5EE</Brush>
+                <Brush x:Key="TextColor">Gray</Brush>
 
                 <utilities:ValueToPointConverter x:Key="pointConverter"/>
                 <utilities:ValueToIsLargeArcConverter x:Key="arcConverter"/>
@@ -20,7 +22,7 @@
             <!-- Visual tree -->
             <Viewbox>
                 <Grid Width="100" Height="100">
-                    <Path Fill="{StaticResource ResourceKey=PeachPuffDark}">
+                    <Path Fill="{StaticResource ResourceKey=ProgressColor}">
                         <Path.Data>
                             <PathGeometry>
                                 <PathGeometry.Figures>
@@ -50,7 +52,7 @@
                             </PathGeometry>
                         </Path.Data>
                     </Path>
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Reem Kufi" Foreground="Gray" FontSize="20">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Reem Kufi" Foreground="{StaticResource ResourceKey=TextColor}" FontSize="20">
                         <TextBlock.Text>
                             <MultiBinding Converter="{StaticResource pctConverter}">
                                 <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
