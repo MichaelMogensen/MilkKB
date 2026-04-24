@@ -69,7 +69,9 @@
                 <TextBox Text="{Binding Path=Title}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="30" IsReadOnly="True" FontWeight="Bold"></TextBox>
                 <Separator Background="Gray"/>
                 <TextBox Text="{Binding Path=SendDateAndDuration}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
-                <TextBlock Text="{Binding Path=Description}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" FontSize="20" TextWrapping="Wrap"></TextBlock>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="100">
+                    <TextBlock Text="{Binding Path=Description}" TextWrapping="WrapWithOverflow" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" FontSize="20"></TextBlock>
+                </ScrollViewer>
                 <TextBox Text="{Binding Path=Episode}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
                 <TextBox Text="{Binding Path=Channel}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
                 <TextBox Text="{Binding Path=Genre}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
