@@ -10,9 +10,9 @@ namespace DRDownloadWindow2.Utilities
         {
             if (values[0] != DependencyProperty.UnsetValue)
             {
-                if (double.TryParse(values[0]?.ToString(), out double percentage))
+                if (double.TryParse(values[0]?.ToString(), out double percent))
                 {
-                    return $"{(int)percentage}%";
+                    return Util.PercentFmt(percent);
                 }
             }
 

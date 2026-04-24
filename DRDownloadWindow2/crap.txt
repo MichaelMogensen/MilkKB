@@ -1,4 +1,19 @@
-            //File.AppendAllText(@"c:\temp\debug_ac.txt", $"{parameter} = {values[0]}");
+                                    //Application.Current.Dispatcher.Invoke(() => { ProgressBar = value; });
+                                    //var result = Application.Current.Dispatcher.Invoke(async () => 
+                                    //{
+                                    //    StatusBar = Util.PercentFmt(value);
+                                    //    await Task.Delay(100);
+                                    //});
+
+                                    //await result;
+
+                                    //await Task.Delay(100);
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    //File.AppendAllText(@"c:\temp\debug_ac.txt", $"{parameter} = {values[0]}");
 
             //File.AppendAllText(@"c:\temp\debug_pc.txt", $"{parameter} = {values[0]}");
 

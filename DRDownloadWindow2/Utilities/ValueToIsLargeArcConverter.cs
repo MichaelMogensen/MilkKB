@@ -9,9 +9,9 @@ namespace DRDownloadWindow2.Utilities
         {
             if (values[0] != System.Windows.DependencyProperty.UnsetValue)
             {
-                if (double.TryParse(values[0]?.ToString(), out double percentage))
+                if (double.TryParse(values[0]?.ToString(), out double percent))
                 {
-                    return Util.PercentToCircleIsLargeArc(percentage);
+                    return Util.PercentToCircleIsLargeArc(percent);
                 }
             }
 

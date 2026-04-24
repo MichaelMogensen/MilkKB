@@ -6,7 +6,7 @@ namespace DRDownloadWindow2.DRBroadcast.DRBroadcastFile
 {
     public abstract class DRBroadcastFileBase
     {
-        private static readonly int MAX_FILE_LEN = 200;
+        private static readonly int MAX_FILE_LEN = 150;
 
         public string OutputFile { get; private set; } = string.Empty;
 

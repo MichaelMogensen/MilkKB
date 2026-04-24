@@ -125,15 +125,15 @@ namespace DRDownloadWindow2.Utilities
         /// 50% is at 06h and 
         /// 75% is at 09h.
         /// </summary>
-        /// <param name="percentage">0 - 100%</param>
+        /// <param name="percent">0 - 100%</param>
         /// <returns></returns>
-        public static Point PercentToCircleArcPoint(double percentage)
+        public static Point PercentToCircleArcPoint(double percent)
         {
             const double RadFactor = 2.0 * Math.PI / 360.0;
-            var corde = 360.0 * percentage / 100.0;
+            var corde = 360.0 * percent / 100.0;
 
             if (corde == 360.0)
-                corde = 359.999; // To make it close pie.
+                corde -= 0.0001; // To avoid it goes to 0% at once.
             corde -= 90.0; // To start at top.
             corde *= RadFactor; // To rad.
 
@@ -144,13 +144,21 @@ namespace DRDownloadWindow2.Utilities
         }
 
         /// <summary>
+        /// Format percent for display.
+        /// </summary>
+        /// <param name="percent"></param>
+        /// <returns></returns>
+        public static string PercentFmt(double percent) =>
+            $"{(int)percent}%";
+
+        /// <summary>
         /// Return T if > 50% of circle arc and F if not.
         /// </summary>
-        /// <param name="percentage"></param>
+        /// <param name="percent"></param>
         /// <returns></returns>
-        public static bool PercentToCircleIsLargeArc(double percentage)
+        public static bool PercentToCircleIsLargeArc(double percent)
         {
-            return percentage > 50.0;
+            return percent > 50.0;
         }
 
         /// <summary>
