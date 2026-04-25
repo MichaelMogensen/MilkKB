@@ -15,23 +15,19 @@ namespace DRDownloadWindow2.Download
     {
         private Broadcast Broadcast { get; set; }
 
-        public UIDispatchUpdater<UIElementProps<string>> StatusBar { get; set; }
-        public UIDispatchUpdater<UIElementProps<int>> ProgressBar { get; set; }
+        public StatusAndProgressHandler StatusAndProgressHandler { get; set; }
 
         /// <summary>
         /// Ctor.
         /// </summary>
         /// <param name="broadcast"></param>
-        /// <param name="statusBar"></param>
-        /// <param name="progressBar"></param>
+        /// <param name="statusAndProgressHandler"></param>
         public DRMedia(
-            Broadcast broadcast, 
-            UIDispatchUpdater<UIElementProps<string>> statusBar, 
-            UIDispatchUpdater<UIElementProps<int>> progressBar)
+            Broadcast broadcast,
+            StatusAndProgressHandler statusAndProgressHandler)
         {
             Broadcast = broadcast;
-            StatusBar = statusBar;
-            ProgressBar = progressBar;
+            StatusAndProgressHandler = statusAndProgressHandler;
         }
 
         /// <summary>
@@ -51,7 +47,7 @@ namespace DRDownloadWindow2.Download
             }
             else
             {
-                StatusBar.Value = new UIElementProps<string>("Media type skal være enten radio eller tv", EWarningLevel.error);
+                StatusAndProgressHandler.UpdateStatus("Medie type skal være enten radio eller tv", EWarningLevel.error);
             }
         }
 
@@ -63,7 +59,7 @@ namespace DRDownloadWindow2.Download
         {
             if (string.IsNullOrEmpty(Broadcast.Mp3File))
             {
-                StatusBar.Value = new UIElementProps<string>("Kan ikke starte radio download med manglende mp3 fil", EWarningLevel.error);
+                StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio download med manglende mp3 fil", EWarningLevel.error);
                 return;
             }
 
@@ -73,7 +69,7 @@ namespace DRDownloadWindow2.Download
             // If output file already exists we abort.
             if (File.Exists(mp3Downloader.OutputFile))
             {
-                StatusBar.Value = new UIElementProps<string>($"Filen {mp3Downloader.OutputFile} findes allerede. Slet den hvis du vil downloade igen", EWarningLevel.warning);
+                StatusAndProgressHandler.UpdateStatus($"Filen {mp3Downloader.OutputFile} findes allerede. Slet den hvis du vil downloade igen", EWarningLevel.error);
                 return;
             }
 
@@ -90,22 +86,22 @@ namespace DRDownloadWindow2.Download
         {
             if (string.IsNullOrEmpty(Broadcast.M3uFile))
             {
-                StatusBar.Value = new UIElementProps<string>("Kan ikke starte radio tv med manglende m3u8 fil", EWarningLevel.error);
+                StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio tv med manglende m3u8 fil", EWarningLevel.error);
                 return;
             }
             if (string.IsNullOrEmpty(Broadcast.Mp4File))
             {
-                StatusBar.Value = new UIElementProps<string>("Kan ikke starte radio tv med manglende mp4 fil", EWarningLevel.error);
+                StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio tv med manglende mp4 fil", EWarningLevel.error);
                 return;
             }
             if (string.IsNullOrEmpty(Broadcast.LogFile))
             {
-                StatusBar.Value = new UIElementProps<string>("Kan ikke starte radio tv med manglende log fil", EWarningLevel.error);
+                StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio tv med manglende log fil", EWarningLevel.error);
                 return;
             }
             if (Broadcast.Duration == null || Broadcast.Duration.Value == default)
             {
-                StatusBar.Value = new UIElementProps<string>("Kan ikke starte radio tv med manglende total varighed på udsendelse", EWarningLevel.error);
+                StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio tv med manglende total varighed på udsendelse", EWarningLevel.error);
                 return;
             }
 
@@ -121,13 +117,13 @@ namespace DRDownloadWindow2.Download
                 Broadcast.Mp4File,
                 Broadcast.LogFile,
                 Broadcast.Duration.Value,
-                StatusBar,
-                ProgressBar);
+                null, // TODO:
+                null); // TODO: StatusAndProgressHandler
 
             // If output file already exists we abord.
             if (File.Exists(Broadcast.Mp4File))
             {
-                StatusBar.Value = new UIElementProps<string>($"Filen {mp4Downloader.OutputFile} findes allerede. Slet den hvis du vil downloade igen", EWarningLevel.warning);
+                StatusAndProgressHandler.UpdateStatus($"Filen {mp4Downloader.OutputFile} findes allerede. Slet den hvis du vil downloade igen", EWarningLevel.error);
                 return;
             }
 
@@ -151,15 +147,15 @@ namespace DRDownloadWindow2.Download
         {
             var watch = new Stopwatch();
 
-            StatusBar.Value = new UIElementProps<string>("Download start", EWarningLevel.info);
-            await Task.Delay(1000);
+            await StatusAndProgressHandler.UpdateStatusAndWaitAsync("Download start", 1);
 
             watch.Start();
             await DownloadAsync();
             watch.Stop();
 
-            StatusBar.Value = new UIElementProps<string>("Download slut", EWarningLevel.info);
-            await Task.Delay(1000);
+            await StatusAndProgressHandler.UpdateStatusAndWaitAsync("Download slut", 1);
+            StatusAndProgressHandler.UpdateStatus("Klar");
+            StatusAndProgressHandler.UpdateProgress(0);
         }
 
     }

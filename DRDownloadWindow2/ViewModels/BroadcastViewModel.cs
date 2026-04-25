@@ -267,10 +267,13 @@ namespace DRDownloadWindow2.ViewModels
                             Task.Run(() =>
                             {
                                 // Here we expect user has already navigated to broadcast page.
-                                var handler = new DRBroadcastHandler(Model.Browser);
-                                handler.ReadBroadcastDetails();
-                                Model.Broadcast = handler.Broadcast;
-                                Update();
+                                if (Model.Browser != null)
+                                {
+                                    var handler = new DRBroadcastHandler(Model.Browser);
+                                    handler.ReadBroadcastDetails();
+                                    Model.Broadcast = handler.Broadcast;
+                                    Update();
+                                }
                             });
                         },
                         s => true));
@@ -292,50 +295,22 @@ namespace DRDownloadWindow2.ViewModels
                         {
                             Task.Run(async () =>
                             {
-                                //// Testing Progress and Status.
-
-                                //var progressBar = new UIDispatchUpdater<UIElementProps<int>>(async e =>
-                                //{
-                                //    ProgressBar = e.Value;
-                                //    ProgressBarColor = Util.WarningLevelToColor(e.WarningLevel);
-                                //});
-
-                                //// Roll up slow.
-                                //for (var value = 0; value <= 100; value += 1)
-                                //{
-                                //    var uip = new UIElementProps<int>(value);
-                                    
-                                //    progressBar.Value = uip;
-                                //    await Task.Delay(100);
-                                //}
-
-                                //await Task.Delay(1000);
-
-                                //// Roll back fast.
-                                //for (var value = 100; value >= 0; value -= 1)
-                                //{
-                                //    var uip = new UIElementProps<int>(value);
-                                    
-                                //    progressBar.Value = uip;
-                                //    await Task.Delay(25);
-                                //}
-
-
                                 await new DRMedia(
                                     Model.Broadcast,
-                                    new UIDispatchUpdater<UIElementProps<string>>(e =>
-                                    {
-                                        StatusBar = e.Value;
-                                        StatusBarColor = Util.WarningLevelToColor(e.WarningLevel);
-                                    }),
-                                    new UIDispatchUpdater<UIElementProps<int>>(e =>
-                                    {
-                                        ProgressBar = e.Value;
-                                    })).
+                                    new StatusAndProgressHandler(
+                                        new UIDispatchUpdater<UIElementProps<string>>(e =>
+                                        {
+                                            StatusBar = e.Value;
+                                            StatusBarColor = Util.WarningLevelToColor(e.WarningLevel);
+                                        }),
+                                        new UIDispatchUpdater<UIElementProps<int>>(e =>
+                                        {
+                                            ProgressBar = e.Value;
+                                        }))).
                                     StartDownloadAsync(new CancellationToken());
                             });
                         },
-                        s => true));
+                        s => ProgressBar == 0));
             }
         }
 

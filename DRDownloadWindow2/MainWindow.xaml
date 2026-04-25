@@ -58,6 +58,10 @@
                         </Setter>
                         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
                     </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                         <!-- Dim. -->
+                        <Setter Property="Opacity" Value="0.5" />
+                    </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
         </Border.Resources>
@@ -115,7 +119,7 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        
+
                         <Image Grid.Row="0" Grid.Column="0" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
                         <ProgressBar Grid.Row="0" Grid.Column="1" Template="{StaticResource MM_PROGRESS_0_TO_100_PCT_TEMPLATE}" Value="{Binding Path=ProgressBar}"/>
                     </Grid>
