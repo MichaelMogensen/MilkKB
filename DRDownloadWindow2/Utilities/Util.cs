@@ -142,6 +142,21 @@ namespace DRDownloadWindow2.Utilities
 
             return new Point(x, y);
         }
+        
+        /// <summary>
+        /// Percent 0 - 100.
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public static int Percent(double f)
+        {
+            var pct = 100.0 * f;
+
+            pct = Math.Max(0.0, pct);
+            pct = Math.Min(100.0, pct);
+
+            return (int)pct;
+        }
 
         /// <summary>
         /// Format percent for display.

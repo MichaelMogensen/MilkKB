@@ -24,8 +24,7 @@ namespace DRDownload.Common.DownloadVideo
 
         public TimeSpan ExpectedTotalMp4Duration { get; set; }
 
-        public UIDispatchUpdater<UIElementProps<string>> StatusBar { get; set; }
-        public UIDispatchUpdater<UIElementProps<int>> ProgressBar { get; set; }
+        public StatusAndProgressHandler StatusAndProgressHandler { get; set; }
 
         /// <summary>
         /// Ctor.
@@ -34,22 +33,19 @@ namespace DRDownload.Common.DownloadVideo
         /// <param name="outputFile">Expected to be a mp4 file</param>
         /// <param name="logFile">Log file. No null nothing is logged</param>
         /// <param name="expectedTotalMp4Duration">From metadata the total duration of the video</param>
-        /// <param name="statusBar"></param>
-        /// <param name="progressBar"></param>
+        /// <param name="statusAndProgressHandler"></param>
         public DownloadVideoStream(
             string inputFile,
             string outputFile,
             string logFile,
             TimeSpan expectedTotalMp4Duration,
-            UIDispatchUpdater<UIElementProps<string>> statusBar,
-            UIDispatchUpdater<UIElementProps<int>> progressBar)
+            StatusAndProgressHandler statusAndProgressHandler)
         {
             InputFile = inputFile;
             OutputFile = outputFile;
             LogFile = logFile;
             ExpectedTotalMp4Duration = expectedTotalMp4Duration;
-            StatusBar = statusBar;
-            ProgressBar = progressBar;
+            StatusAndProgressHandler = statusAndProgressHandler;
         }
 
         /// <summary>
@@ -60,7 +56,7 @@ namespace DRDownload.Common.DownloadVideo
         {
             cts.ThrowIfCancellationRequested();
 
-            var calcProgress = new CalcProgress(ExpectedTotalMp4Duration);
+            var calcProgress = new CalcProgressBasedOnTimeSpan(ExpectedTotalMp4Duration);
             var logNotifier = new LogNotifier(LogFile);
 
             try
@@ -84,8 +80,8 @@ namespace DRDownload.Common.DownloadVideo
                         {
                             if (calcProgress.Calc(duration))
                             {
-                                StatusBar.Value = new UIElementProps<string>($"{calcProgress.Value}% downloaded");
-                                ProgressBar.Value = new UIElementProps<int>(calcProgress.Value);
+                                StatusAndProgressHandler.UpdateStatus($"{calcProgress.Value}% downloaded");
+                                StatusAndProgressHandler.UpdateProgress(calcProgress.Value);
                             }
                             logNotifier.LogLine($"DUR: {duration:c}");
                         })
@@ -99,23 +95,19 @@ namespace DRDownload.Common.DownloadVideo
 
                 watch.Stop();
 
-                if (calcProgress.Calc(ExpectedTotalMp4Duration))
-                {
-                    ProgressBar.Value = new UIElementProps<int>(calcProgress.Value);
-                    logNotifier.LogLine($"Duration: {watch.Elapsed:c}");
-                }
-
-                await Task.Delay(1000);
-
-                StatusBar.Value = new UIElementProps<string>($"Varighed {watch.Elapsed:c}");
+                // Ensure at 100% after download.
+                await StatusAndProgressHandler.UpdateStatusAndWaitAsync($"Varighed {watch.Elapsed:c}", 2);
+                StatusAndProgressHandler.UpdateProgress(calcProgress.Value);
+                logNotifier.LogLine($"Duration: {watch.Elapsed:c}");
             }
             catch (OperationCanceledException ex)
             {
-                StatusBar.Value = new UIElementProps<string>($"Download afbrudt");
+                StatusAndProgressHandler.UpdateStatus("Download afbrudt");
                 logNotifier.LogLine(ex.Message);
             }
             catch (Exception ex)
             {
+                StatusAndProgressHandler.UpdateStatus("Ukendt problem. Genstart programmet");
                 logNotifier.LogLine(ex.Message);
             }
 

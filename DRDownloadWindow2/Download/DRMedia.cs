@@ -62,9 +62,18 @@ namespace DRDownloadWindow2.Download
                 StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio download med manglende mp3 fil", EWarningLevel.error);
                 return;
             }
+            if (string.IsNullOrEmpty(Broadcast.LogFile))
+            {
+                StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio download med manglende log fil", EWarningLevel.error);
+                return;
+            }
 
             var restUrl = new KLTRRestAPIUrlRadio(Broadcast.EntryId).Url;
-            var mp3Downloader = new DownloadFileStream(restUrl, Broadcast.Mp3File);
+            var mp3Downloader = new DownloadFileStream(
+                restUrl, 
+                Broadcast.Mp3File, 
+                Broadcast.LogFile, 
+                StatusAndProgressHandler);
 
             // If output file already exists we abort.
             if (File.Exists(mp3Downloader.OutputFile))
@@ -74,7 +83,7 @@ namespace DRDownloadWindow2.Download
             }
 
             // Begin download of mp3 file.
-            await DownloadAsync(mp3Downloader.StartAsync);
+            await DownloadAsync(mp3Downloader.StartAndFollowProgressAsync);
         }
 
         /// <summary>
@@ -86,22 +95,22 @@ namespace DRDownloadWindow2.Download
         {
             if (string.IsNullOrEmpty(Broadcast.M3uFile))
             {
-                StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio tv med manglende m3u8 fil", EWarningLevel.error);
+                StatusAndProgressHandler.UpdateStatus("Kan ikke starte tv download med manglende m3u8 fil", EWarningLevel.error);
                 return;
             }
             if (string.IsNullOrEmpty(Broadcast.Mp4File))
             {
-                StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio tv med manglende mp4 fil", EWarningLevel.error);
+                StatusAndProgressHandler.UpdateStatus("Kan ikke starte tv download med manglende mp4 fil", EWarningLevel.error);
                 return;
             }
             if (string.IsNullOrEmpty(Broadcast.LogFile))
             {
-                StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio tv med manglende log fil", EWarningLevel.error);
+                StatusAndProgressHandler.UpdateStatus("Kan ikke starte tv download med manglende log fil", EWarningLevel.error);
                 return;
             }
             if (Broadcast.Duration == null || Broadcast.Duration.Value == default)
             {
-                StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio tv med manglende total varighed på udsendelse", EWarningLevel.error);
+                StatusAndProgressHandler.UpdateStatus("Kan ikke starte tv download med manglende total varighed på udsendelse", EWarningLevel.error);
                 return;
             }
 
@@ -111,14 +120,15 @@ namespace DRDownloadWindow2.Download
             // Download m3u8 playlist and video.
             var m3uDownloader = new DownloadFileStream(
                 restUrl,
-                Broadcast.M3uFile);
+                Broadcast.M3uFile,
+                Broadcast.LogFile,
+                StatusAndProgressHandler);
             var mp4Downloader = new DownloadVideoStream(
                 Broadcast.M3uFile,
                 Broadcast.Mp4File,
                 Broadcast.LogFile,
                 Broadcast.Duration.Value,
-                null, // TODO:
-                null); // TODO: StatusAndProgressHandler
+                StatusAndProgressHandler);
 
             // If output file already exists we abord.
             if (File.Exists(Broadcast.Mp4File))

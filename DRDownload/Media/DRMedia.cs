@@ -113,7 +113,7 @@ namespace DRDownload.Media
 
             // Download m3u8 playlist and video.
             var m3uDownloader = new DownloadFileStream(url, m3u8File);
-            var mp4Downloader = new DownloadVideoStream(m3u8File, broadcast.Duration);
+            var mp4Downloader = new DownloadVideoStream(m3u8File, broadcast., , broadcast.Duration);
 
             // If output file already exists we abord.
             if (File.Exists(mp4Downloader.OutputFile))

@@ -34,15 +34,6 @@ namespace DRDownloadWindow2.DRBroadcast
 
             Broadcast = new DRBroadcastHtmlScraper(Browser.Url, html).Broadcast;
         }
-
-        /// <summary>
-        /// Split download into radio/tv and perform wait download.
-        /// </summary>
-        public async Task DownloadBroadcastAsync()
-        {
-            // TODO.
-        }
-
     }
 }
 

@@ -145,9 +145,13 @@ namespace DRDownloadWindow2.DRBroadcast
             if (mediaType == EMediaType.radio)
             {
                 Broadcast.Mp3File = new DRMP3BroadcastFile(Broadcast).OutputFile;
+                Broadcast.M3uFile = null;
+                Broadcast.Mp4File = null;
+                Broadcast.LogFile = Path.ChangeExtension(Broadcast.Mp3File, "log");
             }
             else if (mediaType == EMediaType.tv)
             {
+                Broadcast.Mp3File = null;
                 Broadcast.M3uFile = new DRM3U8BroadcastFile(Broadcast).OutputFile;
                 Broadcast.Mp4File = Path.ChangeExtension(Broadcast.M3uFile, "mp4");
                 Broadcast.LogFile = Path.ChangeExtension(Broadcast.M3uFile, "log");

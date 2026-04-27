@@ -28,8 +28,10 @@ namespace DRDownload.Common.DownloadVideo
         /// Ctor.
         /// </summary>
         /// <param name="inputFile">Could be m3u8 file or mp4 file etc.</param>
+        /// <param name="outputFile"></param>
+        /// <param name="logFile"></param>
         /// <param name="durationVideo">From metadata the total duration of the video</param>
-        public DownloadVideoStream(string inputFile, TimeSpan durationVideo)
+        public DownloadVideoStream(string inputFile, string outputFile, string logFile, TimeSpan durationVideo)
         {
             InputFile = inputFile;
             OutputFile = Path.ChangeExtension(inputFile, "mp4");
