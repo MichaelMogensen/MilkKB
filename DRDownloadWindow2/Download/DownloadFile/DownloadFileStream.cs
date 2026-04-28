@@ -1,4 +1,5 @@
-﻿using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow2.Types;
+using DRDownloadWindow2.Utilities;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
@@ -43,7 +44,7 @@ namespace DRDownload.Common.DownloadFile
         /// Download async.
         /// </summary>
         /// <returns></returns>
-        public async Task StartAsync()
+        public async Task StartWithoutHeadAsync()
         {
             using (var client = new HttpClient())
             {
@@ -62,7 +63,7 @@ namespace DRDownload.Common.DownloadFile
         /// Download async.
         /// </summary>
         /// <returns></returns>
-        public async Task StartAndFollowProgressAsync()
+        public async Task StartAsync()
         {
             var logNotifier = new LogNotifier(LogFile);
 
@@ -80,12 +81,14 @@ namespace DRDownload.Common.DownloadFile
                         var bytesExpected = response.Content.Headers.ContentLength ?? -1L;
                         if (bytesExpected == -1)
                         {
-                            // TODO: Status = warning.
-                            logNotifier.LogLine($"No bytes to download when requesting {Url}. Download aborted.");
+                            logNotifier.LogLine($"response.Content.Headers.ContentLength = {bytesExpected} when requesting {Url}. Download aborted.");
+                            
                             return;
                         }
 
                         // Read stream.
+                        StatusAndProgressHandler.UpdateStatus($"Henter {OutputFile}");
+
                         using (var inputFileStream = await response.Content.ReadAsStreamAsync())
                         {
                             var buffer = new byte[8192];
@@ -117,7 +120,6 @@ namespace DRDownload.Common.DownloadFile
 
                                         if (calcProgress.Calc(bytesReadTotal))
                                         {
-                                            StatusAndProgressHandler.UpdateStatus($"{calcProgress.Value}% downloaded");
                                             StatusAndProgressHandler.UpdateProgress(calcProgress.Value);
 
                                             logNotifier.LogLine($"(bytesRead, bytesReadTotal, %) = ({bytesRead}, {bytesReadTotal}, {calcProgress.Value}%)");
@@ -128,9 +130,9 @@ namespace DRDownload.Common.DownloadFile
                                 watch.Stop();
 
                                 // Ensure at 100% after download.
-                                await StatusAndProgressHandler.UpdateStatusAndWaitAsync($"Varighed {watch.Elapsed:c}", 2);
-                                StatusAndProgressHandler.UpdateProgress(calcProgress.Value);
                                 logNotifier.LogLine($"Duration: {watch.Elapsed:c}");
+                                StatusAndProgressHandler.UpdateProgress(100);
+                                await StatusAndProgressHandler.UpdateStatusAndWaitAsync($"Det tog {watch.Elapsed.TotalSeconds:0}s at hente filen", 6);
                             }
                         }
                     }
@@ -142,54 +144,6 @@ namespace DRDownload.Common.DownloadFile
                 logNotifier.LogLine(ex.Message);
             }
         }
-
-        /// <summary>
-        /// Something like this.
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="progress"></param>
-        /// <returns></returns>
-        public async Task DownloadWithProgressAsync(string url, IProgress<double> progress)
-        {
-            using (var client = new HttpClient())
-            {
-                // 1. Read headers only.
-                using (var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
-                {
-                    response.EnsureSuccessStatusCode();
-                    var totalBytes = response.Content.Headers.ContentLength ?? -1L;
-
-                    // 2. Read stream.
-                    using (var contentStream = await response.Content.ReadAsStreamAsync())
-                    {
-                        var buffer = new byte[8192];
-                        var totalRead = 0L;
-                        var isMoreToRead = true;
-
-                        while (isMoreToRead)
-                        {
-                            var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
-                            if (read == 0)
-                            {
-                                isMoreToRead = false;
-                            }
-                            else
-                            {
-                                totalRead += read;
-                                // 3. Report Progress
-                                if (totalBytes != -1)
-                                {
-                                    progress.Report((double)totalRead / totalBytes * 100);
-                                }
-                            }
-
-                            // TODO: Save buffer...
-                        }
-                    }
-                }
-            }
-        }
-
 
     }
 }

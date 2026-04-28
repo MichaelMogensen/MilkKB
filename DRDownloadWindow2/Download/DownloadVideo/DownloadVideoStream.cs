@@ -61,6 +61,8 @@ namespace DRDownload.Common.DownloadVideo
 
             try
             {
+                StatusAndProgressHandler.UpdateStatus($"Henter {OutputFile}");
+
                 if (!string.IsNullOrEmpty(LogFile) && File.Exists(LogFile))
                 {
                     File.Delete(LogFile);
@@ -80,7 +82,6 @@ namespace DRDownload.Common.DownloadVideo
                         {
                             if (calcProgress.Calc(duration))
                             {
-                                StatusAndProgressHandler.UpdateStatus($"{calcProgress.Value}% downloaded");
                                 StatusAndProgressHandler.UpdateProgress(calcProgress.Value);
                             }
                             logNotifier.LogLine($"DUR: {duration:c}");
@@ -96,9 +97,9 @@ namespace DRDownload.Common.DownloadVideo
                 watch.Stop();
 
                 // Ensure at 100% after download.
-                await StatusAndProgressHandler.UpdateStatusAndWaitAsync($"Varighed {watch.Elapsed:c}", 2);
-                StatusAndProgressHandler.UpdateProgress(calcProgress.Value);
                 logNotifier.LogLine($"Duration: {watch.Elapsed:c}");
+                StatusAndProgressHandler.UpdateProgress(100);
+                await StatusAndProgressHandler.UpdateStatusAndWaitAsync($"Det tog {watch.Elapsed.TotalMinutes:0}min at hente filen", 6);
             }
             catch (OperationCanceledException ex)
             {

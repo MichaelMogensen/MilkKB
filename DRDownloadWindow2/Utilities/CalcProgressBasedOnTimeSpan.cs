@@ -21,7 +21,7 @@
         /// <returns>T for new value otherwise F</returns>
         public bool Calc(TimeSpan currentDuration)
         {
-            var progress = Progress(currentDuration);
+            var progress = Util.Percent(TotalDuration.TotalMilliseconds, currentDuration.TotalMilliseconds);
             if (progress <= Value)
             {
                 // No news.
@@ -32,19 +32,6 @@
             Value = progress;
 
             return true;
-        }
-
-        /// <summary>
-        /// Progress in % as int with NO decimals.
-        /// </summary>
-        /// <param name="currentDuration"></param>
-        /// <returns></returns>
-        private int Progress(TimeSpan currentDuration)
-        {
-            var totalDurationMS = TotalDuration.TotalMilliseconds;
-            var currentDurationMS = currentDuration.TotalMilliseconds;
-
-            return Util.Percent(currentDurationMS / totalDurationMS);
         }
 
     }

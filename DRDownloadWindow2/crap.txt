@@ -1,3 +1,76 @@
+        /// <summary>
+        /// Something like this.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="progress"></param>
+        /// <returns></returns>
+        public async Task DownloadWithProgressAsync(string url, IProgress<double> progress)
+        {
+            using (var client = new HttpClient())
+            {
+                // 1. Read headers only.
+                using (var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
+                {
+                    response.EnsureSuccessStatusCode();
+                    var totalBytes = response.Content.Headers.ContentLength ?? -1L;
+
+                    // 2. Read stream.
+                    using (var contentStream = await response.Content.ReadAsStreamAsync())
+                    {
+                        var buffer = new byte[8192];
+                        var totalRead = 0L;
+                        var isMoreToRead = true;
+
+                        while (isMoreToRead)
+                        {
+                            var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
+                            if (read == 0)
+                            {
+                                isMoreToRead = false;
+                            }
+                            else
+                            {
+                                totalRead += read;
+                                // 3. Report Progress
+                                if (totalBytes != -1)
+                                {
+                                    progress.Report((double)totalRead / totalBytes * 100);
+                                }
+                            }
+
+                            // TODO: Save buffer...
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// Download async.
+        /// </summary>
+        /// <returns></returns>
+        //public async Task StartAsync()
+        //{
+        //    using (var client = new HttpClient())
+        //    {
+        //        client.DefaultRequestHeaders.ConnectionClose = true;
+        //        client.Timeout = TimeSpan.FromMinutes(5);
+
+        //        var result = await client.GetAsync(new Uri(Url));
+        //        using (var fs = new FileStream(OutputFile, FileMode.CreateNew))
+        //        {
+        //            await result.Content.CopyToAsync(fs);
+        //        }
+        //    }
+        //}
+        
+        
+        
                                 //// Testing Progress and Status.
 
                                 //var progressBar = new UIDispatchUpdater<UIElementProps<int>>(async e =>

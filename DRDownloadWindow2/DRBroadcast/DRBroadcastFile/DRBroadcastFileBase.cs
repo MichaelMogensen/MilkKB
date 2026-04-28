@@ -45,6 +45,7 @@ namespace DRDownloadWindow2.DRBroadcast.DRBroadcastFile
                     MAX_FILE_LEN).TrimEnd('.') + $".{ext ?? "unknown"}";
 
             filename = new ReplaceDisallowedFilenameCharacters(filename).Filename;
+            filename = filename.Trim();
 
             OutputFile = Path.Combine(broadcast.DownloadFolder, filename);
             OutputFile = OutputFile.ToLower();

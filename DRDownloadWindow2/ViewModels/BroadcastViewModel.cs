@@ -310,7 +310,7 @@ namespace DRDownloadWindow2.ViewModels
                                     StartDownloadAsync(new CancellationToken());
                             });
                         },
-                        s => ProgressBar == 0));
+                        s => ProgressBar == 0 && !string.IsNullOrEmpty(EntryId)));
             }
         }
 

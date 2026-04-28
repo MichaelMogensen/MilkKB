@@ -102,7 +102,7 @@ namespace DRDownloadWindow2.DRBroadcast
             var entryId = LookupEntryId(mediaType);
             var channel = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "tv");
             var title = InnerTextOfH2(MainBroadcastNode);
-            var description = InnerTextOfP(MainBroadcastNode);
+            var description = InnerTextOfP(MainBroadcastNode)?.Replace("&lt;BR&gt;"," ");
             var sendDate = new DateTime(
                 drEvent.Date.Year,
                 drEvent.Date.Month,

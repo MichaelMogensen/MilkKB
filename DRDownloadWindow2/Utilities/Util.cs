@@ -148,14 +148,21 @@ namespace DRDownloadWindow2.Utilities
         /// </summary>
         /// <param name="f"></param>
         /// <returns></returns>
-        public static int Percent(double f)
+        public static int Percent(double total, double part)
         {
+            var f = part / total;
+
             var pct = 100.0 * f;
 
             pct = Math.Max(0.0, pct);
             pct = Math.Min(100.0, pct);
 
             return (int)pct;
+        }
+
+        public static int Percent(long total, long part)
+        {
+            return Percent((double)total, (double)part);
         }
 
         /// <summary>

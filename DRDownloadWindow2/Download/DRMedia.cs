@@ -83,7 +83,7 @@ namespace DRDownloadWindow2.Download
             }
 
             // Begin download of mp3 file.
-            await DownloadAsync(mp3Downloader.StartAndFollowProgressAsync);
+            await DownloadAsync(mp3Downloader.StartAsync);
         }
 
         /// <summary>
@@ -144,7 +144,16 @@ namespace DRDownloadWindow2.Download
                 {
                     await m3uDownloader.StartAsync();
                 }
-                await mp4Downloader.StartAsync(cts);
+
+                if (!File.Exists(Broadcast.M3uFile))
+                {
+                    await m3uDownloader.StartWithoutHeadAsync();
+                }
+
+                if (File.Exists(Broadcast.M3uFile))
+                {
+                    await mp4Downloader.StartAsync(cts);
+                }
             });
         }
 
