@@ -59,7 +59,7 @@
                         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
                     </Trigger>
                     <Trigger Property="IsEnabled" Value="False">
-                         <!-- Dim. -->
+                         <!-- Dim -->
                         <Setter Property="Opacity" Value="0.5" />
                     </Trigger>
                 </ControlTemplate.Triggers>
@@ -99,9 +99,6 @@
                     <StatusBarItem FontFamily="Reem Kufi">
                         <TextBox Text="{Binding Path=StatusBar}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="{Binding Path=StatusBarColor}" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
                     </StatusBarItem>
-                    <!--<StatusBarItem Width="300" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch">
-                        <ProgressBar Value="{Binding Path=ProgressBar}" BorderThickness="0" Height="1" Foreground="{Binding Path=ProgressBarColor}" Background="BlanchedAlmond" Minimum="0" Maximum="100"/>
-                    </StatusBarItem>-->
                 </StatusBar>
             </StackPanel>
 
@@ -110,7 +107,7 @@
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png"/>
                 </Button>
 
-                <Button Width="200" Height="100" Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding DownloadCommand}">
+                <Button Width="200" Height="100" Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding DownloadCommand}" IsEnabled="{Binding DownloadCommandIsEnabled}">
                     <Grid Width="300">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>

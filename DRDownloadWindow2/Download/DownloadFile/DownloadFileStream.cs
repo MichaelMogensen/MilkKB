@@ -1,11 +1,7 @@
-﻿using DRDownloadWindow2.Types;
-using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow2.Utilities;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Pipes;
 using System.Net.Http;
-using System.Reflection.Emit;
-using System.Security.Policy;
 
 namespace DRDownload.Common.DownloadFile
 {
@@ -82,7 +78,7 @@ namespace DRDownload.Common.DownloadFile
                         if (bytesExpected == -1)
                         {
                             logNotifier.LogLine($"response.Content.Headers.ContentLength = {bytesExpected} when requesting {Url}. Download aborted.");
-                            
+
                             return;
                         }
 

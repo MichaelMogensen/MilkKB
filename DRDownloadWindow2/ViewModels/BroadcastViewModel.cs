@@ -5,7 +5,6 @@ using DRDownloadWindow2.Models;
 using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace DRDownloadWindow2.ViewModels
@@ -310,9 +309,23 @@ namespace DRDownloadWindow2.ViewModels
                                     StartDownloadAsync(new CancellationToken());
                             });
                         },
-                        s => ProgressBar == 0 && !string.IsNullOrEmpty(EntryId)));
+                        s => DownloadReady));
             }
         }
+
+        private bool _downloadCommandIsEnabled;
+        public bool DownloadCommandIsEnabled
+        {
+            get => _downloadCommandIsEnabled;
+            set
+            {
+                _downloadCommandIsEnabled = value;
+                OnPropertyChanged("DownloadCommandIsEnabled");
+            }
+        }
+
+        private bool DownloadReady =>
+            !string.IsNullOrEmpty(Model.Broadcast.EntryId) && ProgressBar == 0;
 
         #endregion
 
@@ -403,6 +416,8 @@ namespace DRDownloadWindow2.ViewModels
 
             ProgressBar = 0;
             ProgressBarColor = Util.WarningLevelToColor(EWarningLevel.info);
+
+            DownloadCommandIsEnabled = DownloadReady;
         }
 
         #endregion
