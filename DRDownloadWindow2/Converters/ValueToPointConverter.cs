@@ -1,17 +1,19 @@
-﻿using System.Globalization;
+﻿using DRDownloadWindow2.Utilities;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
-namespace DRDownloadWindow2.Utilities
+namespace DRDownloadWindow2.Converters
 {
-    public class ValueToIsLargeArcConverter : IMultiValueConverter
+    public class ValueToPointConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] != System.Windows.DependencyProperty.UnsetValue)
+            if (values[0] != DependencyProperty.UnsetValue)
             {
                 if (double.TryParse(values[0]?.ToString(), out double percent))
                 {
-                    return Util.PercentToCircleIsLargeArc(percent);
+                    return Util.PercentToCircleArcPoint(percent);
                 }
             }
 

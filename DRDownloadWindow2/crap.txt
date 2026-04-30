@@ -1,3 +1,17 @@
+        private bool _downloadCommandIsEnabled;
+        public bool DownloadCommandIsEnabled
+        {
+            get => _downloadCommandIsEnabled;
+            set
+            {
+                _downloadCommandIsEnabled = value;
+                OnPropertyChanged(nameof(DownloadCommandIsEnabled));
+            }
+        }
+
+
+
+
         /// <summary>
         /// Something like this.
         /// </summary>

@@ -1,10 +1,11 @@
-﻿using System.Globalization;
+﻿using DRDownloadWindow2.Utilities;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DRDownloadWindow2.Utilities
+namespace DRDownloadWindow2.Converters
 {
-    public class ValueToPointConverter : IMultiValueConverter
+    public class ValueToPercentageConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
@@ -12,7 +13,7 @@ namespace DRDownloadWindow2.Utilities
             {
                 if (double.TryParse(values[0]?.ToString(), out double percent))
                 {
-                    return Util.PercentToCircleArcPoint(percent);
+                    return Util.PercentFmt(percent);
                 }
             }
 

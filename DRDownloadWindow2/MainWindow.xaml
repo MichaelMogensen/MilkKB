@@ -14,10 +14,12 @@
         Topmost="False"
         Closing="OnWindowClosing"
         MouseLeftButtonDown="OnLeftMouseButtonDown"
+        xmlns:utilities="clr-namespace:DRDownloadWindow2.Converters"
         d:DataContext="{d:DesignInstance local:BroadcastViewModel, IsDesignTimeCreatable=False}">
     <Border Background="BlanchedAlmond" CornerRadius="30" Margin="20" Padding="40">
 
         <Border.Resources>
+            <utilities:CanDownloadConverter x:Key="canDownloadConverter"/>
             <ControlTemplate x:Key="MM_BTN_TEMPLATE" TargetType="{x:Type Button}">
                 <ControlTemplate.Resources>
                     <Brush x:Key="PeachPuffDark">#ffd7b9</Brush>
@@ -107,7 +109,14 @@
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png"/>
                 </Button>
 
-                <Button Width="200" Height="100" Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding DownloadCommand}" IsEnabled="{Binding DownloadCommandIsEnabled}">
+                <Button Width="200" Height="100" Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding DownloadCommand}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                            <Binding Path="ProgressBar"></Binding>
+                            <Binding Path="EntryId"></Binding>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                    
                     <Grid Width="300">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
@@ -116,7 +125,7 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-
+                        
                         <Image Grid.Row="0" Grid.Column="0" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
                         <ProgressBar Grid.Row="0" Grid.Column="1" Template="{StaticResource MM_PROGRESS_0_TO_100_PCT_TEMPLATE}" Value="{Binding Path=ProgressBar}"/>
                     </Grid>

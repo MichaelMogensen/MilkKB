@@ -32,7 +32,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _title = value.OrDefault("Udsendelse");
-                OnPropertyChanged("Title");
+                OnPropertyChanged(nameof(Title));
             }
         }
 
@@ -47,7 +47,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _sendDateAndDuration = value.OrDefault("Dato og varighed");
-                OnPropertyChanged("SendDateAndDuration");
+                OnPropertyChanged(nameof(SendDateAndDuration));
             }
         }
 
@@ -62,7 +62,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _description = value.OrDefault("Ingen beskrivelse");
-                OnPropertyChanged("Description");
+                OnPropertyChanged(nameof(Description));
             }
         }
 
@@ -77,7 +77,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _episode = value.OrDefault("Ingen episode oplysninger");
-                OnPropertyChanged("Episode");
+                OnPropertyChanged(nameof(Episode));
             }
         }
 
@@ -92,7 +92,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _channel = value.OrDefault("Ingen kanal oplysninger");
-                OnPropertyChanged("Channel");
+                OnPropertyChanged(nameof(Channel));
             }
         }
 
@@ -107,7 +107,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _genre = value.OrDefault("Ingen genre oplysninger");
-                OnPropertyChanged("Genre");
+                OnPropertyChanged(nameof(Genre));
             }
         }
 
@@ -124,7 +124,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _uniqueId = $"{nameof(UniqueId)} = {value.OrNil()}";
-                OnPropertyChanged("UniqueId");
+                OnPropertyChanged(nameof(UniqueId));
             }
         }
 
@@ -139,7 +139,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _entryId = $"{nameof(EntryId)} = {value.OrNil()}";
-                OnPropertyChanged("EntryId");
+                OnPropertyChanged(nameof(EntryId));
             }
         }
 
@@ -154,7 +154,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _mediaType = $"{nameof(MediaType)} = {value.OrNil()}";
-                OnPropertyChanged("MediaType");
+                OnPropertyChanged(nameof(MediaType));
             }
         }
 
@@ -169,7 +169,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _url = $"{nameof(Url)} = {value.OrNil()}";
-                OnPropertyChanged("Url");
+                OnPropertyChanged(nameof(Url));
             }
         }
 
@@ -184,7 +184,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _downloadFolder = $"{nameof(DownloadFolder)} = {value.OrNil()}";
-                OnPropertyChanged("DownloadFolder");
+                OnPropertyChanged(nameof(DownloadFolder));
             }
         }
 
@@ -199,7 +199,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _mp3File = $"{nameof(Mp3File)} = {value.OrNil()}";
-                OnPropertyChanged("Mp3File");
+                OnPropertyChanged(nameof(Mp3File));
             }
         }
 
@@ -214,7 +214,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _m3uFile = $"{nameof(M3uFile)} = {value.OrNil()}";
-                OnPropertyChanged("M3uFile");
+                OnPropertyChanged(nameof(M3uFile));
             }
         }
 
@@ -229,7 +229,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _mp4File = $"{nameof(Mp4File)} = {value.OrNil()}";
-                OnPropertyChanged("Mp4File");
+                OnPropertyChanged(nameof(Mp4File));
             }
         }
 
@@ -244,7 +244,7 @@ namespace DRDownloadWindow2.ViewModels
             set
             {
                 _logFile = $"{nameof(LogFile)} = {value.OrNil()}";
-                OnPropertyChanged("LogFile");
+                OnPropertyChanged(nameof(LogFile));
             }
         }
 
@@ -309,23 +309,9 @@ namespace DRDownloadWindow2.ViewModels
                                     StartDownloadAsync(new CancellationToken());
                             });
                         },
-                        s => DownloadReady));
+                        s => true));
             }
         }
-
-        private bool _downloadCommandIsEnabled;
-        public bool DownloadCommandIsEnabled
-        {
-            get => _downloadCommandIsEnabled;
-            set
-            {
-                _downloadCommandIsEnabled = value;
-                OnPropertyChanged("DownloadCommandIsEnabled");
-            }
-        }
-
-        private bool DownloadReady =>
-            !string.IsNullOrEmpty(Model.Broadcast.EntryId) && ProgressBar == 0;
 
         #endregion
 
@@ -416,8 +402,6 @@ namespace DRDownloadWindow2.ViewModels
 
             ProgressBar = 0;
             ProgressBarColor = Util.WarningLevelToColor(EWarningLevel.info);
-
-            DownloadCommandIsEnabled = DownloadReady;
         }
 
         #endregion

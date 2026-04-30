@@ -1,5 +1,4 @@
-﻿using DRDownload.Common.DownloadVideo;
-using DRDownloadWindow2.DRBroadcast.DRBroadcastFile;
+﻿using DRDownloadWindow2.DRBroadcast.DRBroadcastFile;
 using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
 using HtmlAgilityPack;
@@ -14,6 +13,8 @@ namespace DRDownloadWindow2.DRBroadcast
         public static readonly string BROADCAST_REC_DATA_LEFT_XPATH = "//div[@class=\"main-record-data\"]";
         public static readonly string BROADCAST_REC_DATA_RIGHT_XPATH = "//div[@class=\"right-side\"]";
 
+        public static readonly string ENTRY_ID_PATTERN = "0_[a-z0-9]{8}";
+
         public Broadcast Broadcast { get; private set; } = new Broadcast();
 
         public HtmlDocument Document { get; set; } = new HtmlDocument();
@@ -21,16 +22,6 @@ namespace DRDownloadWindow2.DRBroadcast
         private HtmlNode? MainBroadcastNode { get; set; }
         private HtmlNode? LeftSideBroadcastNode { get; set; }
         private HtmlNode? RightSideBroadcastNode { get; set; }
-
-        /// <summary>
-        /// RegEx pattern differ a little depending on media.
-        /// </summary>
-        /// <param name="medieType"></param>
-        /// <returns></returns>
-        private string EntryIdPattern(EMediaType medieType) =>
-            medieType == EMediaType.radio ?
-            @"entryId/0_[a-z0-9]{8}" :
-            @"entry_id/0_[a-z0-9]{8}";
 
         /// <summary>
         /// Ctor.
@@ -63,12 +54,22 @@ namespace DRDownloadWindow2.DRBroadcast
         }
 
         /// <summary>
+        /// RegEx pattern differ a little depending on media.
+        /// </summary>
+        /// <param name="mediaType"></param>
+        /// <returns></returns>
+        private static string EntryIdPatternByMediaType(EMediaType mediaType) =>
+            mediaType == EMediaType.radio ?
+            $"entryId/{ENTRY_ID_PATTERN}" :
+            $"entry_id/{ENTRY_ID_PATTERN}";
+
+        /// <summary>
         /// Try to lookup entryId from string.
         /// </summary>
         /// <returns></returns>
-        private string? LookupEntryId(EMediaType medieType)
+        private string? LookupEntryId(EMediaType mediaType)
         {
-            var regEx = new Regex(EntryIdPattern(medieType));
+            var regEx = new Regex(EntryIdPatternByMediaType(mediaType));
             var firstMatch = regEx.Match(Document.ParsedText);
 
             if (string.IsNullOrEmpty(firstMatch?.Value))
@@ -102,7 +103,7 @@ namespace DRDownloadWindow2.DRBroadcast
             var entryId = LookupEntryId(mediaType);
             var channel = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "tv");
             var title = InnerTextOfH2(MainBroadcastNode);
-            var description = InnerTextOfP(MainBroadcastNode)?.Replace("&lt;BR&gt;"," ");
+            var description = InnerTextOfP(MainBroadcastNode)?.Replace("&lt;BR&gt;", " ");
             var sendDate = new DateTime(
                 drEvent.Date.Year,
                 drEvent.Date.Month,
@@ -246,8 +247,8 @@ namespace DRDownloadWindow2.DRBroadcast
         /// <returns></returns>
         public static EMediaType MediaTypeByUrl(string? url) =>
             string.IsNullOrEmpty(url) ? EMediaType.nomedia :
-            url.Contains("radio") ? EMediaType.radio : 
-            url.Contains("tv") ? EMediaType.tv : 
+            url.Contains("radio") ? EMediaType.radio :
+            url.Contains("tv") ? EMediaType.tv :
             EMediaType.nomedia;
 
         #endregion
