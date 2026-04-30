@@ -16,15 +16,7 @@ namespace DRDownloadWindow2.Converters
                 var progress = (int)values[0];
                 var entryId = (string)values[1];
 
-                var notInProgress = progress == 0;
-
-                var regEx = new Regex(DRBroadcastHtmlScraper.ENTRY_ID_PATTERN);
-                var holdsEntryId = regEx.Match(entryId).Success;
-
-
-                var canDownload = notInProgress && holdsEntryId;
-
-                return canDownload;
+                return CanDownload(progress, entryId);
             }
 
             return Binding.DoNothing;
@@ -33,6 +25,24 @@ namespace DRDownloadWindow2.Converters
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Calc. can download.
+        /// </summary>
+        /// <param name="progress"></param>
+        /// <param name="entryId"></param>
+        /// <returns></returns>
+        public static bool CanDownload(int progress, string entryId)
+        {
+            var notInProgress = progress == 0;
+
+            var regEx = new Regex(DRBroadcastHtmlScraper.ENTRY_ID_PATTERN);
+            var holdsEntryId = regEx.Match(entryId).Success;
+
+            var canDownload = notInProgress && holdsEntryId;
+
+            return canDownload;
         }
     }
 }

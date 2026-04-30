@@ -112,8 +112,8 @@
                 <Button Width="200" Height="100" Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding DownloadCommand}">
                     <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource canDownloadConverter}">
-                            <Binding Path="ProgressBar"></Binding>
-                            <Binding Path="EntryId"></Binding>
+                            <Binding Path="ProgressBar" Mode="OneWay"></Binding>
+                            <Binding Path="EntryId" Mode="OneWay"></Binding>
                         </MultiBinding>
                     </Button.IsEnabled>
                     
