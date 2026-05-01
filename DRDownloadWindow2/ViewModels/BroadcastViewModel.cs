@@ -3,11 +3,13 @@ using DRDownloadWindow2.Download;
 using DRDownloadWindow2.DRBroadcast;
 using DRDownloadWindow2.Extensions;
 using DRDownloadWindow2.Models;
+using DRDownloadWindow2.OneValueFromAndToFile;
 using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Markup;
 
 namespace DRDownloadWindow2.ViewModels
 {
@@ -358,7 +360,7 @@ namespace DRDownloadWindow2.ViewModels
                     new DelegateCommand(
                         s =>
                         {
-                            // Save GenerateLogFile i en lille fil.
+                            new OneValueToFile(nameof(GenerateLogFile)).Value(GenerateLogFile);
                         },
                         s => true));
             }
@@ -377,7 +379,7 @@ namespace DRDownloadWindow2.ViewModels
                     new DelegateCommand(
                         s =>
                         {
-                            // Save DeleteM3uFileAfterDownload i en lille fil.
+                            new OneValueToFile(nameof(DeleteM3uFileAfterDownload)).Value(DeleteM3uFileAfterDownload);
                         },
                         s => true));
             }
@@ -467,8 +469,8 @@ namespace DRDownloadWindow2.ViewModels
             Mp4File = Model.Broadcast.Mp4File;
             LogFile = Model.Broadcast.LogFile;
 
-            GenerateLogFile = false;
-            DeleteM3uFileAfterDownload = true;
+            GenerateLogFile = new OneValueFromFile(nameof(GenerateLogFile)).ValueOrDefault(false);
+            DeleteM3uFileAfterDownload = new OneValueFromFile(nameof(DeleteM3uFileAfterDownload)).ValueOrDefault(true);
 
             StatusBar = "Klar";
             StatusBarColor = Util.WarningLevelToColor(EWarningLevel.info);

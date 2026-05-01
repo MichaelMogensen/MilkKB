@@ -6,7 +6,7 @@ using DRDownloadWindow2.Utilities;
 using System.Diagnostics;
 using File = System.IO.File;
 
-namespace DRDownloadWindow2.Download
+namespace DRDownloadWindow2.DRBroadcast
 {
     /// <summary>
     /// Top class to download broadcasts from https://www.kb.dk/find-materiale/dr-arkivet/ by entryId.
@@ -153,6 +153,14 @@ namespace DRDownloadWindow2.Download
                 if (File.Exists(Broadcast.M3uFile))
                 {
                     await mp4Downloader.StartAsync(cts);
+
+                    // TODO:
+                    /*
+                    if (DeleteM3uFileAfterDownloadCommand)
+                    {
+                        delete it.
+                    }
+                    */
                 }
             });
         }
