@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
-namespace DRDownloadWindow2
+namespace DRDownloadWindow2.Utilities
 {
     public class ChromeBrowser
     {

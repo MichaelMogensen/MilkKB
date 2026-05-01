@@ -1,4 +1,5 @@
 ﻿using DRDownloadWindow2.Types;
+using DRDownloadWindow2.Utilities;
 
 namespace DRDownloadWindow2.DRBroadcast
 {

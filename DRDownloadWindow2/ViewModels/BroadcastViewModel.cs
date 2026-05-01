@@ -6,6 +6,7 @@ using DRDownloadWindow2.Models;
 using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DRDownloadWindow2.ViewModels
@@ -251,6 +252,36 @@ namespace DRDownloadWindow2.ViewModels
 
         #endregion
 
+        #region GenerateLogFile.
+
+        private bool _generateLogFile;
+        public bool GenerateLogFile
+        {
+            get { return _generateLogFile; }
+            set
+            {
+                _generateLogFile = value;
+                OnPropertyChanged(nameof(GenerateLogFile));
+            }
+        }
+
+        #endregion
+
+        #region DeleteM3uFileAfterDownload.
+
+        private bool _deleteM3uFileAfterDownload;
+        public bool DeleteM3uFileAfterDownload
+        {
+            get { return _deleteM3uFileAfterDownload; }
+            set
+            {
+                _deleteM3uFileAfterDownload = value;
+                OnPropertyChanged(nameof(DeleteM3uFileAfterDownload));
+            }
+        }
+
+        #endregion
+        
         // Commands.
 
         #region Copy command.
@@ -309,6 +340,44 @@ namespace DRDownloadWindow2.ViewModels
                                         }))).
                                     StartDownloadAsync(new CancellationToken());
                             });
+                        },
+                        s => true));
+            }
+        }
+
+        #endregion
+
+        #region GenerateLogFile command.
+
+        private ICommand? _generateLogFileCommand;
+        public ICommand GenerateLogFileCommand
+        {
+            get
+            {
+                return _generateLogFileCommand ?? (_generateLogFileCommand =
+                    new DelegateCommand(
+                        s =>
+                        {
+                            // Save GenerateLogFile i en lille fil.
+                        },
+                        s => true));
+            }
+        }
+
+        #endregion
+
+        #region DeleteM3uFileAfterDownload command.
+
+        private ICommand? _deleteM3uFileAfterDownloadCommand;
+        public ICommand DeleteM3uFileAfterDownloadCommand
+        {
+            get
+            {
+                return _deleteM3uFileAfterDownloadCommand ?? (_deleteM3uFileAfterDownloadCommand =
+                    new DelegateCommand(
+                        s =>
+                        {
+                            // Save DeleteM3uFileAfterDownload i en lille fil.
                         },
                         s => true));
             }
@@ -397,6 +466,9 @@ namespace DRDownloadWindow2.ViewModels
             M3uFile = Model.Broadcast.M3uFile;
             Mp4File = Model.Broadcast.Mp4File;
             LogFile = Model.Broadcast.LogFile;
+
+            GenerateLogFile = false;
+            DeleteM3uFileAfterDownload = true;
 
             StatusBar = "Klar";
             StatusBarColor = Util.WarningLevelToColor(EWarningLevel.info);

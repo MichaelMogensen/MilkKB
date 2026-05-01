@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace DRDownloadWindow2.Utilities
+namespace DRDownloadWindow2.DRBroadcast
 {
     /// <summary>
     /// Parse complex time string. like "20. maj 2017" into time objects.
