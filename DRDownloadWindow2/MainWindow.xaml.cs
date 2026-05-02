@@ -1,4 +1,4 @@
-﻿using DRDownloadWindow2.OneValueFromAndToFile;
+﻿using DRDownloadWindow2.OneValueSettingFile;
 using DRDownloadWindow2.ViewModels;
 using System.Windows;
 using System.Windows.Input;

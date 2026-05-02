@@ -1,12 +1,12 @@
-﻿namespace DRDownloadWindow2.OneValueFromAndToFile
+﻿namespace DRDownloadWindow2.OneValueSettingFile
 {
-    public class OneValueFromFile : OneValueBase
+    public class LoadOneValueFromASettingFile : OneValueSettingFileBase
     {
         /// <summary>
         /// Set setting name by using nameof(my_property).
         /// </summary>
         /// <param name="settingName"></param>
-        public OneValueFromFile(string settingName) : base(settingName)
+        public LoadOneValueFromASettingFile(string settingName) : base(settingName)
         {
             
         }

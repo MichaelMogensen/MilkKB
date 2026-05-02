@@ -1,15 +1,11 @@
-﻿using DRDownloadWindow2.Converters;
-using DRDownloadWindow2.Download;
-using DRDownloadWindow2.DRBroadcast;
+﻿using DRDownloadWindow2.DRBroadcast;
 using DRDownloadWindow2.Extensions;
 using DRDownloadWindow2.Models;
-using DRDownloadWindow2.OneValueFromAndToFile;
+using DRDownloadWindow2.OneValueSettingFile;
 using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Markup;
 
 namespace DRDownloadWindow2.ViewModels
 {
@@ -283,7 +279,7 @@ namespace DRDownloadWindow2.ViewModels
         }
 
         #endregion
-        
+
         // Commands.
 
         #region Copy command.
@@ -328,8 +324,19 @@ namespace DRDownloadWindow2.ViewModels
                         {
                             Task.Run(async () =>
                             {
+                                var b = Model.Broadcast;
+                                if (!GenerateLogFile)
+                                {
+                                    b.LogFile = null;
+                                }
+
+                                if (DeleteM3uFileAfterDownload)
+                                {
+                                    b.M3uFile = $"{Const.DELETE_ME_PREFIX}{b.M3uFile}";
+                                }
+
                                 await new DRMedia(
-                                    Model.Broadcast,
+                                    b,
                                     new StatusAndProgressHandler(
                                         new UIDispatchUpdater<UIElementProps<string>>(e =>
                                         {
@@ -360,7 +367,7 @@ namespace DRDownloadWindow2.ViewModels
                     new DelegateCommand(
                         s =>
                         {
-                            new OneValueToFile(nameof(GenerateLogFile)).Value(GenerateLogFile);
+                            new SaveOneValueInASettingFile(nameof(GenerateLogFile)).Value(GenerateLogFile);
                         },
                         s => true));
             }
@@ -379,7 +386,7 @@ namespace DRDownloadWindow2.ViewModels
                     new DelegateCommand(
                         s =>
                         {
-                            new OneValueToFile(nameof(DeleteM3uFileAfterDownload)).Value(DeleteM3uFileAfterDownload);
+                            new SaveOneValueInASettingFile(nameof(DeleteM3uFileAfterDownload)).Value(DeleteM3uFileAfterDownload);
                         },
                         s => true));
             }
@@ -469,8 +476,8 @@ namespace DRDownloadWindow2.ViewModels
             Mp4File = Model.Broadcast.Mp4File;
             LogFile = Model.Broadcast.LogFile;
 
-            GenerateLogFile = new OneValueFromFile(nameof(GenerateLogFile)).ValueOrDefault(false);
-            DeleteM3uFileAfterDownload = new OneValueFromFile(nameof(DeleteM3uFileAfterDownload)).ValueOrDefault(true);
+            GenerateLogFile = new LoadOneValueFromASettingFile(nameof(GenerateLogFile)).ValueOrDefault(false);
+            DeleteM3uFileAfterDownload = new LoadOneValueFromASettingFile(nameof(DeleteM3uFileAfterDownload)).ValueOrDefault(true);
 
             StatusBar = "Klar";
             StatusBarColor = Util.WarningLevelToColor(EWarningLevel.info);

@@ -20,7 +20,7 @@ namespace DRDownload.Common.DownloadVideo
     {
         public string InputFile { get; set; }
         public string OutputFile { get; set; }
-        public string LogFile { get; set; }
+        public string? LogFile { get; set; }
 
         public TimeSpan ExpectedTotalMp4Duration { get; set; }
 
@@ -37,7 +37,7 @@ namespace DRDownload.Common.DownloadVideo
         public DownloadVideoStream(
             string inputFile,
             string outputFile,
-            string logFile,
+            string? logFile,
             TimeSpan expectedTotalMp4Duration,
             StatusAndProgressHandler statusAndProgressHandler)
         {

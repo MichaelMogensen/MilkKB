@@ -1,8 +1,8 @@
 ﻿using System.IO;
 
-namespace DRDownloadWindow2.OneValueFromAndToFile
+namespace DRDownloadWindow2.OneValueSettingFile
 {
-    public abstract class OneValueBase
+    public abstract class OneValueSettingFileBase
     {
         protected string SettingFile { get; set; }            
 
@@ -10,7 +10,7 @@ namespace DRDownloadWindow2.OneValueFromAndToFile
         /// Ctor.
         /// </summary>
         /// <param name="settingName"></param>
-        protected OneValueBase(string settingName)
+        protected OneValueSettingFileBase(string settingName)
         {
             SettingFile = Path.Combine(Environment.CurrentDirectory, $"one_{settingName.ToLower()}_value.setting");
         }

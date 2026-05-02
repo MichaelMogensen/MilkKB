@@ -14,7 +14,7 @@ namespace DRDownload.Common.DownloadFile
     {
         public string Url { get; private set; }
         public string OutputFile { get; private set; }
-        public string LogFile { get; private set; }
+        public string? LogFile { get; private set; }
 
         public StatusAndProgressHandler StatusAndProgressHandler { get; set; }
 
@@ -27,7 +27,7 @@ namespace DRDownload.Common.DownloadFile
         public DownloadFileStream(
             string url,
             string outputFile,
-            string logFile,
+            string? logFile,
             StatusAndProgressHandler statusAndProgressHandler)
         {
             Url = url;

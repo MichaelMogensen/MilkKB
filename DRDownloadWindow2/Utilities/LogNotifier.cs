@@ -6,13 +6,13 @@ namespace DRDownloadWindow2.Utilities
     {
         private static readonly string LockId = Util.GenerateRandomGuid();
 
-        private string LogFile { get; set; }
+        private string? LogFile { get; set; }
 
         /// <summary>
         /// Ctor.
         /// </summary>
         /// <param name="logFile"></param>
-        public LogNotifier(string logFile)
+        public LogNotifier(string? logFile)
         {
             LogFile = logFile;
         }
@@ -23,6 +23,9 @@ namespace DRDownloadWindow2.Utilities
         /// <param name="line"></param>
         public void LogLine(string line)
         {
+            if (string.IsNullOrEmpty(LogFile))
+            { return; }
+
             lock (LockId)
             {
                 File.AppendAllLines(LogFile, new string[] { $"{DateTime.Now:yyyy.MM.dd HH:mm:ss} {line}" }.AsEnumerable());

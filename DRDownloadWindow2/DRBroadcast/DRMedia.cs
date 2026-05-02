@@ -62,17 +62,12 @@ namespace DRDownloadWindow2.DRBroadcast
                 StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio download med manglende mp3 fil", EWarningLevel.error);
                 return;
             }
-            if (string.IsNullOrEmpty(Broadcast.LogFile))
-            {
-                StatusAndProgressHandler.UpdateStatus("Kan ikke starte radio download med manglende log fil", EWarningLevel.error);
-                return;
-            }
 
             var restUrl = new KLTRRestAPIUrlRadio(Broadcast.EntryId).Url;
             var mp3Downloader = new DownloadFileStream(
-                restUrl, 
-                Broadcast.Mp3File, 
-                Broadcast.LogFile, 
+                restUrl,
+                Broadcast.Mp3File,
+                Broadcast.LogFile,
                 StatusAndProgressHandler);
 
             // If output file already exists we abort.
@@ -103,11 +98,6 @@ namespace DRDownloadWindow2.DRBroadcast
                 StatusAndProgressHandler.UpdateStatus("Kan ikke starte tv download med manglende mp4 fil", EWarningLevel.error);
                 return;
             }
-            if (string.IsNullOrEmpty(Broadcast.LogFile))
-            {
-                StatusAndProgressHandler.UpdateStatus("Kan ikke starte tv download med manglende log fil", EWarningLevel.error);
-                return;
-            }
             if (Broadcast.Duration == null || Broadcast.Duration.Value == default)
             {
                 StatusAndProgressHandler.UpdateStatus("Kan ikke starte tv download med manglende total varighed på udsendelse", EWarningLevel.error);
@@ -117,12 +107,13 @@ namespace DRDownloadWindow2.DRBroadcast
             // Prepare m3u8 file download.
             var restUrl = new KLTRRestAPIUrlVideo(Broadcast.EntryId).Url;
 
-            // Download m3u8 playlist and video.
+            // First download m3u8 playlist ...
             var m3uDownloader = new DownloadFileStream(
                 restUrl,
                 Broadcast.M3uFile,
                 Broadcast.LogFile,
                 StatusAndProgressHandler);
+            // ... then download video from m3u8 file.
             var mp4Downloader = new DownloadVideoStream(
                 Broadcast.M3uFile,
                 Broadcast.Mp4File,
@@ -153,14 +144,6 @@ namespace DRDownloadWindow2.DRBroadcast
                 if (File.Exists(Broadcast.M3uFile))
                 {
                     await mp4Downloader.StartAsync(cts);
-
-                    // TODO:
-                    /*
-                    if (DeleteM3uFileAfterDownloadCommand)
-                    {
-                        delete it.
-                    }
-                    */
                 }
             });
         }
@@ -179,6 +162,12 @@ namespace DRDownloadWindow2.DRBroadcast
             watch.Start();
             await DownloadAsync();
             watch.Stop();
+
+            // Cleanup.
+            if (!string.IsNullOrEmpty(Broadcast.M3uFile) && Broadcast.M3uFile.StartsWith(Const.DELETE_ME_PREFIX))
+            {
+                File.Delete(Broadcast.M3uFile);
+            }
 
             await StatusAndProgressHandler.UpdateStatusAndWaitAsync("Download slut", 1);
             StatusAndProgressHandler.UpdateStatus("Klar");
