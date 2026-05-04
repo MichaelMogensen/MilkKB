@@ -1,4 +1,6 @@
-﻿namespace DRDownloadWindow2.Types
+﻿using DRDownloadWindow2.OneValueSettingFile;
+
+namespace DRDownloadWindow2.Types
 {
     public class Broadcast
     {
@@ -20,6 +22,9 @@
         public string? M3uFile { get; set; }
         public string? Mp4File { get; set; }
         public string? LogFile { get; set; }
+
+        public bool GenerateLogFile { get; set; } = new LoadOneValueFromASettingFile(nameof(GenerateLogFile)).ValueOrDefault(false);
+        public bool DeleteM3uFileAfterDownload { get; set; } = new LoadOneValueFromASettingFile(nameof(DeleteM3uFileAfterDownload)).ValueOrDefault(true);
     }
 }
 

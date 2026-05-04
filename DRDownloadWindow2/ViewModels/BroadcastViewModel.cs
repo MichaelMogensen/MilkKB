@@ -5,7 +5,6 @@ using DRDownloadWindow2.OneValueSettingFile;
 using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
 using System.ComponentModel;
-using System.IO;
 using System.Windows.Input;
 
 namespace DRDownloadWindow2.ViewModels
@@ -325,25 +324,8 @@ namespace DRDownloadWindow2.ViewModels
                         {
                             Task.Run(async () =>
                             {
-                                var b = Model.Broadcast;
-                                if (!GenerateLogFile)
-                                {
-                                    b.LogFile = null;
-                                }
-
-                                if (DeleteM3uFileAfterDownload)
-                                {
-                                    if (!string.IsNullOrEmpty(b.M3uFile))
-                                    {
-                                        var m3uFilename = Path.GetFileName(b.M3uFile);
-                                        var m3uDeleteFilename = $"{Const.DELETE_ME_PREFIX}{m3uFilename}";
-
-                                        b.M3uFile = b.M3uFile.Replace(m3uFilename, m3uDeleteFilename);
-                                    }
-                                }
-
                                 await new DRMedia(
-                                    b,
+                                    Model.Broadcast,
                                     new StatusAndProgressHandler(
                                         new UIDispatchUpdater<UIElementProps<string>>(e =>
                                         {
@@ -483,8 +465,8 @@ namespace DRDownloadWindow2.ViewModels
             Mp4File = Model.Broadcast.Mp4File;
             LogFile = Model.Broadcast.LogFile;
 
-            GenerateLogFile = new LoadOneValueFromASettingFile(nameof(GenerateLogFile)).ValueOrDefault(false);
-            DeleteM3uFileAfterDownload = new LoadOneValueFromASettingFile(nameof(DeleteM3uFileAfterDownload)).ValueOrDefault(true);
+            GenerateLogFile = Model.Broadcast.GenerateLogFile;
+            DeleteM3uFileAfterDownload = Model.Broadcast.DeleteM3uFileAfterDownload;
 
             StatusBar = "Klar";
             StatusBarColor = Util.WarningLevelToColor(EWarningLevel.info);

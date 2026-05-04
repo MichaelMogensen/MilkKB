@@ -1,3 +1,31 @@
+                                //var b = Model.Broadcast;
+                                //if (!GenerateLogFile)
+                                //{
+                                //    b.LogFile = null;
+                                //}
+
+                                //if (DeleteM3uFileAfterDownload)
+                                //{
+                                //    if (!string.IsNullOrEmpty(b.M3uFile))
+                                //    {
+                                //        var m3uFilename = Path.GetFileName(b.M3uFile);
+                                //        var m3uDeleteFilename = $"{Const.DELETE_ME_PREFIX}{m3uFilename}";
+
+                                //        b.M3uFile = b.M3uFile.Replace(m3uFilename, m3uDeleteFilename);
+                                //    }
+                                //}
+
+                // Cleanup.
+                if (!string.IsNullOrEmpty(Broadcast.M3uFile) && Broadcast.M3uFile.Contains(Const.DELETE_ME_PREFIX))
+                {
+                    File.Delete(Broadcast.M3uFile);
+                }
+
+
+
+
+
+
         private bool _downloadCommandIsEnabled;
         public bool DownloadCommandIsEnabled
         {
