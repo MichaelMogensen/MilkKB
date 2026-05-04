@@ -145,6 +145,13 @@ namespace DRDownloadWindow2.DRBroadcast
                 {
                     await mp4Downloader.StartAsync(cts);
                 }
+            }).ContinueWith(_ =>
+            {
+                // Cleanup.
+                if (!string.IsNullOrEmpty(Broadcast.M3uFile) && Broadcast.M3uFile.Contains(Const.DELETE_ME_PREFIX))
+                {
+                    File.Delete(Broadcast.M3uFile);
+                }
             });
         }
 
@@ -162,12 +169,6 @@ namespace DRDownloadWindow2.DRBroadcast
             watch.Start();
             await DownloadAsync();
             watch.Stop();
-
-            // Cleanup.
-            if (!string.IsNullOrEmpty(Broadcast.M3uFile) && Broadcast.M3uFile.StartsWith(Const.DELETE_ME_PREFIX))
-            {
-                File.Delete(Broadcast.M3uFile);
-            }
 
             await StatusAndProgressHandler.UpdateStatusAndWaitAsync("Download slut", 1);
             StatusAndProgressHandler.UpdateStatus("Klar");

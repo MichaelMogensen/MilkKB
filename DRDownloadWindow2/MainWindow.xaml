@@ -20,7 +20,7 @@
 
         <Border.Resources>
             <utilities:CanDownloadConverter x:Key="canDownloadConverter"/>
-            
+
             <ControlTemplate x:Key="MM_BTN_TEMPLATE" TargetType="{x:Type Button}">
                 <ControlTemplate.Resources>
                     <Brush x:Key="PeachPuffDark">#ffd7b9</Brush>
@@ -62,7 +62,7 @@
                         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
                     </Trigger>
                     <Trigger Property="IsEnabled" Value="False">
-                         <!-- Dim -->
+                        <!-- Dim -->
                         <Setter Property="Opacity" Value="0.5" />
                     </Trigger>
                 </ControlTemplate.Triggers>
@@ -80,10 +80,10 @@
                                 <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Width="15" Height="15">
                                     <Grid>
                                         <Grid Background="{TemplateBinding Foreground}" Margin="1" Visibility="Collapsed" Name="nullBlock"/>
-                                        <Path Stretch="Uniform" Width="15" Height="10" Fill="{TemplateBinding Foreground}" Name="eliCheck" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Visibility="Collapsed"/>
+                                        <Path Stretch="Uniform" Width="15" Height="10" Fill="{TemplateBinding Foreground}" Name="pathCheck" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Visibility="Collapsed"/>
                                     </Grid>
                                 </Border>
-                                <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="Gray" Text="{TemplateBinding Content}"></TextBlock>
+                                <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="Gray" Text="{TemplateBinding Content}" Name="textCheck"></TextBlock>
                             </StackPanel>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
@@ -91,13 +91,11 @@
                                 <Trigger Property="IsPressed" Value="True">
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Background" Value="LightGray" />
-                                    <Setter Property="Foreground" Value="Gray" />
-                                    <Setter Property="BorderBrush" Value="Gray"/>
-                                    <Setter TargetName="eliCheck" Property="Opacity" Value="0.5" />
+                                    <Setter TargetName="pathCheck" Property="Opacity" Value="0.5" />
+                                    <Setter TargetName="textCheck" Property="Opacity" Value="0.5" />
                                 </Trigger>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter TargetName="eliCheck" Property="Visibility" Value="Visible"></Setter>
+                                    <Setter TargetName="pathCheck" Property="Visibility" Value="Visible"></Setter>
                                 </Trigger>
                                 <Trigger Property="IsChecked" Value="{x:Null}">
                                     <Setter TargetName="nullBlock" Property="Visibility" Value="Visible"></Setter>
@@ -125,8 +123,25 @@
                 <TextBox Text="{Binding Path=Genre}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
                 <Expander Margin="0,30,0,0" FontFamily="Reem Kufi" Background="BlanchedAlmond" FontSize="20" Foreground="Gray" HorizontalAlignment="Stretch" Header="Tekniske detaljer" ExpandDirection="Down" IsExpanded="False">
                     <StackPanel Margin="0,10,0,0">
-                        <CheckBox IsChecked="{Binding Path=GenerateLogFile, Mode=TwoWay}" FontFamily="Reem Kufi" FontSize="10" Command="{Binding GenerateLogFileCommand}">Skriv logfil</CheckBox>
-                        <CheckBox IsChecked="{Binding Path=DeleteM3uFileAfterDownload, Mode=TwoWay}" FontFamily="Reem Kufi" FontSize="10" Command="{Binding DeleteM3uFileAfterDownloadCommand}" Margin="0,0,0,10">Slet m3u-fil efter download</CheckBox>
+                        <CheckBox IsChecked="{Binding Path=GenerateLogFile, Mode=TwoWay}" FontFamily="Reem Kufi" FontSize="10" Command="{Binding GenerateLogFileCommand}">
+                            Skriv logfil
+                            <CheckBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                                    <Binding Path="ProgressBar" Mode="OneWay"></Binding>
+                                    <Binding Path="EntryId" Mode="OneWay"></Binding>
+                                </MultiBinding>
+                            </CheckBox.IsEnabled>
+                        </CheckBox>
+
+                        <CheckBox IsChecked="{Binding Path=DeleteM3uFileAfterDownload, Mode=TwoWay}" FontFamily="Reem Kufi" FontSize="10" Command="{Binding DeleteM3uFileAfterDownloadCommand}" Margin="0,0,0,10">
+                            Slet m3u-fil efter download
+                            <CheckBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                                    <Binding Path="ProgressBar" Mode="OneWay"></Binding>
+                                    <Binding Path="EntryId" Mode="OneWay"></Binding>
+                                </MultiBinding>
+                            </CheckBox.IsEnabled>
+                        </CheckBox>
 
                         <TextBox Text="{Binding Path=UniqueId}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
                         <TextBox Text="{Binding Path=EntryId}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
@@ -161,7 +176,7 @@
                             <Binding Path="EntryId" Mode="OneWay"></Binding>
                         </MultiBinding>
                     </Button.IsEnabled>
-                    
+
                     <Grid Width="300">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
@@ -170,7 +185,7 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        
+
                         <Image Grid.Row="0" Grid.Column="0" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
                         <ProgressBar Grid.Row="0" Grid.Column="1" Template="{StaticResource MM_PROGRESS_0_TO_100_PCT_TEMPLATE}" Value="{Binding Path=ProgressBar}"/>
                     </Grid>

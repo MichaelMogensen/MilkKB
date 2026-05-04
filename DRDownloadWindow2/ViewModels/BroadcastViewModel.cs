@@ -5,6 +5,7 @@ using DRDownloadWindow2.OneValueSettingFile;
 using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Input;
 
 namespace DRDownloadWindow2.ViewModels
@@ -98,7 +99,7 @@ namespace DRDownloadWindow2.ViewModels
 
         #endregion
 
-        #region Genre
+        #region Genre.
 
         private string? _genre;
         public string? Genre
@@ -332,7 +333,13 @@ namespace DRDownloadWindow2.ViewModels
 
                                 if (DeleteM3uFileAfterDownload)
                                 {
-                                    b.M3uFile = $"{Const.DELETE_ME_PREFIX}{b.M3uFile}";
+                                    if (!string.IsNullOrEmpty(b.M3uFile))
+                                    {
+                                        var m3uFilename = Path.GetFileName(b.M3uFile);
+                                        var m3uDeleteFilename = $"{Const.DELETE_ME_PREFIX}{m3uFilename}";
+
+                                        b.M3uFile = b.M3uFile.Replace(m3uFilename, m3uDeleteFilename);
+                                    }
                                 }
 
                                 await new DRMedia(
