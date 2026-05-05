@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="DRDownloadWindow2.UserControls.ProgressButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:DRDownloadWindow2.ViewModels"
+             xmlns:utilities="clr-namespace:DRDownloadWindow2.Converters"
+             mc:Ignorable="d" 
+             >
+
+    <Button Width="200" Height="100" Command="{Binding DownloadCommand}">
+        
+        <Button.Resources>
+            <utilities:CanDownloadConverter x:Key="canDownloadConverter"/>
+        </Button.Resources>
+        
+        <Button.IsEnabled>
+            <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                <Binding Path="ProgressBar" Mode="OneWay"></Binding>
+                <Binding Path="EntryId" Mode="OneWay"></Binding>
+            </MultiBinding>
+        </Button.IsEnabled>
+
+        <Grid Width="300">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Row="0" Grid.Column="0" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
+            <ProgressBar Grid.Row="0" Grid.Column="1" Name="progressBar"/>
+        </Grid>
+    </Button>
+
+</UserControl>

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DRDownloadWindow2.ViewModels"
+        xmlns:uc="clr-namespace:DRDownloadWindow2.UserControls"
         mc:Ignorable="d"
         Background="PeachPuff" 
         Height="800" 
@@ -20,92 +21,6 @@
 
         <Border.Resources>
             <utilities:CanDownloadConverter x:Key="canDownloadConverter"/>
-
-            <ControlTemplate x:Key="MM_BTN_TEMPLATE" TargetType="{x:Type Button}">
-                <ControlTemplate.Resources>
-                    <Brush x:Key="PeachPuffDark">#ffd7b9</Brush>
-                    <Color x:Key="PeachPuff">#ffdab9</Color>
-                    <Brush x:Key="PeachPuffLight">#ffddb9</Brush>
-                </ControlTemplate.Resources>
-                <!-- Visual tree -->
-                <Grid Margin="10">
-                    <Rectangle x:Name="MM_BTN_COLOR" RadiusX="20" RadiusY="20">
-                        <Rectangle.Fill>
-                            <SolidColorBrush Color="{StaticResource ResourceKey=PeachPuff}"></SolidColorBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Viewbox>
-                        <ContentPresenter Content="{TemplateBinding Content}" Margin="20">
-                        </ContentPresenter>
-                    </Viewbox>
-                </Grid>
-                <!-- Behaviour -->
-                <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter TargetName="MM_BTN_COLOR" Property="Fill" Value="{StaticResource ResourceKey=PeachPuffLight}"/>
-                        <Setter Property="RenderTransform">
-                            <Setter.Value>
-                                <!-- Grow -->
-                                <ScaleTransform ScaleX="1.05" ScaleY="1.05"></ScaleTransform>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
-                    </Trigger>
-                    <Trigger Property="IsPressed" Value="True">
-                        <Setter TargetName="MM_BTN_COLOR" Property="Fill" Value="{StaticResource ResourceKey=PeachPuffDark}"/>
-                        <Setter Property="RenderTransform">
-                            <Setter.Value>
-                                <!-- Shrink -->
-                                <ScaleTransform ScaleX="0.95" ScaleY="0.95"></ScaleTransform>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
-                    </Trigger>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <!-- Dim -->
-                        <Setter Property="Opacity" Value="0.5" />
-                    </Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
-
-            <Style TargetType="{x:Type CheckBox}">
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="BorderBrush" Value="Gray"/>
-                <Setter Property="Foreground" Value="Gray"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type CheckBox}">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
-                                <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Width="15" Height="15">
-                                    <Grid>
-                                        <Grid Background="{TemplateBinding Foreground}" Margin="1" Visibility="Collapsed" Name="nullBlock"/>
-                                        <Path Stretch="Uniform" Width="15" Height="10" Fill="{TemplateBinding Foreground}" Name="pathCheck" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Visibility="Collapsed"/>
-                                    </Grid>
-                                </Border>
-                                <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="Gray" Text="{TemplateBinding Content}" Name="textCheck"></TextBlock>
-                            </StackPanel>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                </Trigger>
-                                <Trigger Property="IsPressed" Value="True">
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter TargetName="pathCheck" Property="Opacity" Value="0.5" />
-                                    <Setter TargetName="textCheck" Property="Opacity" Value="0.5" />
-                                </Trigger>
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter TargetName="pathCheck" Property="Visibility" Value="Visible"></Setter>
-                                </Trigger>
-                                <Trigger Property="IsChecked" Value="{x:Null}">
-                                    <Setter TargetName="nullBlock" Property="Visibility" Value="Visible"></Setter>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
         </Border.Resources>
 
         <DockPanel LastChildFill="False">
@@ -165,33 +80,15 @@
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Width="100" Height="100" Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding CopyCommand}">
+                <Button Width="100" Height="100" Command="{Binding CopyCommand}">
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png"/>
                 </Button>
 
-                <Button Width="200" Height="100" Template="{StaticResource MM_BTN_TEMPLATE}" Command="{Binding DownloadCommand}">
-                    <Button.IsEnabled>
-                        <MultiBinding Converter="{StaticResource canDownloadConverter}">
-                            <Binding Path="ProgressBar" Mode="OneWay"></Binding>
-                            <Binding Path="EntryId" Mode="OneWay"></Binding>
-                        </MultiBinding>
-                    </Button.IsEnabled>
+                <uc:ProgressButton ValueBinding="{Binding Path=ProgressBar}">
 
-                    <Grid Width="300">
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-
-                        <Image Grid.Row="0" Grid.Column="0" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
-                        <ProgressBar Grid.Row="0" Grid.Column="1" Template="{StaticResource MM_PROGRESS_0_TO_100_PCT_TEMPLATE}" Value="{Binding Path=ProgressBar}"/>
-                    </Grid>
-                </Button>
-
-                <Button Width="100" Height="100" Template="{StaticResource MM_BTN_TEMPLATE}" Click="OnBtnClose">
+                </uc:ProgressButton>
+                
+                <Button Width="100" Height="100" Click="OnBtnClose">
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\close.png"/>
                 </Button>
 

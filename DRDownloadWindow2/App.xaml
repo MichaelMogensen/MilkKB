@@ -6,62 +6,151 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        <ControlTemplate x:Key="MM_PROGRESS_0_TO_100_PCT_TEMPLATE" TargetType="{x:Type ProgressBar}">
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ControlTemplate.Resources>
+                            <Brush x:Key="PeachPuffDark">#ffd7b9</Brush>
+                            <Color x:Key="PeachPuff">#ffdab9</Color>
+                            <Brush x:Key="PeachPuffLight">#ffddb9</Brush>
+                        </ControlTemplate.Resources>
+                        <Grid Margin="10">
+                            <Rectangle x:Name="MM_BTN_COLOR" RadiusX="20" RadiusY="20">
+                                <Rectangle.Fill>
+                                    <SolidColorBrush Color="{StaticResource ResourceKey=PeachPuff}"></SolidColorBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <Viewbox>
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="20">
+                                </ContentPresenter>
+                            </Viewbox>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="MM_BTN_COLOR" Property="Fill" Value="{StaticResource ResourceKey=PeachPuffLight}"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <!-- Grow -->
+                                        <ScaleTransform ScaleX="1.05" ScaleY="1.05"></ScaleTransform>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="MM_BTN_COLOR" Property="Fill" Value="{StaticResource ResourceKey=PeachPuffDark}"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <!-- Shrink -->
+                                        <ScaleTransform ScaleX="0.95" ScaleY="0.95"></ScaleTransform>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <!-- Dim -->
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-            <!-- Ressources -->
-            <!-- https://htmlcolorcodes.com/colors/shades-of-orange/ -->
-            <ControlTemplate.Resources>
-                <Brush x:Key="ProgressColor">#FFF5EE</Brush>
-                <Brush x:Key="TextColor">Gray</Brush>
+        <Style TargetType="CheckBox">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Width="15" Height="15">
+                                <Grid>
+                                    <Grid Background="{TemplateBinding Foreground}" Margin="1" Visibility="Collapsed" Name="nullBlock"/>
+                                    <Path Stretch="Uniform" Width="15" Height="10" Fill="{TemplateBinding Foreground}" Name="pathCheck" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Visibility="Collapsed"/>
+                                </Grid>
+                            </Border>
+                            <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="Gray" Text="{TemplateBinding Content}" Name="textCheck"></TextBlock>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="pathCheck" Property="Opacity" Value="0.5" />
+                                <Setter TargetName="textCheck" Property="Opacity" Value="0.5" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="pathCheck" Property="Visibility" Value="Visible"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter TargetName="nullBlock" Property="Visibility" Value="Visible"></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-                <utilities:ValueToPointConverter x:Key="pointConverter"/>
-                <utilities:ValueToIsLargeArcConverter x:Key="arcConverter"/>
-                <utilities:ValueToPercentageConverter x:Key="pctConverter"/>
-            </ControlTemplate.Resources>
-
-            <!-- Visual tree -->
-            <Viewbox>
-                <Grid Width="100" Height="100">
-                    <Path Fill="{StaticResource ResourceKey=ProgressColor}">
-                        <Path.Data>
-                            <PathGeometry>
-                                <PathGeometry.Figures>
-                                    <PathFigureCollection>
-                                        <PathFigure StartPoint="50,0" IsClosed="True">
-                                            <PathFigure.Segments>
-                                                <PathSegmentCollection>
-                                                    <ArcSegment Size="50,50" SweepDirection="Clockwise" RotationAngle="-90">
-                                                        <!--Point="79.38927,90.45085"-->
-                                                        <ArcSegment.Point>
-                                                            <MultiBinding Converter="{StaticResource pointConverter}">
-                                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
-                                                            </MultiBinding>
-                                                        </ArcSegment.Point>
-                                                        <ArcSegment.IsLargeArc>
-                                                            <MultiBinding Converter="{StaticResource arcConverter}">
-                                                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
-                                                            </MultiBinding>
-                                                        </ArcSegment.IsLargeArc>
-                                                    </ArcSegment>
-                                                    <LineSegment Point="50,50"/>
-                                                </PathSegmentCollection>
-                                            </PathFigure.Segments>
-                                        </PathFigure>
-                                    </PathFigureCollection>
-                                </PathGeometry.Figures>
-                            </PathGeometry>
-                        </Path.Data>
-                    </Path>
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Reem Kufi" Foreground="{StaticResource ResourceKey=TextColor}" FontSize="20">
-                        <TextBlock.Text>
-                            <MultiBinding Converter="{StaticResource pctConverter}">
-                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </Grid>
-            </Viewbox>
-        </ControlTemplate>
+        <Style TargetType="ProgressBar">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <ControlTemplate.Resources>
+                            <Brush x:Key="ProgressColor">#FFF5EE</Brush>
+                            <Brush x:Key="TextColor">Gray</Brush>
+                            <utilities:ValueToPointConverter x:Key="pointConverter"/>
+                            <utilities:ValueToIsLargeArcConverter x:Key="arcConverter"/>
+                            <utilities:ValueToPercentageConverter x:Key="pctConverter"/>
+                        </ControlTemplate.Resources>
+                        <Viewbox>
+                            <Grid Width="100" Height="100">
+                                <Path Fill="{StaticResource ResourceKey=ProgressColor}">
+                                    <Path.Data>
+                                        <PathGeometry>
+                                            <PathGeometry.Figures>
+                                                <PathFigureCollection>
+                                                    <PathFigure StartPoint="50,0" IsClosed="True">
+                                                        <PathFigure.Segments>
+                                                            <PathSegmentCollection>
+                                                                <ArcSegment Size="50,50" SweepDirection="Clockwise" RotationAngle="-90">
+                                                                    <ArcSegment.Point>
+                                                                        <MultiBinding Converter="{StaticResource pointConverter}">
+                                                                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
+                                                                        </MultiBinding>
+                                                                    </ArcSegment.Point>
+                                                                    <ArcSegment.IsLargeArc>
+                                                                        <MultiBinding Converter="{StaticResource arcConverter}">
+                                                                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
+                                                                        </MultiBinding>
+                                                                    </ArcSegment.IsLargeArc>
+                                                                </ArcSegment>
+                                                                <LineSegment Point="50,50"/>
+                                                            </PathSegmentCollection>
+                                                        </PathFigure.Segments>
+                                                    </PathFigure>
+                                                </PathFigureCollection>
+                                            </PathGeometry.Figures>
+                                        </PathGeometry>
+                                    </Path.Data>
+                                </Path>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Reem Kufi" Foreground="{StaticResource ResourceKey=TextColor}" FontSize="20">
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource pctConverter}">
+                                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Grid>
+                        </Viewbox>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </Application.Resources>
 
