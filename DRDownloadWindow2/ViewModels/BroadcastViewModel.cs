@@ -334,7 +334,7 @@ namespace DRDownloadWindow2.ViewModels
                                         }),
                                         new UIDispatchUpdater<UIElementProps<int>>(e =>
                                         {
-                                            ProgressBar = e.Value;
+                                            Progressbar = e.Value;
                                         }))).
                                     StartDownloadAsync(new CancellationToken());
                             });
@@ -413,25 +413,14 @@ namespace DRDownloadWindow2.ViewModels
 
         #region Progressbar.
 
-        private int? _progressBar { get; set; }
-        public int? ProgressBar
+        private int? _progressbar { get; set; }
+        public int? Progressbar
         {
-            get => _progressBar;
+            get => _progressbar;
             set
             {
-                _progressBar = value;
-                OnPropertyChanged(nameof(ProgressBar));
-            }
-        }
-
-        private string? _progressBarColor { get; set; }
-        public string? ProgressBarColor
-        {
-            get => _progressBarColor;
-            set
-            {
-                _progressBarColor = value;
-                OnPropertyChanged(nameof(ProgressBarColor));
+                _progressbar = value;
+                OnPropertyChanged(nameof(Progressbar));
             }
         }
 
@@ -471,8 +460,7 @@ namespace DRDownloadWindow2.ViewModels
             StatusBar = "Klar";
             StatusBarColor = Util.WarningLevelToColor(EWarningLevel.info);
 
-            ProgressBar = 0;
-            ProgressBarColor = Util.WarningLevelToColor(EWarningLevel.info);
+            Progressbar = 0;
         }
 
         #endregion

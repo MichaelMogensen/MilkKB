@@ -8,18 +8,7 @@
              mc:Ignorable="d" 
              >
 
-    <Button Width="200" Height="100" Command="{Binding DownloadCommand}">
-        
-        <Button.Resources>
-            <utilities:CanDownloadConverter x:Key="canDownloadConverter"/>
-        </Button.Resources>
-        
-        <Button.IsEnabled>
-            <MultiBinding Converter="{StaticResource canDownloadConverter}">
-                <Binding Path="ProgressBar" Mode="OneWay"></Binding>
-                <Binding Path="EntryId" Mode="OneWay"></Binding>
-            </MultiBinding>
-        </Button.IsEnabled>
+    <Button Width="200" Height="100" Name="innerButton">
 
         <Grid Width="300">
             <Grid.RowDefinitions>
@@ -31,7 +20,7 @@
             </Grid.ColumnDefinitions>
 
             <Image Grid.Row="0" Grid.Column="0" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
-            <ProgressBar Grid.Row="0" Grid.Column="1" Name="progressBar"/>
+            <ProgressBar Grid.Row="0" Grid.Column="1" Name="innerProgressbar"/>
         </Grid>
     </Button>
 

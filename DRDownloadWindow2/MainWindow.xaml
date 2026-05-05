@@ -84,9 +84,19 @@
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png"/>
                 </Button>
 
-                <uc:ProgressButton ValueBinding="{Binding Path=ProgressBar}">
-
+                <!-- DownloadButton 1 -->
+                <uc:ProgressButton Value="{Binding Path=Progressbar}" Command="{Binding Path=DownloadCommand}">
+                    <uc:ProgressButton.IsEnabled>
+                        <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                            <Binding Path="Progressbar" Mode="OneWay"></Binding>
+                            <Binding Path="EntryId" Mode="OneWay"></Binding>
+                        </MultiBinding>
+                    </uc:ProgressButton.IsEnabled>
                 </uc:ProgressButton>
+
+                <!-- DownloadButton 2 -->
+
+                <!-- DownloadButton 3 -->
                 
                 <Button Width="100" Height="100" Click="OnBtnClose">
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\close.png"/>
