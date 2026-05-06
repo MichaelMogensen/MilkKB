@@ -1,3 +1,35 @@
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+
+
+
+
+        //private int? _progressbar { get; set; }
+        //public int? Progressbar
+        //{
+        //    get => _progressbar;
+        //    set
+        //    {
+        //        _progressbar = value;
+        //        OnPropertyChanged(nameof(Progressbar));
+        //    }
+        //}
+
+
+
+                                //await new DRMedia(
+                                //    Model.Broadcast,
+                                //    new StatusAndProgressHandler(
+                                //        new UIDispatchUpdater<UIElementProps<string>>(e =>
+                                //        {
+                                //            StatusBar = e.Value;
+                                //            StatusBarColor = Util.WarningLevelToColor(e.WarningLevel);
+                                //        }),
+                                //        new UIDispatchUpdater<UIElementProps<int>>(e =>
+                                //        {
+                                //            Progressbar = e.Value;
+                                //        }))).
+                                //    StartDownloadAsync(new CancellationToken());
+
 
 /*
  

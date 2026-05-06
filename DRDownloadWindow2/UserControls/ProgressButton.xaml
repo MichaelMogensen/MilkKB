@@ -8,9 +8,9 @@
              mc:Ignorable="d" 
              >
 
-    <Button Width="200" Height="100" Name="innerButton">
+    <Button Width="180" Height="100" Name="innerButton">
 
-        <Grid Width="300">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>

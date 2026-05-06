@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Background="PeachPuff" 
         Height="800" 
-        Width="1000"
+        Width="1200"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         ResizeMode="NoResize"
@@ -17,16 +17,19 @@
         MouseLeftButtonDown="OnLeftMouseButtonDown"
         xmlns:utilities="clr-namespace:DRDownloadWindow2.Converters"
         d:DataContext="{d:DesignInstance local:BroadcastViewModel, IsDesignTimeCreatable=False}">
-    <Border Background="BlanchedAlmond" CornerRadius="30" Margin="20" Padding="40">
+    <Border Background="BlanchedAlmond" CornerRadius="30" Margin="20" Padding="30">
 
         <Border.Resources>
             <utilities:CanDownloadConverter x:Key="canDownloadConverter"/>
         </Border.Resources>
 
         <DockPanel LastChildFill="False">
-            <Image DockPanel.Dock="Top" Width="200" Margin="0,0,0,50" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\dr.png" />
 
-            <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+            <!-- Logo -->
+            <Image DockPanel.Dock="Top" Width="400" Margin="0,0,0,0" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\dr.png" />
+
+            <!-- Metadata -->
+            <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Margin="0,0,0,30" >
                 <TextBox Text="{Binding Path=Title}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="30" IsReadOnly="True" FontWeight="Bold"></TextBox>
                 <Separator Background="Gray"/>
                 <TextBox Text="{Binding Path=SendDateAndDuration}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
@@ -36,26 +39,16 @@
                 <TextBox Text="{Binding Path=Episode}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
                 <TextBox Text="{Binding Path=Channel}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
                 <TextBox Text="{Binding Path=Genre}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="20" IsReadOnly="True"></TextBox>
-                <Expander Margin="0,30,0,0" FontFamily="Reem Kufi" Background="BlanchedAlmond" FontSize="20" Foreground="Gray" HorizontalAlignment="Stretch" Header="Tekniske detaljer" ExpandDirection="Down" IsExpanded="False">
+
+                <!-- Tekniske dataljer -->
+                <Expander FontFamily="Reem Kufi" Background="BlanchedAlmond" FontSize="20" Foreground="Gray" HorizontalAlignment="Stretch" Header="Tekniske detaljer" ExpandDirection="Down" IsExpanded="False" Expanded="OnTechnicalDetailsExpanded" Collapsed="OnTechnicalDetailsCollapsed" >
                     <StackPanel Margin="0,10,0,0">
                         <CheckBox IsChecked="{Binding Path=GenerateLogFile, Mode=TwoWay}" FontFamily="Reem Kufi" FontSize="10" Command="{Binding GenerateLogFileCommand}">
                             Skriv logfil
-                            <CheckBox.IsEnabled>
-                                <MultiBinding Converter="{StaticResource canDownloadConverter}">
-                                    <Binding Path="ProgressBar" Mode="OneWay"></Binding>
-                                    <Binding Path="EntryId" Mode="OneWay"></Binding>
-                                </MultiBinding>
-                            </CheckBox.IsEnabled>
                         </CheckBox>
 
                         <CheckBox IsChecked="{Binding Path=DeleteM3uFileAfterDownload, Mode=TwoWay}" FontFamily="Reem Kufi" FontSize="10" Command="{Binding DeleteM3uFileAfterDownloadCommand}" Margin="0,0,0,10">
                             Slet m3u-fil efter download
-                            <CheckBox.IsEnabled>
-                                <MultiBinding Converter="{StaticResource canDownloadConverter}">
-                                    <Binding Path="ProgressBar" Mode="OneWay"></Binding>
-                                    <Binding Path="EntryId" Mode="OneWay"></Binding>
-                                </MultiBinding>
-                            </CheckBox.IsEnabled>
                         </CheckBox>
 
                         <TextBox Text="{Binding Path=UniqueId}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="Gray" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
@@ -71,7 +64,8 @@
                 </Expander>
             </StackPanel>
 
-            <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
+            <!-- Statusbar -->
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical" Margin="0,20,0,0">
                 <StatusBar Background="BlanchedAlmond" Foreground="Gray">
                     <StatusBarItem FontFamily="Reem Kufi">
                         <TextBox Text="{Binding Path=StatusBar}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="{Binding Path=StatusBarColor}" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
@@ -79,30 +73,133 @@
                 </StatusBar>
             </StackPanel>
 
-            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Width="100" Height="100" Command="{Binding CopyCommand}">
+            <!-- Buttons -->
+            <Grid Name="gridButtons" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <!-- Copy -->
+                <Button Grid.Row="0" Grid.Column="0" Width="100" Height="100" Command="{Binding CopyCommand}">
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png"/>
                 </Button>
 
-                <!-- DownloadButton 1 -->
-                <uc:ProgressButton Value="{Binding Path=Progressbar}" Command="{Binding Path=DownloadCommand}">
+                <!-- DownloadButton 0 -->
+                <uc:ProgressButton Grid.Row="0" Grid.Column="1" Value="{Binding Path=Progressbar0}" Command="{Binding Path=DownloadCommand0}" ToolTip="Hent radio/tv udsendelse">
                     <uc:ProgressButton.IsEnabled>
                         <MultiBinding Converter="{StaticResource canDownloadConverter}">
-                            <Binding Path="Progressbar" Mode="OneWay"></Binding>
+                            <Binding Path="Progressbar0" Mode="OneWay"></Binding>
+                            <Binding Path="EntryId" Mode="OneWay"></Binding>
+                        </MultiBinding>
+                    </uc:ProgressButton.IsEnabled>
+                </uc:ProgressButton>
+
+                <!-- DownloadButton 1 -->
+                <uc:ProgressButton Grid.Row="0" Grid.Column="2" Value="{Binding Path=Progressbar1}" Command="{Binding Path=DownloadCommand1}" ToolTip="Hent radio/tv udsendelse">
+                    <uc:ProgressButton.IsEnabled>
+                        <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                            <Binding Path="Progressbar1" Mode="OneWay"></Binding>
                             <Binding Path="EntryId" Mode="OneWay"></Binding>
                         </MultiBinding>
                     </uc:ProgressButton.IsEnabled>
                 </uc:ProgressButton>
 
                 <!-- DownloadButton 2 -->
+                <uc:ProgressButton Grid.Row="0" Grid.Column="3" Value="{Binding Path=Progressbar2}" Command="{Binding Path=DownloadCommand2}" ToolTip="Hent radio/tv udsendelse">
+                    <uc:ProgressButton.IsEnabled>
+                        <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                            <Binding Path="Progressbar2" Mode="OneWay"></Binding>
+                            <Binding Path="EntryId" Mode="OneWay"></Binding>
+                        </MultiBinding>
+                    </uc:ProgressButton.IsEnabled>
+                </uc:ProgressButton>
 
                 <!-- DownloadButton 3 -->
-                
-                <Button Width="100" Height="100" Click="OnBtnClose">
+                <uc:ProgressButton Grid.Row="0" Grid.Column="4" Value="{Binding Path=Progressbar3}" Command="{Binding Path=DownloadCommand3}" ToolTip="Hent radio/tv udsendelse">
+                    <uc:ProgressButton.IsEnabled>
+                        <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                            <Binding Path="Progressbar3" Mode="OneWay"></Binding>
+                            <Binding Path="EntryId" Mode="OneWay"></Binding>
+                        </MultiBinding>
+                    </uc:ProgressButton.IsEnabled>
+                </uc:ProgressButton>
+
+                <!-- DownloadButton 4 -->
+                <uc:ProgressButton Grid.Row="0" Grid.Column="5" Value="{Binding Path=Progressbar4}" Command="{Binding Path=DownloadCommand4}" ToolTip="Hent radio/tv udsendelse">
+                    <uc:ProgressButton.IsEnabled>
+                        <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                            <Binding Path="Progressbar4" Mode="OneWay"></Binding>
+                            <Binding Path="EntryId" Mode="OneWay"></Binding>
+                        </MultiBinding>
+                    </uc:ProgressButton.IsEnabled>
+                </uc:ProgressButton>
+
+                <!-- DownloadButton 5 -->
+                <uc:ProgressButton Grid.Row="1" Grid.Column="1" Value="{Binding Path=Progressbar5}" Command="{Binding Path=DownloadCommand5}" ToolTip="Hent radio/tv udsendelse">
+                    <uc:ProgressButton.IsEnabled>
+                        <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                            <Binding Path="Progressbar5" Mode="OneWay"></Binding>
+                            <Binding Path="EntryId" Mode="OneWay"></Binding>
+                        </MultiBinding>
+                    </uc:ProgressButton.IsEnabled>
+                </uc:ProgressButton>
+
+                <!-- DownloadButton 6 -->
+                <uc:ProgressButton Grid.Row="1" Grid.Column="2" Value="{Binding Path=Progressbar6}" Command="{Binding Path=DownloadCommand6}" ToolTip="Hent radio/tv udsendelse">
+                    <uc:ProgressButton.IsEnabled>
+                        <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                            <Binding Path="Progressbar6" Mode="OneWay"></Binding>
+                            <Binding Path="EntryId" Mode="OneWay"></Binding>
+                        </MultiBinding>
+                    </uc:ProgressButton.IsEnabled>
+                </uc:ProgressButton>
+
+                <!-- DownloadButton 7 -->
+                <uc:ProgressButton Grid.Row="1" Grid.Column="3" Value="{Binding Path=Progressbar7}" Command="{Binding Path=DownloadCommand7}" ToolTip="Hent radio/tv udsendelse">
+                    <uc:ProgressButton.IsEnabled>
+                        <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                            <Binding Path="Progressbar7" Mode="OneWay"></Binding>
+                            <Binding Path="EntryId" Mode="OneWay"></Binding>
+                        </MultiBinding>
+                    </uc:ProgressButton.IsEnabled>
+                </uc:ProgressButton>
+
+                <!-- DownloadButton 8 -->
+                <uc:ProgressButton Grid.Row="1" Grid.Column="4" Value="{Binding Path=Progressbar8}" Command="{Binding Path=DownloadCommand8}" ToolTip="Hent radio/tv udsendelse">
+                    <uc:ProgressButton.IsEnabled>
+                        <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                            <Binding Path="Progressbar8" Mode="OneWay"></Binding>
+                            <Binding Path="EntryId" Mode="OneWay"></Binding>
+                        </MultiBinding>
+                    </uc:ProgressButton.IsEnabled>
+                </uc:ProgressButton>
+
+                <!-- DownloadButton 9 -->
+                <uc:ProgressButton Grid.Row="1" Grid.Column="5" Value="{Binding Path=Progressbar9}" Command="{Binding Path=DownloadCommand9}" ToolTip="Hent radio/tv udsendelse">
+                    <uc:ProgressButton.IsEnabled>
+                        <MultiBinding Converter="{StaticResource canDownloadConverter}">
+                            <Binding Path="Progressbar9" Mode="OneWay"></Binding>
+                            <Binding Path="EntryId" Mode="OneWay"></Binding>
+                        </MultiBinding>
+                    </uc:ProgressButton.IsEnabled>
+                </uc:ProgressButton>
+
+                <!-- Close -->
+                <Button Grid.Row="2" Grid.Column="6" Width="100" Height="100" Click="OnBtnClose">
                     <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\close.png"/>
                 </Button>
 
-            </StackPanel>
+            </Grid>
 
         </DockPanel>
 

@@ -61,7 +61,37 @@ namespace DRDownloadWindow2
             ViewModel.Model.Browser?.Close();
         }
 
+        /// <summary>
+        /// Hide buttons when tech. details are expanded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnTechnicalDetailsExpanded(object sender, RoutedEventArgs e)
+        {
+            HideButtonGrid();
+        }
+
+        /// <summary>
+        /// Show buttons when tech. details are collapsed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnTechnicalDetailsCollapsed(object sender, RoutedEventArgs e)
+        {
+            ShowButtonGrid();
+        }
+
         #endregion
+
+        private void HideButtonGrid()
+        {
+            gridButtons.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowButtonGrid()
+        {
+            gridButtons.Visibility = Visibility.Visible;
+        }
 
     }
 

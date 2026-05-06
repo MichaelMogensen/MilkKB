@@ -1,9 +1,12 @@
 ﻿using System.IO;
+using DRDownloadWindow2.Utilities;
 
 namespace DRDownloadWindow2.OneValueSettingFile
 {
     public abstract class OneValueSettingFileBase
     {
+        private static readonly string LockId = Util.GenerateRandomGuid();
+
         protected string SettingFile { get; set; }            
 
         /// <summary>
@@ -23,7 +26,10 @@ namespace DRDownloadWindow2.OneValueSettingFile
         {
             if (File.Exists(SettingFile))
             {
-                return File.ReadAllLines(SettingFile).FirstOrDefault() ?? string.Empty;
+                lock (LockId)
+                {
+                    return File.ReadAllLines(SettingFile).FirstOrDefault() ?? string.Empty;
+                }
             }
 
             return string.Empty;
@@ -34,7 +40,10 @@ namespace DRDownloadWindow2.OneValueSettingFile
         /// </summary>
         protected void WriteSettingFile(object value)
         {
-            File.WriteAllText(SettingFile, value.ToString());
+            lock (LockId)
+            {
+                File.WriteAllText(SettingFile, value.ToString());
+            }
         }
 
     }

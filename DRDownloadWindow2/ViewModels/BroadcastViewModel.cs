@@ -311,37 +311,37 @@ namespace DRDownloadWindow2.ViewModels
 
         #endregion
 
-        #region Download command.
+        #region Download command's.
 
-        private ICommand? _downloadCommand;
-        public ICommand DownloadCommand
-        {
-            get
-            {
-                return _downloadCommand ?? (_downloadCommand =
-                    new DelegateCommand(
-                        s =>
-                        {
-                            Task.Run(async () =>
-                            {
-                                await new DRMedia(
-                                    Model.Broadcast,
-                                    new StatusAndProgressHandler(
-                                        new UIDispatchUpdater<UIElementProps<string>>(e =>
-                                        {
-                                            StatusBar = e.Value;
-                                            StatusBarColor = Util.WarningLevelToColor(e.WarningLevel);
-                                        }),
-                                        new UIDispatchUpdater<UIElementProps<int>>(e =>
-                                        {
-                                            Progressbar = e.Value;
-                                        }))).
-                                    StartDownloadAsync(new CancellationToken());
-                            });
-                        },
-                        s => true));
-            }
-        }
+        private ICommand? _downloadCommand0;
+        public ICommand DownloadCommand0 => _downloadCommand0 ?? (_downloadCommand0 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar0 = value)), _ => true));        
+
+        private ICommand? _downloadCommand1;
+        public ICommand DownloadCommand1 => _downloadCommand1 ?? (_downloadCommand1 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar1 = value)), _ => true));        
+
+        private ICommand? _downloadCommand2;
+        public ICommand DownloadCommand2 => _downloadCommand2 ?? (_downloadCommand2 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar2 = value)), _ => true));        
+
+        private ICommand? _downloadCommand3;
+        public ICommand DownloadCommand3 => _downloadCommand3 ?? (_downloadCommand3 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar3 = value)), _ => true));        
+
+        private ICommand? _downloadCommand4;
+        public ICommand DownloadCommand4 => _downloadCommand4 ?? (_downloadCommand4 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar4 = value)), _ => true));        
+
+        private ICommand? _downloadCommand5;
+        public ICommand DownloadCommand5 => _downloadCommand5 ?? (_downloadCommand5 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar5 = value)), _ => true));        
+
+        private ICommand? _downloadCommand6;
+        public ICommand DownloadCommand6 => _downloadCommand6 ?? (_downloadCommand6 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar6 = value)), _ => true));        
+
+        private ICommand? _downloadCommand7;
+        public ICommand DownloadCommand7 => _downloadCommand7 ?? (_downloadCommand7 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar7 = value)), _ => true));        
+
+        private ICommand? _downloadCommand8;
+        public ICommand DownloadCommand8 => _downloadCommand8 ?? (_downloadCommand8 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar8 = value)), _ => true));        
+
+        private ICommand? _downloadCommand9;
+        public ICommand DownloadCommand9 => _downloadCommand9 ?? (_downloadCommand9 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar9 = value)), _ => true));        
 
         #endregion
 
@@ -411,16 +411,114 @@ namespace DRDownloadWindow2.ViewModels
 
         #endregion
 
-        #region Progressbar.
+        #region Progressbar's.
 
-        private int? _progressbar { get; set; }
-        public int? Progressbar
+        private int? _progressbar0 { get; set; }
+        public int? Progressbar0
         {
-            get => _progressbar;
+            get => _progressbar0;
             set
             {
-                _progressbar = value;
-                OnPropertyChanged(nameof(Progressbar));
+                _progressbar0 = value;
+                OnPropertyChanged(nameof(Progressbar0));
+            }
+        }
+
+        private int? _progressbar1 { get; set; }
+        public int? Progressbar1
+        {
+            get => _progressbar1;
+            set
+            {
+                _progressbar1 = value;
+                OnPropertyChanged(nameof(Progressbar1));
+            }
+        }
+        private int? _progressbar2 { get; set; }
+        public int? Progressbar2
+        {
+            get => _progressbar2;
+            set
+            {
+                _progressbar2 = value;
+                OnPropertyChanged(nameof(Progressbar2));
+            }
+        }
+
+        private int? _progressbar3 { get; set; }
+        public int? Progressbar3
+        {
+            get => _progressbar3;
+            set
+            {
+                _progressbar3 = value;
+                OnPropertyChanged(nameof(Progressbar3));
+            }
+        }
+
+        private int? _progressbar4 { get; set; }
+        public int? Progressbar4
+        {
+            get => _progressbar4;
+            set
+            {
+                _progressbar4 = value;
+                OnPropertyChanged(nameof(Progressbar4));
+            }
+        }
+
+        private int? _progressbar5 { get; set; }
+        public int? Progressbar5
+        {
+            get => _progressbar5;
+            set
+            {
+                _progressbar5 = value;
+                OnPropertyChanged(nameof(Progressbar5));
+            }
+        }
+
+        private int? _progressbar6 { get; set; }
+        public int? Progressbar6
+        {
+            get => _progressbar6;
+            set
+            {
+                _progressbar6 = value;
+                OnPropertyChanged(nameof(Progressbar6));
+            }
+        }
+
+        private int? _progressbar7 { get; set; }
+        public int? Progressbar7
+        {
+            get => _progressbar7;
+            set
+            {
+                _progressbar7 = value;
+                OnPropertyChanged(nameof(Progressbar7));
+            }
+        }
+
+        private int? _progressbar8 { get; set; }
+        public int? Progressbar8
+        {
+            get => _progressbar8;
+            set
+            {
+                _progressbar8 = value;
+                OnPropertyChanged(nameof(Progressbar8));
+            }
+        }
+
+        private int? _progressbar9 { get; set; }
+        public int? Progressbar9
+        {
+            get => _progressbar9;
+            set
+            {
+                _progressbar9 = value;
+                OnPropertyChanged(nameof(Progressbar9));
             }
         }
 
@@ -429,6 +527,28 @@ namespace DRDownloadWindow2.ViewModels
         // Other.
 
         #region Methods.
+
+        /// <summary>
+        /// Start download 0, 1, ..., N.
+        /// </summary>
+        /// <param name="SetPG"></param>
+        /// <returns></returns>
+        private async Task StartDownloadAsync(Action<int> SetPG)
+        {
+            await new DRMedia(
+                Model.Broadcast,
+                new StatusAndProgressHandler(
+                    new UIDispatchUpdater<UIElementProps<string>>(e =>
+                    {
+                        StatusBar = e.Value;
+                        StatusBarColor = Util.WarningLevelToColor(e.WarningLevel);
+                    }),
+                    new UIDispatchUpdater<UIElementProps<int>>(e =>
+                    {
+                        SetPG(e.Value);
+                    }))).
+                StartDownloadAsync(new CancellationToken());
+        }
 
         /// <summary>
         /// Sync. viewmodel and model.
@@ -460,7 +580,16 @@ namespace DRDownloadWindow2.ViewModels
             StatusBar = "Klar";
             StatusBarColor = Util.WarningLevelToColor(EWarningLevel.info);
 
-            Progressbar = 0;
+            Progressbar0 = 0;
+            Progressbar1 = 0;
+            Progressbar2 = 0;
+            Progressbar3 = 0;
+            Progressbar4 = 0;
+            Progressbar5 = 0;
+            Progressbar6 = 0;
+            Progressbar7 = 0;
+            Progressbar8 = 0;
+            Progressbar9 = 0;
         }
 
         #endregion

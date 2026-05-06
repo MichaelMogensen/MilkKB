@@ -32,7 +32,7 @@ namespace DRDownloadWindow2.ViewModels
         // Statusbar and progressbar.
 
         public string? StatusBar { get; set; }
-        public int? Progressbar { get; set; }
+        public int? Progressbar0 { get; set; }
     }
 }
 
