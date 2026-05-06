@@ -27,6 +27,7 @@
 
             <!-- Logo -->
             <Image DockPanel.Dock="Top" Width="400" Margin="0,0,0,0" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\dr.png" />
+            <!--<Image DockPanel.Dock="Top" Width="50" Margin="0,0,0,0" Source="/Ressources/Images/no_ai.png" />-->
 
             <!-- Metadata -->
             <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Margin="0,0,0,30" >
