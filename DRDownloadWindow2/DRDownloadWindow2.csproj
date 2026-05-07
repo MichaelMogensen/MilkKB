@@ -20,17 +20,33 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Ressources\Images\close.png" />
+    <None Remove="Ressources\Images\copy.png" />
     <None Remove="Ressources\Images\download.png" />
     <None Remove="Ressources\Images\dr.png" />
+    <None Remove="Ressources\Images\dr_no_ia.png" />
+    <None Remove="Ressources\Images\no_ai.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Ressources\Images\download.png">
+    <Content Include="Ressources\Images\close.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Ressources\Images\dr.png">
+    </Content>
+    <Content Include="Ressources\Images\copy.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Content>
+    <Content Include="Ressources\Images\download.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressources\Images\dr.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressources\Images\dr_no_ia.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressources\Images\no_ai.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

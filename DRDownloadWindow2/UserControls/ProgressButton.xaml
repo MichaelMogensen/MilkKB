@@ -19,7 +19,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Image Grid.Row="0" Grid.Column="0" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\download.png"/>
+            <Image Grid.Row="0" Grid.Column="0" Source="/Ressources/Images/download.png"/>
             <ProgressBar Grid.Row="0" Grid.Column="1" Name="innerProgressbar"/>
         </Grid>
     </Button>

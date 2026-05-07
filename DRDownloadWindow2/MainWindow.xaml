@@ -26,8 +26,7 @@
         <DockPanel LastChildFill="False">
 
             <!-- Logo -->
-            <Image DockPanel.Dock="Top" Width="400" Margin="0,0,0,0" Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\dr.png" />
-            <!--<Image DockPanel.Dock="Top" Width="50" Margin="0,0,0,0" Source="/Ressources/Images/no_ai.png" />-->
+            <Image DockPanel.Dock="Top" Width="400" Margin="0,0,0,0" Source="./Ressources/Images/dr_no_ia.png" />
 
             <!-- Metadata -->
             <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Margin="0,0,0,30" >
@@ -66,13 +65,13 @@
             </StackPanel>
 
             <!-- Statusbar -->
-            <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical" Margin="0,20,0,0">
-                <StatusBar Background="BlanchedAlmond" Foreground="Gray">
+            <DockPanel DockPanel.Dock="Bottom" LastChildFill="False" Margin="0,30,0,0">
+                <StatusBar DockPanel.Dock="Left" Background="BlanchedAlmond" Foreground="Gray">
                     <StatusBarItem FontFamily="Reem Kufi">
                         <TextBox Text="{Binding Path=StatusBar}" FontFamily="Reem Kufi" Background="BlanchedAlmond" Foreground="{Binding Path=StatusBarColor}" BorderThickness="0" FontSize="10" IsReadOnly="True"></TextBox>
                     </StatusBarItem>
                 </StatusBar>
-            </StackPanel>
+            </DockPanel>
 
             <!-- Buttons -->
             <Grid Name="gridButtons" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
@@ -92,7 +91,7 @@
 
                 <!-- Copy -->
                 <Button Grid.Row="0" Grid.Column="0" Width="100" Height="100" Command="{Binding CopyCommand}">
-                    <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\copy.png"/>
+                    <Image Source="./Ressources/Images/copy.png"/>
                 </Button>
 
                 <!-- DownloadButton 0 -->
@@ -197,7 +196,7 @@
 
                 <!-- Close -->
                 <Button Grid.Row="2" Grid.Column="6" Width="100" Height="100" Click="OnBtnClose">
-                    <Image Source="C:\Users\micha\source\repos\MilkKB\DRDownloadWindow2\Ressources\Images\close.png"/>
+                    <Image Source="./Ressources/Images/close.png"/>
                 </Button>
 
             </Grid>
