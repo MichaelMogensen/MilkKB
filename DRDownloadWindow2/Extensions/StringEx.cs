@@ -14,6 +14,27 @@
             OrDefault(theObject, "NIL");
         public static string? OrNull<T>(this T theObject) =>
             OrDefault(theObject, "null");
+
+        public static string? TrimTagStart(this string value)
+        {
+            if (!value.Contains('>'))
+            { return value; }
+
+            var splitValue = value.Split('>');
+
+            return splitValue[1];
+        }
+
+        public static string? TrimTagEnd(this string value)
+        {
+            if (!value.Contains('<'))
+            { return value; }
+
+            var splitValue = value.Split('<');
+
+            return splitValue[0];
+        }
+
     }
 }
 

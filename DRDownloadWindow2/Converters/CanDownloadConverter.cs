@@ -37,7 +37,7 @@ namespace DRDownloadWindow2.Converters
         {
             var notInProgress = progress == 0;
 
-            var regEx = new Regex(DRBroadcastHtmlScraper.ENTRY_ID_PATTERN);
+            var regEx = new Regex(Const.REGEX_PATTERN_ENTRY_ID);
             var holdsEntryId = regEx.Match(entryId).Success;
 
             var canDownload = notInProgress && holdsEntryId;

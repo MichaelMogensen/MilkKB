@@ -1,7 +1,6 @@
 ﻿using DRDownload.Common.DownloadFile;
 using DRDownload.Common.DownloadVideo;
 using DRDownloadWindow2.Download.KLTRRestAPI;
-using DRDownloadWindow2.OneValueSettingFile;
 using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
 using System.Diagnostics;

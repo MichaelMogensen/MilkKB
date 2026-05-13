@@ -32,10 +32,13 @@ namespace DRDownloadWindow2.DRBroadcast.DRBroadcastFile
                 throw new ArgumentNullException($"{nameof(broadcast.DownloadFolder)} is null");
             }
 
+            var timestamp = broadcast.SendDate?.ToString("yyyy.MM.dd.hh.mm");
+
             var filename =
                 Util.EllipsisString(
                     Util.AggregateStringsNotNull(
                         ", ",
+                        timestamp,
                         broadcast.Title,
                         Util.ToDanishDate(broadcast.SendDate),
                         Util.ToDanishDuration(broadcast.SendDate, broadcast.Duration),

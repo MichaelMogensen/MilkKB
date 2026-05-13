@@ -3,25 +3,19 @@ using DRDownloadWindow2.Types;
 using DRDownloadWindow2.Utilities;
 using HtmlAgilityPack;
 using System.IO;
-using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace DRDownloadWindow2.DRBroadcast
 {
     public class DRBroadcastHtmlScraper
     {
         public static readonly string BROADCAST_REC_DATA_PARENT_XPATH = "//div[@class=\"boardcast-record-data\"]";
-        public static readonly string BROADCAST_REC_DATA_LEFT_XPATH = "//div[@class=\"main-record-data\"]";
-        public static readonly string BROADCAST_REC_DATA_RIGHT_XPATH = "//div[@class=\"right-side\"]";
 
-        public static readonly string ENTRY_ID_PATTERN = "0_[a-z0-9]{8}";
-
-        public Broadcast Broadcast { get; private set; } = new Broadcast();
+        public Broadcast Broadcast { get; private set; } = new Broadcast() { MediaType = EMediaType.nomedia };
 
         public HtmlDocument Document { get; set; } = new HtmlDocument();
 
         private HtmlNode? MainBroadcastNode { get; set; }
-        private HtmlNode? LeftSideBroadcastNode { get; set; }
-        private HtmlNode? RightSideBroadcastNode { get; set; }
 
         /// <summary>
         /// Ctor.
@@ -32,213 +26,140 @@ namespace DRDownloadWindow2.DRBroadcast
         {
             if (string.IsNullOrEmpty(url))
             { return; }
+            Broadcast.Url = url;
+
             if (string.IsNullOrEmpty(html))
             { return; }
-
             Document.LoadHtml(html);
 
-            MainBroadcastNode =
-                Document.
-                DocumentNode?.
-                SelectSingleNode(BROADCAST_REC_DATA_PARENT_XPATH);
+            Broadcast.DownloadFolder = Util.WindowsDownloadFolder();
+            if (string.IsNullOrEmpty(Broadcast.DownloadFolder))
+            {
+                throw new ArgumentNullException($"{nameof(Broadcast.DownloadFolder)} == null");
+            }
 
-            LeftSideBroadcastNode =
-                MainBroadcastNode?.
-                SelectSingleNode(BROADCAST_REC_DATA_LEFT_XPATH);
-
-            RightSideBroadcastNode =
-                MainBroadcastNode?.
-                SelectSingleNode(BROADCAST_REC_DATA_RIGHT_XPATH);
-
-            CreateBroadcastRecord(url);
-        }
-
-        /// <summary>
-        /// RegEx pattern differ a little depending on media.
-        /// </summary>
-        /// <param name="mediaType"></param>
-        /// <returns></returns>
-        private static string EntryIdPatternByMediaType(EMediaType mediaType) =>
-            mediaType == EMediaType.radio ?
-            $"entryId/{ENTRY_ID_PATTERN}" :
-            $"entry_id/{ENTRY_ID_PATTERN}";
-
-        /// <summary>
-        /// Try to lookup entryId from string.
-        /// </summary>
-        /// <returns></returns>
-        private string? LookupEntryId(EMediaType mediaType)
-        {
-            var regEx = new Regex(EntryIdPatternByMediaType(mediaType));
-            var firstMatch = regEx.Match(Document.ParsedText);
-
-            if (string.IsNullOrEmpty(firstMatch?.Value))
-            { return null; }
-
-            var entryId = firstMatch.Value.Trim().Split('/')?.Last();
-
-            return entryId;
+            CreateBroadcastRecord();
         }
 
         /// <summary>
         /// Create broadcast record.
         /// </summary>
-        /// <param name="url"></param>
-        private void CreateBroadcastRecord(string url)
+        private void CreateBroadcastRecord()
         {
-            var mediaType = MediaTypeByUrl(url);
-            if (mediaType == EMediaType.nomedia)
+            try
             {
+                var mediaType = MediaTypeByUrl(Broadcast.Url);
+                if (mediaType == EMediaType.nomedia)
+                {
+                    throw new DRBroadcastHtmlException("Can't find media type");
+                }
+
+                var broadcastRaw = ParseHtml(); // Critical to survive this call.
+
+                var sendDate_ = new ParseDRDate(broadcastRaw.SEND_DATE).Date;
+                var sendHours_ = new ParseDRDuration(broadcastRaw.SEND_HOURS);
+
+                // Set full Broadcast object. Broadcast.Url and Broadcast.DownloadFolder is already set.
+                Broadcast.UniqueId = Util.GenerateRandomGuid();
+                Broadcast.EntryId = broadcastRaw.ENTRYID;
+                Broadcast.Channel = broadcastRaw.CHANNEL;
+                Broadcast.Title = broadcastRaw.TITLE;
+                Broadcast.Description = broadcastRaw.TITLE;
+                Broadcast.SendDate = new DateTime(
+                    sendDate_.Date.Year,
+                    sendDate_.Date.Month,
+                    sendDate_.Date.Day,
+                    sendHours_.From.Hour,
+                    sendHours_.From.Minute,
+                    sendHours_.From.Second);
+                Broadcast.DurationMin = (int)sendHours_.Duration.TotalMinutes;
+                Broadcast.Episode = broadcastRaw.EPISODE;
+                Broadcast.Genre = broadcastRaw.GENRE;
                 Broadcast.MediaType = mediaType;
-                Broadcast.Url = url;
-                return;
-            }
 
-            // Parts for parts.
-            var drEvent = new ParseDRDate(InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "event")).Date;
-            var drSchedule = new ParseDRDuration(InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "schedule"));
-
-            // Parts.
-            var uniqueId = Util.GenerateRandomGuid();
-            var entryId = LookupEntryId(mediaType);
-            var channel = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "tv");
-            var title = InnerTextOfH2(MainBroadcastNode);
-            var description = InnerTextOfP(MainBroadcastNode)?.Replace("&lt;BR&gt;", " ");
-            var sendDate = new DateTime(
-                drEvent.Date.Year,
-                drEvent.Date.Month,
-                drEvent.Date.Day,
-                drSchedule.From.Hour,
-                drSchedule.From.Minute,
-                drSchedule.From.Second);
-            var durationMin = (int)drSchedule.Duration.TotalMinutes;
-            var episode = InnerTextOfDivHoldingSpanWithClassname(RightSideBroadcastNode, "info", "segment");
-            var genre = InnerTextOfLinkWithClassname(RightSideBroadcastNode, "genre-link");
-
-            var downloadFolder = Util.WindowsDownloadFolder();
-            if (string.IsNullOrEmpty(downloadFolder))
-            {
-                throw new ArgumentNullException($"{nameof(downloadFolder)} == null");
-            }
-
-            // Full object.
-            Broadcast = new Broadcast
-            {
-                UniqueId = uniqueId,
-                EntryId = entryId,
-                Channel = channel,
-                Title = title,
-                Description = description,
-                SendDate = sendDate,
-                DurationMin = durationMin,
-                Episode = episode,
-                Genre = genre,
-                MediaType = mediaType,
-                Url = url,
-                DownloadFolder = downloadFolder,
-                Mp3File = null,
-                M3uFile = null,
-                Mp4File = null,
-                LogFile = null,
-            };
-
-            // Rest of props. depends on other props. in broadcast and is set now after creation.
-            if (mediaType == EMediaType.radio)
-            {
-                Broadcast.Mp3File = new DRMP3BroadcastFile(Broadcast).OutputFile;
+                Broadcast.Mp3File = null;
                 Broadcast.M3uFile = null;
                 Broadcast.Mp4File = null;
-                Broadcast.LogFile = Path.ChangeExtension(Broadcast.Mp3File, "log");
+                Broadcast.LogFile = null;
+
+                if (mediaType == EMediaType.radio)
+                {
+                    Broadcast.Mp3File = new DRMP3BroadcastFile(Broadcast).OutputFile;
+                    Broadcast.M3uFile = null;
+                    Broadcast.Mp4File = null;
+                    Broadcast.LogFile = Path.ChangeExtension(Broadcast.Mp3File, "log");
+                }
+                else if (mediaType == EMediaType.tv)
+                {
+                    Broadcast.Mp3File = null;
+                    Broadcast.M3uFile = new DRM3U8BroadcastFile(Broadcast).OutputFile;
+                    Broadcast.Mp4File = Path.ChangeExtension(Broadcast.M3uFile, "mp4");
+                    Broadcast.LogFile = Path.ChangeExtension(Broadcast.M3uFile, "log");
+                }
+
             }
-            else if (mediaType == EMediaType.tv)
+            catch (DRBroadcastHtmlException ex)
             {
-                Broadcast.Mp3File = null;
-                Broadcast.M3uFile = new DRM3U8BroadcastFile(Broadcast).OutputFile;
-                Broadcast.Mp4File = Path.ChangeExtension(Broadcast.M3uFile, "mp4");
-                Broadcast.LogFile = Path.ChangeExtension(Broadcast.M3uFile, "log");
+                MessageBox.Show(ex.Message, "0 ... problemo", MessageBoxButton.OK);
             }
         }
 
-        #region Html parsing helpers.
-
-        /// <summary>
-        /// Read h2 ctrl.
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="default_"></param>
-        /// <returns></returns>
-        private static string? InnerTextOfH2(HtmlNode? node, string? default_ = null)
+        private BroadcastRaw ParseHtml()
         {
-            if (node == null)
-            { return null; }
+            var broadcastRaw = new BroadcastRaw();
 
-            var value = node.SelectSingleNode("//h2").InnerText.Trim();
+            MainBroadcastNode =
+                Document.
+                DocumentNode?.
+                SelectSingleNode(BROADCAST_REC_DATA_PARENT_XPATH);
+            if (MainBroadcastNode == null)
+            {
+                throw new DRBroadcastHtmlException("Can't find main broadcast node");
+            }
 
-            return value ?? default_;
+            var broadcastNodeInfoByHtmlNode = new DRBroadcastInfoByHtmlNode(MainBroadcastNode);
+            var documentNodeInfoByRegEx = new DRBroadcastInfoByRegEx(Document.DocumentNode?.InnerHtml);
+            var broadcastNodeInfoByRegEx = new DRBroadcastInfoByRegEx(MainBroadcastNode.InnerHtml);
+
+            broadcastRaw.ENTRYID = documentNodeInfoByRegEx.GetEntryId();
+
+            broadcastRaw.TITLE = broadcastNodeInfoByHtmlNode.GetTitle();
+            if (string.IsNullOrEmpty(broadcastRaw.TITLE))
+            {
+                broadcastRaw.TITLE = "Ingen titel";
+            }
+
+            broadcastRaw.DESCRIPTION = broadcastNodeInfoByHtmlNode.GetDescription();
+            if (string.IsNullOrEmpty(broadcastRaw.DESCRIPTION))
+            {
+                broadcastRaw.DESCRIPTION = "Ingen beskrivelse";
+            }
+
+            broadcastRaw.SEND_DATE = broadcastNodeInfoByRegEx.GetSendDate();
+            if (string.IsNullOrEmpty(broadcastRaw.SEND_DATE))
+            {
+                broadcastRaw.SEND_DATE = "1. Januar 1970";
+            }
+
+            broadcastRaw.SEND_HOURS = broadcastNodeInfoByRegEx.GetSendHours();
+            if (string.IsNullOrEmpty(broadcastRaw.SEND_HOURS))
+            {
+                broadcastRaw.SEND_HOURS = "00:00 - 01:00";
+            }
+
+            broadcastRaw.CHANNEL = broadcastNodeInfoByRegEx.GetChannel();
+            if (string.IsNullOrEmpty(broadcastRaw.CHANNEL))
+            {
+                broadcastRaw.CHANNEL = "DR";
+            }
+
+            broadcastRaw.EPISODE = broadcastNodeInfoByRegEx.GetEpisode();
+            broadcastRaw.GENRE = broadcastNodeInfoByRegEx.GetGenre();
+
+            return broadcastRaw;
         }
 
-        /// <summary>
-        /// Read p ctrl.
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="default_"></param>
-        /// <returns></returns>
-        private static string? InnerTextOfP(HtmlNode? node, string? default_ = null)
-        {
-            if (node == null)
-            { return null; }
-
-            var value = node.SelectSingleNode("//p").InnerText.Trim();
-
-            return value ?? default_;
-        }
-
-        /// <summary>
-        /// Read div ctrl holding span ctrl. When reading inner text we must remove inner 
-        /// text of div to get inner text og span because they are automatically added.
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="className"></param>
-        /// <param name="leadDivInnerTextToRemove"></param>
-        /// <param name="default_"></param>
-        /// <returns></returns>
-        private static string? InnerTextOfDivHoldingSpanWithClassname(HtmlNode? node, string className, string leadDivInnerTextToRemove, string? default_ = null)
-        {
-            if (node == null)
-            { return null; }
-
-            var value =
-                node.
-                SelectNodes($"//div[@class=\"{className}\"]").
-                Where(node => node.InnerText.StartsWith(leadDivInnerTextToRemove))?.
-                FirstOrDefault()?.
-                InnerText.
-                TrimStart(leadDivInnerTextToRemove.ToCharArray())?.
-                Trim();
-
-            return value ?? default_;
-        }
-
-        /// <summary>
-        /// Read a ctrl.
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="className"></param>
-        /// <param name="default_"></param>
-        /// <returns></returns>
-        private static string? InnerTextOfLinkWithClassname(HtmlNode? node, string className, string? default_ = null)
-        {
-            if (node == null)
-            { return null; }
-
-            var value =
-                node.
-                SelectSingleNode($"//a[@class=\"{className}\"]")?.
-                InnerText?.
-                Trim();
-
-            return value ?? default_;
-        }
+        #region Helpers.
 
         /// <summary>
         /// Get media type from url.
@@ -246,7 +167,8 @@ namespace DRDownloadWindow2.DRBroadcast
         /// <param name="url"></param>
         /// <returns></returns>
         public static EMediaType MediaTypeByUrl(string? url) =>
-            string.IsNullOrEmpty(url) ? EMediaType.nomedia :
+            string.IsNullOrEmpty(url) ?
+            EMediaType.nomedia :
             url.Contains("radio") ? EMediaType.radio :
             url.Contains("tv") ? EMediaType.tv :
             EMediaType.nomedia;
