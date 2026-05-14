@@ -1,5 +1,5 @@
 ﻿using DRDownloadWindow.DRBroadcast;
-using DRDownloadWindow.Utilities;
+using DRDownloadLib.Utilities;
 
 namespace DRDownloadWindow.Download.KLTRRestAPI
 {

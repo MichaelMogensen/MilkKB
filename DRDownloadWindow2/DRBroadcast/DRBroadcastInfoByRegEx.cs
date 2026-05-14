@@ -1,5 +1,5 @@
-﻿using DRDownloadWindow.Extensions;
-using DRDownloadWindow.Utilities;
+﻿using DRDownloadLib.Extensions;
+using DRDownloadLib.Utilities;
 
 namespace DRDownloadWindow.DRBroadcast
 {
@@ -59,14 +59,14 @@ namespace DRDownloadWindow.DRBroadcast
             var min = Math.Min(a, b);
             var max = Math.Max(a, b);
 
-
-            if (min == 0 && max > 0)
+            if (a > 0 && b > 0)
             {
-                return $"Del {max}";
+                return $"Del {Math.Min(a, b)} af {Math.Max(a, b)}";
             }
-            else if (min > 0 && max > 0)
+
+            if (a > 0 || b > 0)
             {
-                return $"Del {min} af {max}";
+                return $"Del {Math.Max(a, b)}";
             }
 
             return null;

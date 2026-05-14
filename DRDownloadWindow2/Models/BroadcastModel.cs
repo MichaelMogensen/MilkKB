@@ -1,5 +1,5 @@
-﻿using DRDownloadWindow.Types;
-using DRDownloadWindow.Utilities;
+﻿using DRDownloadLib.Types;
+using DRDownloadLib.Utilities;
 
 namespace DRDownloadWindow.Models
 {

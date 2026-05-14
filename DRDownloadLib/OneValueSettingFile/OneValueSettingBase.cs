@@ -1,4 +1,5 @@
 ﻿using DRDownloadLib.Utilities;
+using System.IO;
 
 namespace DRDownloadLib.OneValueSettingFile
 {

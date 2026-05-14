@@ -16,7 +16,6 @@
     <Compile Remove="Download\OngoingDownloadLogNotifier.cs" />
     <Compile Remove="Download\OngoingDownloadMessageNotifier.cs" />
     <Compile Remove="Download\OngoingDownloadProgressNotifier.cs" />
-    <Compile Remove="Utilities\TextBoxHelper.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +52,10 @@
     <PackageReference Include="FFMpegCore" Version="5.4.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageReference Include="Selenium.WebDriver" Version="4.44.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DRDownloadLib\DRDownloadLib.csproj" />
   </ItemGroup>
 
 </Project>

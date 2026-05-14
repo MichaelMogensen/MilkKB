@@ -16,6 +16,15 @@ namespace DRDownloadWindowTests
         {
             Console.WriteLine(Util.WindowsTempFolder());
         }
+
+        [TestMethod]
+        public void SortableTimestampTest()
+        {
+            var timestamp1 = DateTime.Now.ToString("yyyy.MM.dd.hh.mm");
+            Console.WriteLine(timestamp1);
+            var timestamp2 = DateTime.Now.ToString("yyyy.MM.dd.HH.mm");
+            Console.WriteLine(timestamp2);
+        }
     }
 }
 

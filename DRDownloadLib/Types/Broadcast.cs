@@ -8,7 +8,6 @@ namespace DRDownloadLib.Types
         public string? Description { get; set; }
         public DateTime? SendDate { get; set; }
         public int? DurationMin { get; set; }
-        public TimeSpan? Duration => DurationMin == null ? null : TimeSpan.FromMinutes(DurationMin.Value);
         public string? Episode { get; set; }
         public string? Channel { get; set; }
         public string? Genre { get; set; }
@@ -25,6 +24,11 @@ namespace DRDownloadLib.Types
 
         public bool GenerateLogFile { get; set; } = new LoadOneValueFromASettingFile(nameof(GenerateLogFile)).ValueOrDefault(false);
         public bool DeleteM3uFileAfterDownload { get; set; } = new LoadOneValueFromASettingFile(nameof(DeleteM3uFileAfterDownload)).ValueOrDefault(true);
+
+        // Getter's only.
+        public TimeSpan? Duration => DurationMin == null ? null : TimeSpan.FromMinutes(DurationMin.Value);
+        public string? TitleAndEpisode =>
+            string.IsNullOrEmpty(Episode) ? Title : $"{Title} {Episode.ToLower()}"; 
     }
 }
 

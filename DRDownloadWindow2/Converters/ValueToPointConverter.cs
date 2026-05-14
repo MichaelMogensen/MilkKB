@@ -1,4 +1,4 @@
-﻿using DRDownloadWindow.Utilities;
+﻿using DRDownloadLib.Utilities;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -13,7 +13,8 @@ namespace DRDownloadWindow.Converters
             {
                 if (double.TryParse(values[0]?.ToString(), out double percent))
                 {
-                    return Util.PercentToCircleArcPoint(percent);
+                    var coord = Util.PercentToCircleArcPoint(percent);
+                    return new Point(coord.Item1, coord.Item2);
                 }
             }
 

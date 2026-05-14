@@ -1,4 +1,4 @@
-﻿using DRDownloadWindow.Utilities;
+﻿using DRDownloadLib.Utilities;
 using HtmlAgilityPack;
 
 namespace DRDownloadWindow.DRBroadcast

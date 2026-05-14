@@ -1,14 +1,29 @@
-﻿using DRDownloadWindow.Types;
-using DRDownloadWindow.Utilities;
+﻿using DRDownloadLib.Types;
+using DRDownloadLib.Utilities;
 using System.IO;
 
 namespace DRDownloadWindow.DRBroadcast.DRBroadcastFile
 {
     public abstract class DRBroadcastFileBase
     {
-        private static readonly int MAX_FILE_LEN = 150;
+        private static readonly string SORTABLE_TS = "yyyy.MM.dd.";
 
-        public string OutputFile { get; private set; } = string.Empty;
+        private Broadcast Broadcast { get; set; }
+        private string Ext { get; set; }
+
+        /// <summary>
+        /// Create simple sortable TS.
+        /// </summary>
+        private string? SortableTimestamp => 
+            Broadcast.SendDate?.ToString(SORTABLE_TS);
+
+        /// <summary>
+        /// Create resonable filename like "1990.05.08. kunstquiz 3 af 6.mp4".
+        /// </summary>
+        public string OutputFile =>
+            Path.Combine(
+                Broadcast.DownloadFolder ?? Util.WindowsTempFolder(), 
+                $"{SortableTimestamp} {Broadcast.TitleAndEpisode}.{Ext}");
 
         /// <summary>
         /// Ctor.
@@ -17,44 +32,9 @@ namespace DRDownloadWindow.DRBroadcast.DRBroadcastFile
         /// <param name="broadcast"></param>
         public DRBroadcastFileBase(string ext, Broadcast broadcast)
         {
-            CreateFilename(ext, broadcast);
+            Ext = ext;
+            Broadcast = broadcast;
         }
-
-        /// <summary>
-        /// Create resonable filename.
-        /// </summary>
-        /// <param name="ext"></param>
-        /// <param name="broadcast"></param>
-        private void CreateFilename(string ext, Broadcast broadcast)
-        {
-            if (broadcast.DownloadFolder == null)
-            {
-                throw new ArgumentNullException($"{nameof(broadcast.DownloadFolder)} is null");
-            }
-
-            var timestamp = broadcast.SendDate?.ToString("yyyy.MM.dd.hh.mm");
-
-            var filename =
-                Util.EllipsisString(
-                    Util.AggregateStringsNotNull(
-                        ", ",
-                        timestamp,
-                        broadcast.Title,
-                        Util.ToDanishDate(broadcast.SendDate),
-                        Util.ToDanishDuration(broadcast.SendDate, broadcast.Duration),
-                        broadcast.Channel,
-                        broadcast.Episode,
-                        broadcast.Description),
-                    MAX_FILE_LEN).TrimEnd('.') + $".{ext ?? "unknown"}";
-
-            filename = new ReplaceDisallowedFilenameCharacters(filename).Filename;
-            filename = filename.Trim();
-
-            OutputFile = Path.Combine(broadcast.DownloadFolder, filename);
-            OutputFile = OutputFile.ToLower();
-        }
-
     }
 }
-
 

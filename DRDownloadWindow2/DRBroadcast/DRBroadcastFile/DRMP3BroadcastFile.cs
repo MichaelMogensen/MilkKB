@@ -1,4 +1,4 @@
-﻿using DRDownloadWindow.Types;
+﻿using DRDownloadLib.Types;
 
 namespace DRDownloadWindow.DRBroadcast.DRBroadcastFile
 {

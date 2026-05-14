@@ -1,4 +1,5 @@
 ﻿using DRDownload.Common.DownloadVideo.Arguments;
+using DRDownloadLib.Utilities;
 using DRDownloadWindow.Utilities;
 using FFMpegCore;
 using FFMpegCore.Enums;

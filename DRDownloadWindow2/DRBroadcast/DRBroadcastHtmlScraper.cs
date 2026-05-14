@@ -1,6 +1,6 @@
 ﻿using DRDownloadWindow.DRBroadcast.DRBroadcastFile;
-using DRDownloadWindow.Types;
-using DRDownloadWindow.Utilities;
+using DRDownloadLib.Types;
+using DRDownloadLib.Utilities;
 using HtmlAgilityPack;
 using System.IO;
 using System.Windows;

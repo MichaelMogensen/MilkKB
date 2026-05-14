@@ -1,4 +1,4 @@
-﻿using DRDownloadWindow.Utilities;
+﻿using DRDownloadLib.Utilities;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;

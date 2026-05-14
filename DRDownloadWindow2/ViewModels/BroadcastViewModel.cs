@@ -1,8 +1,9 @@
-﻿using DRDownloadWindow.DRBroadcast;
-using DRDownloadWindow.Extensions;
+﻿using DRDownloadLib.Extensions;
+using DRDownloadLib.OneValueSettingFile;
+using DRDownloadLib.Types;
+using DRDownloadLib.Utilities;
+using DRDownloadWindow.DRBroadcast;
 using DRDownloadWindow.Models;
-using DRDownloadWindow.OneValueSettingFile;
-using DRDownloadWindow.Types;
 using DRDownloadWindow.Utilities;
 using System.ComponentModel;
 using System.Windows.Input;
