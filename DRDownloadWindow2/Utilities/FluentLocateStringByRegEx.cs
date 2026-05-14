@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace DRDownloadWindow2.Utilities
+namespace DRDownloadWindow.Utilities
 {
     public class FluentLocateStringByRegEx
     {
@@ -66,7 +66,7 @@ namespace DRDownloadWindow2.Utilities
 
             var allMatches = new List<string>();
             var m = regEx.Matches(Text);
-            
+
             for (var id = 0; id < m.Count; id++)
             {
                 allMatches.Add(m[id].Value);

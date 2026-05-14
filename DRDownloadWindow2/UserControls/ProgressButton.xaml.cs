@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace DRDownloadWindow2.UserControls
+namespace DRDownloadWindow.UserControls
 {
     /// <summary>
     /// Interaction logic for ProgressButton.xaml

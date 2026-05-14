@@ -1,4 +1,4 @@
-﻿using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.Utilities;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;

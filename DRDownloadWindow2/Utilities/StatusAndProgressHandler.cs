@@ -1,6 +1,6 @@
-﻿using DRDownloadWindow2.Types;
+﻿using DRDownloadWindow.Types;
 
-namespace DRDownloadWindow2.Utilities
+namespace DRDownloadWindow.Utilities
 {
     public class StatusAndProgressHandler
     {

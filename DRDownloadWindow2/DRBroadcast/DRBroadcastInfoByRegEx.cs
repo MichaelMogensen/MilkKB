@@ -1,7 +1,7 @@
-﻿using DRDownloadWindow2.Extensions;
-using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.Extensions;
+using DRDownloadWindow.Utilities;
 
-namespace DRDownloadWindow2.DRBroadcast
+namespace DRDownloadWindow.DRBroadcast
 {
     public class DRBroadcastInfoByRegEx
     {
@@ -92,7 +92,7 @@ namespace DRDownloadWindow2.DRBroadcast
                 if (entryId.Contains('/'))
                 {
                     entryId = entryId.Split('/')[1];
-        
+
                     return entryId;
                 }
             }

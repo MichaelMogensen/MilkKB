@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace DRDownloadWindow2.DRBroadcast
+namespace DRDownloadWindow.DRBroadcast
 {
     /// <summary>
     /// Parse complex time string. like "kl. 14:40 - 15:09 ( 29min 31sek )" into time objects.

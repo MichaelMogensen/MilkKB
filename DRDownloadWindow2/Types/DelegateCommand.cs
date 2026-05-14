@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace DRDownloadWindow2.Types
+namespace DRDownloadWindow.Types
 {
     public class DelegateCommand : ICommand
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DRDownloadWindow2.Utilities
+namespace DRDownloadWindow.Utilities
 {
     /// <summary>
     /// Set value in a UI element.

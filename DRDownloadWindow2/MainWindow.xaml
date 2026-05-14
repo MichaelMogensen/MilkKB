@@ -1,10 +1,10 @@
-﻿<Window x:Class="DRDownloadWindow2.MainWindow"
+﻿<Window x:Class="DRDownloadWindow.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DRDownloadWindow2.ViewModels"
-        xmlns:uc="clr-namespace:DRDownloadWindow2.UserControls"
+        xmlns:local="clr-namespace:DRDownloadWindow.ViewModels"
+        xmlns:uc="clr-namespace:DRDownloadWindow.UserControls"
         mc:Ignorable="d"
         Background="PeachPuff" 
         Height="800" 
@@ -15,7 +15,7 @@
         Topmost="False"
         Closing="OnWindowClosing"
         MouseLeftButtonDown="OnLeftMouseButtonDown"
-        xmlns:utilities="clr-namespace:DRDownloadWindow2.Converters"
+        xmlns:utilities="clr-namespace:DRDownloadWindow.Converters"
         d:DataContext="{d:DesignInstance local:BroadcastViewModel, IsDesignTimeCreatable=False}">
     <Border Background="BlanchedAlmond" CornerRadius="30" Margin="20" Padding="30">
 

@@ -1,4 +1,4 @@
-﻿namespace DRDownloadWindow2.DRBroadcast
+﻿namespace DRDownloadWindow.DRBroadcast
 {
     public class DRIds
     {

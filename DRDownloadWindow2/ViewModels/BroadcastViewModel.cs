@@ -1,13 +1,13 @@
-﻿using DRDownloadWindow2.DRBroadcast;
-using DRDownloadWindow2.Extensions;
-using DRDownloadWindow2.Models;
-using DRDownloadWindow2.OneValueSettingFile;
-using DRDownloadWindow2.Types;
-using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.DRBroadcast;
+using DRDownloadWindow.Extensions;
+using DRDownloadWindow.Models;
+using DRDownloadWindow.OneValueSettingFile;
+using DRDownloadWindow.Types;
+using DRDownloadWindow.Utilities;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace DRDownloadWindow2.ViewModels
+namespace DRDownloadWindow.ViewModels
 {
     public class BroadcastViewModel : INotifyPropertyChanged, IBroadcastViewModel
     {
@@ -314,34 +314,34 @@ namespace DRDownloadWindow2.ViewModels
         #region Download command's.
 
         private ICommand? _downloadCommand0;
-        public ICommand DownloadCommand0 => _downloadCommand0 ?? (_downloadCommand0 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar0 = value)), _ => true));        
+        public ICommand DownloadCommand0 => _downloadCommand0 ?? (_downloadCommand0 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar0 = value)), _ => true));
 
         private ICommand? _downloadCommand1;
-        public ICommand DownloadCommand1 => _downloadCommand1 ?? (_downloadCommand1 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar1 = value)), _ => true));        
+        public ICommand DownloadCommand1 => _downloadCommand1 ?? (_downloadCommand1 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar1 = value)), _ => true));
 
         private ICommand? _downloadCommand2;
-        public ICommand DownloadCommand2 => _downloadCommand2 ?? (_downloadCommand2 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar2 = value)), _ => true));        
+        public ICommand DownloadCommand2 => _downloadCommand2 ?? (_downloadCommand2 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar2 = value)), _ => true));
 
         private ICommand? _downloadCommand3;
-        public ICommand DownloadCommand3 => _downloadCommand3 ?? (_downloadCommand3 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar3 = value)), _ => true));        
+        public ICommand DownloadCommand3 => _downloadCommand3 ?? (_downloadCommand3 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar3 = value)), _ => true));
 
         private ICommand? _downloadCommand4;
-        public ICommand DownloadCommand4 => _downloadCommand4 ?? (_downloadCommand4 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar4 = value)), _ => true));        
+        public ICommand DownloadCommand4 => _downloadCommand4 ?? (_downloadCommand4 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar4 = value)), _ => true));
 
         private ICommand? _downloadCommand5;
-        public ICommand DownloadCommand5 => _downloadCommand5 ?? (_downloadCommand5 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar5 = value)), _ => true));        
+        public ICommand DownloadCommand5 => _downloadCommand5 ?? (_downloadCommand5 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar5 = value)), _ => true));
 
         private ICommand? _downloadCommand6;
-        public ICommand DownloadCommand6 => _downloadCommand6 ?? (_downloadCommand6 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar6 = value)), _ => true));        
+        public ICommand DownloadCommand6 => _downloadCommand6 ?? (_downloadCommand6 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar6 = value)), _ => true));
 
         private ICommand? _downloadCommand7;
-        public ICommand DownloadCommand7 => _downloadCommand7 ?? (_downloadCommand7 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar7 = value)), _ => true));        
+        public ICommand DownloadCommand7 => _downloadCommand7 ?? (_downloadCommand7 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar7 = value)), _ => true));
 
         private ICommand? _downloadCommand8;
-        public ICommand DownloadCommand8 => _downloadCommand8 ?? (_downloadCommand8 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar8 = value)), _ => true));        
+        public ICommand DownloadCommand8 => _downloadCommand8 ?? (_downloadCommand8 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar8 = value)), _ => true));
 
         private ICommand? _downloadCommand9;
-        public ICommand DownloadCommand9 => _downloadCommand9 ?? (_downloadCommand9 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar9 = value)), _ => true));        
+        public ICommand DownloadCommand9 => _downloadCommand9 ?? (_downloadCommand9 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar9 = value)), _ => true));
 
         #endregion
 

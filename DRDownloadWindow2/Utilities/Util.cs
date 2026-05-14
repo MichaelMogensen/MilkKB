@@ -1,10 +1,11 @@
-﻿using DRDownloadWindow2.Types;
+﻿using DRDownloadWindow.Types;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Windows;
 using Color = System.Drawing.Color;
 
-namespace DRDownloadWindow2.Utilities
+namespace DRDownloadWindow.Utilities
 {
     public static class Util
     {
@@ -142,7 +143,7 @@ namespace DRDownloadWindow2.Utilities
 
             return new Point(x, y);
         }
-        
+
         /// <summary>
         /// Percent 0 - 100.
         /// </summary>
@@ -236,6 +237,17 @@ namespace DRDownloadWindow2.Utilities
         public static string WindowsDownloadFolder()
         {
             var folder = Environment.ExpandEnvironmentVariables("%userprofile%\\downloads").ToLower();
+
+            return folder;
+        }
+
+        /// <summary>
+        /// Establish temp folder.
+        /// </summary>
+        /// <returns></returns>
+        public static string WindowsTempFolder()
+        {
+            var folder = Path.GetTempPath();
 
             return folder;
         }

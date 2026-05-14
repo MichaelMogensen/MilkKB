@@ -1,7 +1,7 @@
-﻿using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.Utilities;
 using HtmlAgilityPack;
 
-namespace DRDownloadWindow2.DRBroadcast
+namespace DRDownloadWindow.DRBroadcast
 {
     public class DRBroadcastInfoByHtmlNode
     {
@@ -14,7 +14,7 @@ namespace DRDownloadWindow2.DRBroadcast
 
         public string? GetTitle()
         {
-            return 
+            return
                 new FluentLocateStringByNode(Node).
                     TryLocate("//h1").
                     OrTryLocate("//h2").Result;
@@ -22,7 +22,7 @@ namespace DRDownloadWindow2.DRBroadcast
 
         public string? GetDescription()
         {
-            return 
+            return
                 new FluentLocateStringByNode(Node).
                     TryLocate("//p").Result;
         }

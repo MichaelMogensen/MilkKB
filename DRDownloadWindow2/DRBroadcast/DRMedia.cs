@@ -1,12 +1,12 @@
 ﻿using DRDownload.Common.DownloadFile;
 using DRDownload.Common.DownloadVideo;
-using DRDownloadWindow2.Download.KLTRRestAPI;
-using DRDownloadWindow2.Types;
-using DRDownloadWindow2.Utilities;
+using DRDownloadWindow.Download.KLTRRestAPI;
+using DRDownloadWindow.Types;
+using DRDownloadWindow.Utilities;
 using System.Diagnostics;
 using File = System.IO.File;
 
-namespace DRDownloadWindow2.DRBroadcast
+namespace DRDownloadWindow.DRBroadcast
 {
     /// <summary>
     /// Top class to download broadcasts from https://www.kb.dk/find-materiale/dr-arkivet/ by entryId.

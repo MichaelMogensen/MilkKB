@@ -1,9 +1,9 @@
-﻿using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.Utilities;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DRDownloadWindow2.Converters
+namespace DRDownloadWindow.Converters
 {
     public class ValueToPercentageConverter : IMultiValueConverter
     {

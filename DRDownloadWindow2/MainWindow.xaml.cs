@@ -1,8 +1,8 @@
-﻿using DRDownloadWindow2.ViewModels;
+﻿using DRDownloadWindow.ViewModels;
 using System.Windows;
 using System.Windows.Input;
 
-namespace DRDownloadWindow2
+namespace DRDownloadWindow
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

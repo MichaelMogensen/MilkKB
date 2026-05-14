@@ -1,11 +1,11 @@
-﻿using DRDownloadWindow2.DRBroadcast.DRBroadcastFile;
-using DRDownloadWindow2.Types;
-using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.DRBroadcast.DRBroadcastFile;
+using DRDownloadWindow.Types;
+using DRDownloadWindow.Utilities;
 using HtmlAgilityPack;
 using System.IO;
 using System.Windows;
 
-namespace DRDownloadWindow2.DRBroadcast
+namespace DRDownloadWindow.DRBroadcast
 {
     public class DRBroadcastHtmlScraper
     {
@@ -35,7 +35,7 @@ namespace DRDownloadWindow2.DRBroadcast
             Broadcast.DownloadFolder = Util.WindowsDownloadFolder();
             if (string.IsNullOrEmpty(Broadcast.DownloadFolder))
             {
-                throw new ArgumentNullException($"{nameof(Broadcast.DownloadFolder)} == null");
+
             }
 
             CreateBroadcastRecord();

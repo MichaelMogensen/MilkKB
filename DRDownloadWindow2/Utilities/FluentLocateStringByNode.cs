@@ -1,6 +1,6 @@
 ﻿using HtmlAgilityPack;
 
-namespace DRDownloadWindow2.Utilities
+namespace DRDownloadWindow.Utilities
 {
     public class FluentLocateStringByNode
     {

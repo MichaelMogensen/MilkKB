@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace DRDownloadWindow2.Utilities
+namespace DRDownloadWindow.Utilities
 {
     public class LogNotifier
     {
@@ -33,6 +33,6 @@ namespace DRDownloadWindow2.Utilities
         }
 
     }
-    
+
 }
 

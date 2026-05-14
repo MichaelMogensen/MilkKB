@@ -1,6 +1,6 @@
-﻿using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.Utilities;
 
-namespace DRDownloadWindow2.Download.KLTRRestAPI
+namespace DRDownloadWindow.Download.KLTRRestAPI
 {
     /// <summary>
     /// API radio url for downloading mp3-file from kaltura server.
@@ -26,7 +26,7 @@ namespace DRDownloadWindow2.Download.KLTRRestAPI
 
         protected override string WithArguments()
         {
-            var arguments = 
+            var arguments =
                 $"playSessionId={PlaySessionId}" +
                 $"&referrer={Referrer}" +
                 $"&clientTag={ClientTag}";

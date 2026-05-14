@@ -1,8 +1,8 @@
-﻿using DRDownloadWindow2.Types;
-using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.Types;
+using DRDownloadWindow.Utilities;
 using System.IO;
 
-namespace DRDownloadWindow2.DRBroadcast.DRBroadcastFile
+namespace DRDownloadWindow.DRBroadcast.DRBroadcastFile
 {
     public abstract class DRBroadcastFileBase
     {

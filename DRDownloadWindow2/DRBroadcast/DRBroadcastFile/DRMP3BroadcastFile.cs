@@ -1,6 +1,6 @@
-﻿using DRDownloadWindow2.Types;
+﻿using DRDownloadWindow.Types;
 
-namespace DRDownloadWindow2.DRBroadcast.DRBroadcastFile
+namespace DRDownloadWindow.DRBroadcast.DRBroadcastFile
 {
     /// <summary>
     /// mp3 playlist is used for radio.

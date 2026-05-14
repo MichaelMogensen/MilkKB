@@ -1,10 +1,9 @@
-﻿using DRDownloadWindow2.DRBroadcast;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DRDownloadWindow2.Converters
+namespace DRDownloadWindow.Converters
 {
     public class CanDownloadConverter : IMultiValueConverter
     {

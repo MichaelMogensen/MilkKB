@@ -1,7 +1,7 @@
-﻿using DRDownloadWindow2.DRBroadcast;
-using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.DRBroadcast;
+using DRDownloadWindow.Utilities;
 
-namespace DRDownloadWindow2.Download.KLTRRestAPI
+namespace DRDownloadWindow.Download.KLTRRestAPI
 {
     /// <summary>
     /// API radio/tv base url for downloading mp3/mp4-file from kaltura server.

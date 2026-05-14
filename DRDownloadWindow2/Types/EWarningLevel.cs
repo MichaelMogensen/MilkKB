@@ -1,4 +1,4 @@
-﻿namespace DRDownloadWindow2.Types
+﻿namespace DRDownloadWindow.Types
 {
     public enum EWarningLevel
     {

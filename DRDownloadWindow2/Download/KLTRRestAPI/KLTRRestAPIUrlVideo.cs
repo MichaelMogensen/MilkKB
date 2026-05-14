@@ -1,6 +1,6 @@
-﻿using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.Utilities;
 
-namespace DRDownloadWindow2.Download.KLTRRestAPI
+namespace DRDownloadWindow.Download.KLTRRestAPI
 {
     /// <summary>
     /// API vidio url for downloading m3u-file from kaltura server. VLC can download mp4-file based on that.
@@ -21,13 +21,13 @@ namespace DRDownloadWindow2.Download.KLTRRestAPI
             FormatUrl(WithArguments());
         }
 
-        protected override string PageUrl => 
+        protected override string PageUrl =>
             $"{BaseReferrerUrl}tv:oai:io:{Util.GenerateRandomGuid()}";
 
         protected override string WithArguments()
         {
             var arguments =
-                $"uiConfId={UIConfId}" + 
+                $"uiConfId={UIConfId}" +
                 $"&playSessionId={PlaySessionId}" +
                 $"&referrer={Referrer}" +
                 $"&clientTag={ClientTag}";

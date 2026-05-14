@@ -1,6 +1,6 @@
-﻿using DRDownloadWindow2.OneValueSettingFile;
+﻿using DRDownloadWindow.OneValueSettingFile;
 
-namespace DRDownloadWindow2.Types
+namespace DRDownloadWindow.Types
 {
     public class Broadcast
     {

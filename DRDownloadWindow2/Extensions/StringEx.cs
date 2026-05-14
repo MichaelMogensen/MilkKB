@@ -1,4 +1,4 @@
-﻿namespace DRDownloadWindow2.Extensions
+﻿namespace DRDownloadWindow.Extensions
 {
     public static class StringEx
     {

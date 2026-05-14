@@ -1,4 +1,4 @@
-﻿namespace DRDownloadWindow2.OneValueSettingFile
+﻿namespace DRDownloadWindow.OneValueSettingFile
 {
     public class SaveOneValueInASettingFile : OneValueSettingFileBase
     {
@@ -8,7 +8,7 @@
         /// <param name="settingName"></param>
         public SaveOneValueInASettingFile(string settingName) : base(settingName)
         {
-            
+
         }
 
         /// <summary>

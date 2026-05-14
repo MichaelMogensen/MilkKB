@@ -3,6 +3,7 @@
     <Platform Name="Any CPU" />
     <Platform Name="x64" />
   </Configurations>
-  <Project Path="DRDownloadTests/DRDownloadTests.csproj" Id="1a136743-f177-444b-8437-a65ded86ef6e" />
-  <Project Path="DRDownloadWindow2/DRDownloadWindow2.csproj" Id="2d1e8ba0-3884-4782-8b67-193a7f0d9e1b" />
+  <Project Path="DRDownloadLib/DRDownloadLib.csproj" Id="645afd30-a756-4313-af65-6e0c172d6733" />
+  <Project Path="DRDownloadWindow2/DRDownloadWindow.csproj" Id="2d1e8ba0-3884-4782-8b67-193a7f0d9e1b" />
+  <Project Path="DRDownloadWindowTests/DRDownloadWindowTests.csproj" Id="a5e0db30-7bb4-4e43-9afd-219fdc03aea7" />
 </Solution>

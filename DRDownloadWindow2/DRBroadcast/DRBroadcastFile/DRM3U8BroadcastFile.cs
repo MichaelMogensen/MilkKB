@@ -1,6 +1,6 @@
-﻿using DRDownloadWindow2.Types;
+﻿using DRDownloadWindow.Types;
 
-namespace DRDownloadWindow2.DRBroadcast.DRBroadcastFile
+namespace DRDownloadWindow.DRBroadcast.DRBroadcastFile
 {
     /// <summary>
     /// m3u8 playlist is used for video.

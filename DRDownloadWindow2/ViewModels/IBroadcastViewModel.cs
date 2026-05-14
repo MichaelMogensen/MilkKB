@@ -1,6 +1,6 @@
-﻿using DRDownloadWindow2.Models;
+﻿using DRDownloadWindow.Models;
 
-namespace DRDownloadWindow2.ViewModels
+namespace DRDownloadWindow.ViewModels
 {
     public interface IBroadcastViewModel
     {

@@ -1,7 +1,7 @@
-﻿using DRDownloadWindow2.Types;
-using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.Types;
+using DRDownloadWindow.Utilities;
 
-namespace DRDownloadWindow2.Models
+namespace DRDownloadWindow.Models
 {
     public class BroadcastModel
     {
@@ -9,7 +9,7 @@ namespace DRDownloadWindow2.Models
 
         public Broadcast Broadcast { get; set; } = new Broadcast { Url = BaseUrl };
 
-        public ChromeBrowser? Browser { get; set; } = 
+        public ChromeBrowser? Browser { get; set; } =
 #if WITH_BROWSER
             new ChromeBrowser();
 #else

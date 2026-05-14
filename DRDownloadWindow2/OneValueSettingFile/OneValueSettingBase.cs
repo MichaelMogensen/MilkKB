@@ -1,13 +1,13 @@
-﻿using System.IO;
-using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.Utilities;
+using System.IO;
 
-namespace DRDownloadWindow2.OneValueSettingFile
+namespace DRDownloadWindow.OneValueSettingFile
 {
     public abstract class OneValueSettingFileBase
     {
         private static readonly string LockId = Util.GenerateRandomGuid();
 
-        protected string SettingFile { get; set; }            
+        protected string SettingFile { get; set; }
 
         /// <summary>
         /// Ctor.

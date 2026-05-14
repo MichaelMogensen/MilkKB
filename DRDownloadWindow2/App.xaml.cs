@@ -1,8 +1,6 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 
-namespace DRDownloadWindow2
+namespace DRDownloadWindow
 {
     /// <summary>
     /// Interaction logic for App.xaml

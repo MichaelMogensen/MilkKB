@@ -1,7 +1,7 @@
-﻿using DRDownloadWindow2.Types;
-using DRDownloadWindow2.Utilities;
+﻿using DRDownloadWindow.Types;
+using DRDownloadWindow.Utilities;
 
-namespace DRDownloadWindow2.DRBroadcast
+namespace DRDownloadWindow.DRBroadcast
 {
     public class DRBroadcastHandler
     {
