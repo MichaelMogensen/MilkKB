@@ -15,7 +15,7 @@
         public static string? OrNull<T>(this T theObject) =>
             OrDefault(theObject, "null");
 
-        public static string? TrimTagStart(this string value)
+        public static string? TrimTagStart(this string value) // OBS!
         {
             if (!value.Contains('>'))
             { return value; }
@@ -25,7 +25,7 @@
             return splitValue[1];
         }
 
-        public static string? TrimTagEnd(this string value)
+        public static string? TrimTagEnd(this string value) // OBS!
         {
             if (!value.Contains('<'))
             { return value; }

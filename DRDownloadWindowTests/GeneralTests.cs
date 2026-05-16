@@ -25,6 +25,17 @@ namespace DRDownloadWindowTests
             var timestamp2 = DateTime.Now.ToString("yyyy.MM.dd.HH.mm");
             Console.WriteLine(timestamp2);
         }
+
+        [TestMethod]
+        public void FilesystemSafeTest()
+        {
+            var file = "m:y_f%il\"\"e.txt";
+            file = new FilesystemSafe(file).Result;
+
+            Console.WriteLine(file);
+        }
+
+
     }
 }
 

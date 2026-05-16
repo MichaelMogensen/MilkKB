@@ -11,6 +11,12 @@ namespace DRDownloadWindow.DRBroadcast.DRBroadcastFile
         private Broadcast Broadcast { get; set; }
         private string Ext { get; set; }
 
+        private string BasePath =>
+            Broadcast.DownloadFolder ?? Util.WindowsTempFolder();
+
+        private string Filename =>
+            new FilesystemSafe($"{SortableTimestamp} {Broadcast.TitleAndEpisode}.{Ext}").Result;
+
         /// <summary>
         /// Create simple sortable TS.
         /// </summary>
@@ -18,12 +24,10 @@ namespace DRDownloadWindow.DRBroadcast.DRBroadcastFile
             Broadcast.SendDate?.ToString(SORTABLE_TS);
 
         /// <summary>
-        /// Create resonable filename like "1990.05.08. kunstquiz 3 af 6.mp4".
+        /// Create resonable filename, like "1990.05.08. kunstquiz 3 af 6.mp4".
         /// </summary>
         public string OutputFile =>
-            Path.Combine(
-                Broadcast.DownloadFolder ?? Util.WindowsTempFolder(), 
-                $"{SortableTimestamp} {Broadcast.TitleAndEpisode}.{Ext}");
+            Path.Combine(BasePath, Filename);
 
         /// <summary>
         /// Ctor.
