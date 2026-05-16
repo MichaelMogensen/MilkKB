@@ -83,7 +83,10 @@ namespace DRDownload.Common.DownloadVideo
                         {
                             if (calcProgress.Calc(duration))
                             {
-                                StatusAndProgressHandler.UpdateProgress(calcProgress.Value);
+                                if (calcProgress.Value > 1)
+                                {
+                                    StatusAndProgressHandler.UpdateProgress(calcProgress.Value);
+                                }
                             }
                             logNotifier.LogLine($"DUR: {duration:c}");
                         })

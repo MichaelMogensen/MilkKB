@@ -98,11 +98,9 @@ namespace DRDownloadWindow.DRBroadcast
                 StatusAndProgressHandler.UpdateStatus("Kan ikke starte tv download med manglende mp4 fil", EWarningLevel.error);
                 return;
             }
-            if (Broadcast.Duration == null || Broadcast.Duration.Value == default)
-            {
-                StatusAndProgressHandler.UpdateStatus("Kan ikke starte tv download med manglende total varighed på udsendelse", EWarningLevel.error);
-                return;
-            }
+
+            // Ensure button is dimmed early on.
+            StatusAndProgressHandler.UpdateProgress(1);
 
             // Prepare m3u8 file download.
             var restUrl = new KLTRRestAPIUrlVideo(Broadcast.EntryId).Url;
@@ -118,7 +116,7 @@ namespace DRDownloadWindow.DRBroadcast
                 Broadcast.M3uFile,
                 Broadcast.Mp4File,
                 Broadcast.GenerateLogFile ? Broadcast.LogFile : null,
-                Broadcast.Duration.Value,
+                Broadcast.Duration.HasValue ? Broadcast.Duration.Value : TimeSpan.Zero,
                 StatusAndProgressHandler);
 
             // If output file already exists we abord.
