@@ -2,7 +2,7 @@
 {
     public class FilesystemSafe
     {
-        public string Result { get; private set; }
+        public string File { get; private set; }
 
         /// <summary>
         /// Ctor.
@@ -10,11 +10,11 @@
         /// <param name="file"></param>
         public FilesystemSafe(string file)
         {
-            Result = MakeFilesystemSafe(file);
+            File = MakeFilesystemSafe(file);
         }
 
         /// <summary>
-        /// Make filesystem safe.
+        /// Make filesystem safe by replacing invalid chars with -.
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>

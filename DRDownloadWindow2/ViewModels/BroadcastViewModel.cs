@@ -283,66 +283,97 @@ namespace DRDownloadWindow.ViewModels
 
         // Commands.
 
-        #region Copy command.
-
-        private ICommand? _copyCommand;
-        public ICommand CopyCommand
-        {
-            get
-            {
-                return _copyCommand ?? (_copyCommand =
-                    new DelegateCommand(
-                        s =>
-                        {
-                            Task.Run(() =>
-                            {
-                                // Here we expect user has already navigated to broadcast page.
-                                if (Model.Browser != null)
-                                {
-                                    var handler = new DRBroadcastHandler(Model.Browser);
-                                    handler.ReadBroadcastDetails();
-                                    Model.Broadcast = handler.Broadcast;
-                                    Update();
-                                }
-                            });
-                        },
-                        s => true));
-            }
-        }
-
-        #endregion
-
         #region Download command's.
 
         private ICommand? _downloadCommand0;
-        public ICommand DownloadCommand0 => _downloadCommand0 ?? (_downloadCommand0 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar0 = value)), _ => true));
+        public ICommand DownloadCommand0 => _downloadCommand0 ?? (_downloadCommand0 = new DelegateCommand(_ =>
+        {
+            Task.Run(ReadBroadcastDetails).
+            ContinueWith(_ => EntryId0 = Model.Broadcast.EntryId).
+            ContinueWith(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar0 = value))).
+            ContinueWith(_ => EntryId0 = null);
+        }, _ => true));
 
         private ICommand? _downloadCommand1;
-        public ICommand DownloadCommand1 => _downloadCommand1 ?? (_downloadCommand1 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar1 = value)), _ => true));
+        public ICommand DownloadCommand1 => _downloadCommand1 ?? (_downloadCommand1 = new DelegateCommand(_ =>
+        {
+            Task.Run(ReadBroadcastDetails).
+            ContinueWith(_ => EntryId1 = Model.Broadcast.EntryId).
+            ContinueWith(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar1 = value))).
+            ContinueWith(_ => EntryId1 = null);
+        }, _ => true));
 
         private ICommand? _downloadCommand2;
-        public ICommand DownloadCommand2 => _downloadCommand2 ?? (_downloadCommand2 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar2 = value)), _ => true));
+        public ICommand DownloadCommand2 => _downloadCommand2 ?? (_downloadCommand2 = new DelegateCommand(_ =>
+        {
+            Task.Run(ReadBroadcastDetails).
+            ContinueWith(_ => EntryId2 = Model.Broadcast.EntryId).
+            ContinueWith(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar2 = value))).
+            ContinueWith(_ => EntryId2 = null);
+        }, _ => true));
 
         private ICommand? _downloadCommand3;
-        public ICommand DownloadCommand3 => _downloadCommand3 ?? (_downloadCommand3 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar3 = value)), _ => true));
+        public ICommand DownloadCommand3 => _downloadCommand3 ?? (_downloadCommand3 = new DelegateCommand(_ =>
+        {
+            Task.Run(ReadBroadcastDetails).
+            ContinueWith(_ => EntryId3 = Model.Broadcast.EntryId).
+            ContinueWith(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar3 = value))).
+            ContinueWith(_ => EntryId3 = null);
+        }, _ => true));
 
         private ICommand? _downloadCommand4;
-        public ICommand DownloadCommand4 => _downloadCommand4 ?? (_downloadCommand4 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar4 = value)), _ => true));
+        public ICommand DownloadCommand4 => _downloadCommand4 ?? (_downloadCommand4 = new DelegateCommand(_ =>
+        {
+            Task.Run(ReadBroadcastDetails).
+            ContinueWith(_ => EntryId4 = Model.Broadcast.EntryId).
+            ContinueWith(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar4 = value))).
+            ContinueWith(_ => EntryId4 = null);
+        }, _ => true));
 
         private ICommand? _downloadCommand5;
-        public ICommand DownloadCommand5 => _downloadCommand5 ?? (_downloadCommand5 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar5 = value)), _ => true));
+        public ICommand DownloadCommand5 => _downloadCommand5 ?? (_downloadCommand5 = new DelegateCommand(_ =>
+        {
+            Task.Run(ReadBroadcastDetails).
+            ContinueWith(_ => EntryId5 = Model.Broadcast.EntryId).
+            ContinueWith(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar5 = value))).
+            ContinueWith(_ => EntryId5 = null);
+        }, _ => true));
 
         private ICommand? _downloadCommand6;
-        public ICommand DownloadCommand6 => _downloadCommand6 ?? (_downloadCommand6 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar6 = value)), _ => true));
+        public ICommand DownloadCommand6 => _downloadCommand6 ?? (_downloadCommand6 = new DelegateCommand(_ =>
+        {
+            Task.Run(ReadBroadcastDetails).
+            ContinueWith(_ => EntryId6 = Model.Broadcast.EntryId).
+            ContinueWith(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar6 = value))).
+            ContinueWith(_ => EntryId6 = null);
+        }, _ => true));
 
         private ICommand? _downloadCommand7;
-        public ICommand DownloadCommand7 => _downloadCommand7 ?? (_downloadCommand7 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar7 = value)), _ => true));
+        public ICommand DownloadCommand7 => _downloadCommand7 ?? (_downloadCommand7 = new DelegateCommand(_ =>
+        {
+            Task.Run(ReadBroadcastDetails).
+            ContinueWith(_ => EntryId7 = Model.Broadcast.EntryId).
+            ContinueWith(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar7 = value))).
+            ContinueWith(_ => EntryId7 = null);
+        }, _ => true));
 
         private ICommand? _downloadCommand8;
-        public ICommand DownloadCommand8 => _downloadCommand8 ?? (_downloadCommand8 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar8 = value)), _ => true));
+        public ICommand DownloadCommand8 => _downloadCommand8 ?? (_downloadCommand8 = new DelegateCommand(_ =>
+        {
+            Task.Run(ReadBroadcastDetails).
+            ContinueWith(_ => EntryId8 = Model.Broadcast.EntryId).
+            ContinueWith(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar8 = value))).
+            ContinueWith(_ => EntryId8 = null);
+        }, _ => true));
 
         private ICommand? _downloadCommand9;
-        public ICommand DownloadCommand9 => _downloadCommand9 ?? (_downloadCommand9 = new DelegateCommand(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar9 = value)), _ => true));
+        public ICommand DownloadCommand9 => _downloadCommand9 ?? (_downloadCommand9 = new DelegateCommand(_ =>
+        {
+            Task.Run(ReadBroadcastDetails).
+            ContinueWith(_ => EntryId9 = Model.Broadcast.EntryId).
+            ContinueWith(_ => Task.Run(async () => await StartDownloadAsync(value => Progressbar9 = value))).
+            ContinueWith(_ => EntryId9 = null);
+        }, _ => true));
 
         #endregion
 
@@ -525,9 +556,98 @@ namespace DRDownloadWindow.ViewModels
 
         #endregion
 
+        #region EntryId's
+
+        private string? _entryId0;
+        public string? EntryId0
+        {
+            get => _entryId0;
+            set { _entryId0 = value; OnPropertyChanged(nameof(EntryId0)); }
+        }
+
+        private string? _entryId1;
+        public string? EntryId1
+        {
+            get => _entryId1;
+            set { _entryId1 = value; OnPropertyChanged(nameof(EntryId1)); }
+        }
+
+        private string? _entryId2;
+        public string? EntryId2
+        {
+            get => _entryId2;
+            set { _entryId2 = value; OnPropertyChanged(nameof(EntryId2)); }
+        }
+
+        private string? _entryId3;
+        public string? EntryId3
+        {
+            get => _entryId3;
+            set { _entryId3 = value; OnPropertyChanged(nameof(EntryId3)); }
+        }
+
+        private string? _entryId4;
+        public string? EntryId4
+        {
+            get => _entryId4;
+            set { _entryId4 = value; OnPropertyChanged(nameof(EntryId4)); }
+        }
+
+        private string? _entryId5;
+        public string? EntryId5
+        {
+            get => _entryId5;
+            set { _entryId5 = value; OnPropertyChanged(nameof(EntryId5)); }
+        }
+
+        private string? _entryId6;
+        public string? EntryId6
+        {
+            get => _entryId6;
+            set { _entryId6 = value; OnPropertyChanged(nameof(EntryId6)); }
+        }
+
+        private string? _entryId7;
+        public string? EntryId7
+        {
+            get => _entryId7;
+            set { _entryId7 = value; OnPropertyChanged(nameof(EntryId7)); }
+        }
+
+        private string? _entryId8;
+        public string? EntryId8
+        {
+            get => _entryId8;
+            set { _entryId8 = value; OnPropertyChanged(nameof(EntryId8)); }
+        }
+
+        private string? _entryId9;
+        public string? EntryId9
+        {
+            get => _entryId9;
+            set { _entryId9 = value; OnPropertyChanged(nameof(EntryId9)); }
+        }
+
+        #endregion
+
         // Other.
 
         #region Methods.
+
+        /// <summary>
+        /// Read broadcast details before downloading begins.
+        /// </summary>
+        private void ReadBroadcastDetails()
+        {
+            // Here we expect user has already navigated to broadcast page.
+            if (Model.Browser != null)
+            {
+                var handler = new DRBroadcastHandler(Model.Browser);
+                handler.ReadBroadcastDetails();
+                Model.Broadcast = handler.Broadcast;
+                Update();
+            }
+        }
 
         /// <summary>
         /// Start download 0, 1, ..., N.
@@ -591,6 +711,8 @@ namespace DRDownloadWindow.ViewModels
             Progressbar7 = 0;
             Progressbar8 = 0;
             Progressbar9 = 0;
+
+            EntryId0 = null;
         }
 
         #endregion

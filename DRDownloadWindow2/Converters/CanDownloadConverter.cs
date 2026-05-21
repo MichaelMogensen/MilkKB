@@ -34,12 +34,14 @@ namespace DRDownloadWindow.Converters
         /// <returns></returns>
         public static bool CanDownload(int progress, string entryId)
         {
-            var notInProgress = progress == 0;
+            var canDownload = progress == 0 && entryId == null;
 
-            var regEx = new Regex(Const.REGEX_PATTERN_ENTRY_ID);
-            var holdsEntryId = regEx.Match(entryId).Success;
+            //var notInProgress = progress == 0;
 
-            var canDownload = notInProgress && holdsEntryId;
+            //var regEx = new Regex(Const.REGEX_PATTERN_ENTRY_ID);
+            //var holdsEntryId = entryId == null || regEx.Match(entryId).Success;
+
+            //var canDownload = !notInProgress && !holdsEntryId;
 
             return canDownload;
         }

@@ -15,7 +15,7 @@ namespace DRDownloadWindow.DRBroadcast.DRBroadcastFile
             Broadcast.DownloadFolder ?? Util.WindowsTempFolder();
 
         private string Filename =>
-            new FilesystemSafe($"{SortableTimestamp} {Broadcast.TitleAndEpisode}.{Ext}").Result;
+            new FilesystemSafe($"{SortableTimestamp} {Broadcast.TitleAndEpisode}.{Ext}").File;
 
         /// <summary>
         /// Create simple sortable TS.
@@ -27,7 +27,7 @@ namespace DRDownloadWindow.DRBroadcast.DRBroadcastFile
         /// Create resonable filename, like "1990.05.08. kunstquiz 3 af 6.mp4".
         /// </summary>
         public string OutputFile =>
-            Path.Combine(BasePath, Filename);
+            new UniqueFilenameInFolder(Path.Combine(BasePath, Filename)).File;
 
         /// <summary>
         /// Ctor.

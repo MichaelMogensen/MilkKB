@@ -30,9 +30,17 @@ namespace DRDownloadWindowTests
         public void FilesystemSafeTest()
         {
             var file = "m:y_f%il\"\"e.txt";
-            file = new FilesystemSafe(file).Result;
+            file = new FilesystemSafe(file).File;
 
             Console.WriteLine(file);
+        }
+
+        [TestMethod]
+        public void UniqueFilenameTest()
+        {
+            var file = "C:\\Temp\\report.txt";
+
+            Console.WriteLine(new UniqueFilenameInFolder(file).File);
         }
 
 

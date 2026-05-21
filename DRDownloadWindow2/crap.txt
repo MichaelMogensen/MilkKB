@@ -1,0 +1,39 @@
+        /// <summary>
+        /// If any file ends with "filename (NO).ext" return "filename (NO + 1).ext" where NO is 1,.. N. 
+        /// Otherwise return "filename (1).ext".
+        /// </summary>
+        /// <returns></returns>
+        private string? MakeUniqueInFolder()
+        {
+            if (string.IsNullOrEmpty(File))
+            { return null; }
+
+            var regEx = new Regex(REGEX_PATTERN);
+            var folder = Path.GetDirectoryName(File);
+            var directory = new DirectoryInfo(folder);
+            var files = directory.GetFiles("*.*");
+            var file = files.FirstOrDefault(f => regEx.IsMatch(f.FullName))?.FullName;
+
+            if (file == null)
+            {
+                var firstFile = Path.Combine(folder, $"{Path.GetFileNameWithoutExtension(file)} (1){Path.GetExtension(file)}");
+                return firstFile;
+            }
+            else
+            {
+                var match = regEx.Match(file);
+                var c = match.Captures.Last();
+
+                var regExNo = new Regex(REGEX_PATTERN_NO);
+                var matchNo = regExNo.Match(c.Value);
+                var cNo = matchNo.Captures.First();
+                if (int.TryParse(cNo.Value, out int no))
+                {
+                    var nextFile = regEx.Replace(file, $" ({no + 1})");
+                    return nextFile;
+                }
+            }
+
+
+            return null;
+        }
